@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package edge_fs;
+
+option cc_generic_services = true;
+
+service WorkerService {
+
+}

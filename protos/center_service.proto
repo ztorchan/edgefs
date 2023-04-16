@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package edgefs;
+
+option cc_generic_services = true;
+
+message MetadatesReply {
+
+}
+
+message FileReadRequest {
+  string path = 1;
+  uint64 offset = 2;
+  uint64 len = 3;
+}
+
+message FileReadReply {
+  string data = 1;
+  uint64 len = 2;
+}
+
+message WholeFileReadRequest {
+  string path = 1;
+}
+
+message WholeFileReadReply {
+  string data = 1;
+  uint64 len = 2;
+}
+
+service WorkerService {
+}

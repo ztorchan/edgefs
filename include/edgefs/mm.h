@@ -1,5 +1,5 @@
 #ifndef _EDGEFS_MM_H
-#define _DEGEFS_MM_H
+#define _EDGEFS_MM_H
 
 #include <stdint.h>
 #include <vector>
@@ -32,7 +32,7 @@ private:
   uint32_t alloc_bytes_remaining_;
 
   std::vector<char*> blocks_;
-  std::atomic<uint32_t> memory_usage_;
+  static std::atomic<uint32_t> memory_usage_;
 };
 
 } // namespace edgefs

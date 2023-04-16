@@ -13,7 +13,7 @@ endif()
 
 include(FindProtobuf)
 file(GLOB_RECURSE PROTO_FILE_LIST ${CMAKE_SOURCE_DIR}/protos/*.proto)
-set(PROTO_OUT_DIR ${CMAKE_SOURCE_DIR}/include/mapreduce/rpc/)
+set(PROTO_OUT_DIR ${CMAKE_SOURCE_DIR}/include/edgefs/rpc/)
 foreach(PROTO_FILE ${PROTO_FILE_LIST})
   get_filename_component(FILE_NAME ${PROTO_FILE} NAME_WE)
   list(APPEND PROTO_CXX "${CMAKE_SOURCE_DIR}/include/mapreduce/rpc/${FILE_NAME}.pb.cc")
@@ -31,8 +31,15 @@ find_package(Threads)
 find_library(BRPC_LIB NAMES libbrpc.a brpc)
 find_library(LEVELDB_LIB NAMES leveldb)
 
-set(SRCS
-  ${CMAKE_SOURCE_DIR}/edgefs.cc
+set(EDGE_RPC_SRC
+
+)
+
+set(FS_SRCS
+  ${CMAKE_SOURCE_DIR}/src/mm.cc
+  ${CMAKE_SOURCE_DIR}/src/bitmap.cc
+  ${CMAKE_SOURCE_DIR}/src/edgefs.cc
+  ${CMAKE_SOURCE_DIR}/edgefs_main.cc
 )
 
 set(LIBS 
@@ -48,5 +55,5 @@ set(LIBS
   fuse
 )
 
-add_executable(edgefs ${SRCS})
+add_executable(edgefs ${FS_SRCS})
 target_link_libraries(edgefs ${LIBS})
