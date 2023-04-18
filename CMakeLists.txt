@@ -31,15 +31,23 @@ find_package(Threads)
 find_library(BRPC_LIB NAMES libbrpc.a brpc)
 find_library(LEVELDB_LIB NAMES leveldb)
 
-set(EDGE_RPC_SRC
-
-)
-
 set(FS_SRCS
   ${CMAKE_SOURCE_DIR}/src/mm.cc
   ${CMAKE_SOURCE_DIR}/src/bitmap.cc
   ${CMAKE_SOURCE_DIR}/src/edgefs.cc
   ${CMAKE_SOURCE_DIR}/edgefs_main.cc
+)
+
+set(EDGE_RPC_SRCS
+  ${CMAKE_SOURCE_DIR}/include/edgefs/rpc/edge_service.pb.h
+  ${CMAKE_SOURCE_DIR}/include/edgefs/rpc/edge_service.pb.cc
+  ${CMAKE_SOURCE_DIR}/src/edgerpc.cc
+)
+
+set(CENTER_RPC_SRCS
+  ${CMAKE_SOURCE_DIR}/include/edgefs/rpc/center_service.pb.h
+  ${CMAKE_SOURCE_DIR}/include/edgefs/rpc/center_service.pb.cc
+  ${CMAKE_SOURCE_DIR}/src/centerrpc.cc
 )
 
 set(LIBS 
@@ -54,6 +62,9 @@ set(LIBS
   stdc++fs
   fuse
 )
+
+add_library(edgerpc STATIC ${EDGE_RPC_SRCS})
+add_library(centerrpc STATIC ${CENTER_RPC_SRCS})
 
 add_executable(edgefs ${FS_SRCS})
 target_link_libraries(edgefs ${LIBS})

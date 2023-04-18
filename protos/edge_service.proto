@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package edgefs;
+
+option cc_generic_services = true;
+
+message InvalidFileRequest {
+  string path = 1;
+}
+
+service EdgeService {
+  rpc Invalid (InvalidFileRequest) returns (google.protobuf.Empty);
+}

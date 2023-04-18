@@ -2,7 +2,10 @@
 #define _EDGEFS_EDGEFS_H
 
 #include <vector>
+#include <list>
+#include <map>
 #include <thread>
+#include <atomic>
 #include <string>
 #include <cstring>
 #include <unordered_map>
@@ -10,12 +13,21 @@
 
 #include <fuse.h>
 
+#include "edgefs/edgerpc.h"
+
 namespace edgefs
 {
 
+class BitMap;
+
 enum class dentry_type {
-  NORMAL,
+  REGULAR,
   DIRECTORY
+};
+
+enum class chunck_state {
+  ALIVE,
+  INVAILD
 };
 
 struct dentry {
@@ -23,18 +35,30 @@ struct dentry {
   dentry_type d_type;
   struct inode* d_inode;
   struct dentry* d_parent;
-  std::unordered_map<std::string, struct dentry*> d_childs;
+  std::map<std::string, struct dentry*> d_childs;
 };
 
 struct inode {
-  uint64_t i_blocksize;
-  std::vector<char*> i_memblocks;
-  
+  uint64_t i_len;
+  uint64_t i_chunck_size;  // Disk chunck: 64 MB default (64 * 1024 * 1024)
+  uint64_t i_block_size;   // Memory block: 2 MB default (2 * 1024 * 1024)
+  uint64_t i_nlink;
+
+  BitMap* i_shard_bitmap; 
+  std::map<uint64_t, subinode*> i_subinodes; 
+};
+
+struct subinode {
+  uint64_t subi_chunk_no;
+  inode* subi_inode;
+  chunck_state subi_state;
+  BitMap* subi_block_bitmap;
+
 };
 
 struct file {
   struct dentry* f_dentry;
-  uint32_t f_ref;
+  std::atomic<uint32_t> f_ref;
 };
 
 class EdgeFS {
@@ -55,10 +79,19 @@ public:
   static int releasedir(const char *path, struct fuse_file_info *fi);
 
 private:
-  static std::thread* rpc_server_;
+  static void RPC();
+  static void GC();
+  static void PULL();
+
+private:
+  static std::thread* rpc_thread_;
+  static std::thread* gc_thread_;
+  static std::thread* pull_thread_;
+
+  static std::string center_ipv4_;
   static struct dentry* root_dentry_;
 
-  
+  friend class EdgeServiceImpl;
 };
 
 } // namespace edgefs

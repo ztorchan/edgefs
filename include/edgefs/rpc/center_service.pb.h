@@ -30,7 +30,6 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/service.h>
 #include <google/protobuf/unknown_field_set.h>
-#include <google/protobuf/empty.pb.h>
 // @@protoc_insertion_point(includes)
 
 namespace protobuf_center_5fservice_2eproto {
@@ -38,69 +37,51 @@ namespace protobuf_center_5fservice_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[5];
+  static const ::google::protobuf::internal::ParseTable schema[2];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
-void InitDefaultsMetadatesReplyImpl();
-void InitDefaultsMetadatesReply();
-void InitDefaultsFileReadRequestImpl();
-void InitDefaultsFileReadRequest();
-void InitDefaultsFileReadReplyImpl();
-void InitDefaultsFileReadReply();
-void InitDefaultsWholeFileReadRequestImpl();
-void InitDefaultsWholeFileReadRequest();
-void InitDefaultsWholeFileReadReplyImpl();
-void InitDefaultsWholeFileReadReply();
+void InitDefaultsReadRequestImpl();
+void InitDefaultsReadRequest();
+void InitDefaultsReadReplyImpl();
+void InitDefaultsReadReply();
 inline void InitDefaults() {
-  InitDefaultsMetadatesReply();
-  InitDefaultsFileReadRequest();
-  InitDefaultsFileReadReply();
-  InitDefaultsWholeFileReadRequest();
-  InitDefaultsWholeFileReadReply();
+  InitDefaultsReadRequest();
+  InitDefaultsReadReply();
 }
 }  // namespace protobuf_center_5fservice_2eproto
 namespace edgefs {
-class FileReadReply;
-class FileReadReplyDefaultTypeInternal;
-extern FileReadReplyDefaultTypeInternal _FileReadReply_default_instance_;
-class FileReadRequest;
-class FileReadRequestDefaultTypeInternal;
-extern FileReadRequestDefaultTypeInternal _FileReadRequest_default_instance_;
-class MetadatesReply;
-class MetadatesReplyDefaultTypeInternal;
-extern MetadatesReplyDefaultTypeInternal _MetadatesReply_default_instance_;
-class WholeFileReadReply;
-class WholeFileReadReplyDefaultTypeInternal;
-extern WholeFileReadReplyDefaultTypeInternal _WholeFileReadReply_default_instance_;
-class WholeFileReadRequest;
-class WholeFileReadRequestDefaultTypeInternal;
-extern WholeFileReadRequestDefaultTypeInternal _WholeFileReadRequest_default_instance_;
+class ReadReply;
+class ReadReplyDefaultTypeInternal;
+extern ReadReplyDefaultTypeInternal _ReadReply_default_instance_;
+class ReadRequest;
+class ReadRequestDefaultTypeInternal;
+extern ReadRequestDefaultTypeInternal _ReadRequest_default_instance_;
 }  // namespace edgefs
 namespace edgefs {
 
 // ===================================================================
 
-class MetadatesReply : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.MetadatesReply) */ {
+class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.ReadRequest) */ {
  public:
-  MetadatesReply();
-  virtual ~MetadatesReply();
+  ReadRequest();
+  virtual ~ReadRequest();
 
-  MetadatesReply(const MetadatesReply& from);
+  ReadRequest(const ReadRequest& from);
 
-  inline MetadatesReply& operator=(const MetadatesReply& from) {
+  inline ReadRequest& operator=(const ReadRequest& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  MetadatesReply(MetadatesReply&& from) noexcept
-    : MetadatesReply() {
+  ReadRequest(ReadRequest&& from) noexcept
+    : ReadRequest() {
     *this = ::std::move(from);
   }
 
-  inline MetadatesReply& operator=(MetadatesReply&& from) noexcept {
+  inline ReadRequest& operator=(ReadRequest&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -110,30 +91,30 @@ class MetadatesReply : public ::google::protobuf::Message /* @@protoc_insertion_
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const MetadatesReply& default_instance();
+  static const ReadRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const MetadatesReply* internal_default_instance() {
-    return reinterpret_cast<const MetadatesReply*>(
-               &_MetadatesReply_default_instance_);
+  static inline const ReadRequest* internal_default_instance() {
+    return reinterpret_cast<const ReadRequest*>(
+               &_ReadRequest_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     0;
 
-  void Swap(MetadatesReply* other);
-  friend void swap(MetadatesReply& a, MetadatesReply& b) {
+  void Swap(ReadRequest* other);
+  friend void swap(ReadRequest& a, ReadRequest& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline MetadatesReply* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline ReadRequest* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  MetadatesReply* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  ReadRequest* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const MetadatesReply& from);
-  void MergeFrom(const MetadatesReply& from);
+  void CopyFrom(const ReadRequest& from);
+  void MergeFrom(const ReadRequest& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -149,99 +130,7 @@ class MetadatesReply : public ::google::protobuf::Message /* @@protoc_insertion_
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(MetadatesReply* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:edgefs.MetadatesReply)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_center_5fservice_2eproto::TableStruct;
-  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsMetadatesReplyImpl();
-};
-// -------------------------------------------------------------------
-
-class FileReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.FileReadRequest) */ {
- public:
-  FileReadRequest();
-  virtual ~FileReadRequest();
-
-  FileReadRequest(const FileReadRequest& from);
-
-  inline FileReadRequest& operator=(const FileReadRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  FileReadRequest(FileReadRequest&& from) noexcept
-    : FileReadRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline FileReadRequest& operator=(FileReadRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const FileReadRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const FileReadRequest* internal_default_instance() {
-    return reinterpret_cast<const FileReadRequest*>(
-               &_FileReadRequest_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    1;
-
-  void Swap(FileReadRequest* other);
-  friend void swap(FileReadRequest& a, FileReadRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline FileReadRequest* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  FileReadRequest* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const FileReadRequest& from);
-  void MergeFrom(const FileReadRequest& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(FileReadRequest* other);
+  void InternalSwap(ReadRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -283,7 +172,7 @@ class FileReadRequest : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint64 len() const;
   void set_len(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(class_scope:edgefs.ReadRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -292,28 +181,28 @@ class FileReadRequest : public ::google::protobuf::Message /* @@protoc_insertion
   ::google::protobuf::uint64 len_;
   mutable int _cached_size_;
   friend struct ::protobuf_center_5fservice_2eproto::TableStruct;
-  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsFileReadRequestImpl();
+  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsReadRequestImpl();
 };
 // -------------------------------------------------------------------
 
-class FileReadReply : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.FileReadReply) */ {
+class ReadReply : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.ReadReply) */ {
  public:
-  FileReadReply();
-  virtual ~FileReadReply();
+  ReadReply();
+  virtual ~ReadReply();
 
-  FileReadReply(const FileReadReply& from);
+  ReadReply(const ReadReply& from);
 
-  inline FileReadReply& operator=(const FileReadReply& from) {
+  inline ReadReply& operator=(const ReadReply& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  FileReadReply(FileReadReply&& from) noexcept
-    : FileReadReply() {
+  ReadReply(ReadReply&& from) noexcept
+    : ReadReply() {
     *this = ::std::move(from);
   }
 
-  inline FileReadReply& operator=(FileReadReply&& from) noexcept {
+  inline ReadReply& operator=(ReadReply&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -323,30 +212,30 @@ class FileReadReply : public ::google::protobuf::Message /* @@protoc_insertion_p
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const FileReadReply& default_instance();
+  static const ReadReply& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const FileReadReply* internal_default_instance() {
-    return reinterpret_cast<const FileReadReply*>(
-               &_FileReadReply_default_instance_);
+  static inline const ReadReply* internal_default_instance() {
+    return reinterpret_cast<const ReadReply*>(
+               &_ReadReply_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    2;
+    1;
 
-  void Swap(FileReadReply* other);
-  friend void swap(FileReadReply& a, FileReadReply& b) {
+  void Swap(ReadReply* other);
+  friend void swap(ReadReply& a, ReadReply& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline FileReadReply* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline ReadReply* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  FileReadReply* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  ReadReply* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const FileReadReply& from);
-  void MergeFrom(const FileReadReply& from);
+  void CopyFrom(const ReadReply& from);
+  void MergeFrom(const ReadReply& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -362,7 +251,7 @@ class FileReadReply : public ::google::protobuf::Message /* @@protoc_insertion_p
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(FileReadReply* other);
+  void InternalSwap(ReadReply* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -378,7 +267,7 @@ class FileReadReply : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // string data = 1;
+  // bytes data = 1;
   void clear_data();
   static const int kDataFieldNumber = 1;
   const ::std::string& data() const;
@@ -387,7 +276,7 @@ class FileReadReply : public ::google::protobuf::Message /* @@protoc_insertion_p
   void set_data(::std::string&& value);
   #endif
   void set_data(const char* value);
-  void set_data(const char* value, size_t size);
+  void set_data(const void* value, size_t size);
   ::std::string* mutable_data();
   ::std::string* release_data();
   void set_allocated_data(::std::string* data);
@@ -398,7 +287,7 @@ class FileReadReply : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 len() const;
   void set_len(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:edgefs.FileReadReply)
+  // @@protoc_insertion_point(class_scope:edgefs.ReadReply)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -406,244 +295,27 @@ class FileReadReply : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::uint64 len_;
   mutable int _cached_size_;
   friend struct ::protobuf_center_5fservice_2eproto::TableStruct;
-  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsFileReadReplyImpl();
-};
-// -------------------------------------------------------------------
-
-class WholeFileReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.WholeFileReadRequest) */ {
- public:
-  WholeFileReadRequest();
-  virtual ~WholeFileReadRequest();
-
-  WholeFileReadRequest(const WholeFileReadRequest& from);
-
-  inline WholeFileReadRequest& operator=(const WholeFileReadRequest& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  WholeFileReadRequest(WholeFileReadRequest&& from) noexcept
-    : WholeFileReadRequest() {
-    *this = ::std::move(from);
-  }
-
-  inline WholeFileReadRequest& operator=(WholeFileReadRequest&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const WholeFileReadRequest& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const WholeFileReadRequest* internal_default_instance() {
-    return reinterpret_cast<const WholeFileReadRequest*>(
-               &_WholeFileReadRequest_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    3;
-
-  void Swap(WholeFileReadRequest* other);
-  friend void swap(WholeFileReadRequest& a, WholeFileReadRequest& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline WholeFileReadRequest* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  WholeFileReadRequest* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const WholeFileReadRequest& from);
-  void MergeFrom(const WholeFileReadRequest& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(WholeFileReadRequest* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // string path = 1;
-  void clear_path();
-  static const int kPathFieldNumber = 1;
-  const ::std::string& path() const;
-  void set_path(const ::std::string& value);
-  #if LANG_CXX11
-  void set_path(::std::string&& value);
-  #endif
-  void set_path(const char* value);
-  void set_path(const char* value, size_t size);
-  ::std::string* mutable_path();
-  ::std::string* release_path();
-  void set_allocated_path(::std::string* path);
-
-  // @@protoc_insertion_point(class_scope:edgefs.WholeFileReadRequest)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr path_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_center_5fservice_2eproto::TableStruct;
-  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsWholeFileReadRequestImpl();
-};
-// -------------------------------------------------------------------
-
-class WholeFileReadReply : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.WholeFileReadReply) */ {
- public:
-  WholeFileReadReply();
-  virtual ~WholeFileReadReply();
-
-  WholeFileReadReply(const WholeFileReadReply& from);
-
-  inline WholeFileReadReply& operator=(const WholeFileReadReply& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  #if LANG_CXX11
-  WholeFileReadReply(WholeFileReadReply&& from) noexcept
-    : WholeFileReadReply() {
-    *this = ::std::move(from);
-  }
-
-  inline WholeFileReadReply& operator=(WholeFileReadReply&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-  #endif
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const WholeFileReadReply& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const WholeFileReadReply* internal_default_instance() {
-    return reinterpret_cast<const WholeFileReadReply*>(
-               &_WholeFileReadReply_default_instance_);
-  }
-  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    4;
-
-  void Swap(WholeFileReadReply* other);
-  friend void swap(WholeFileReadReply& a, WholeFileReadReply& b) {
-    a.Swap(&b);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline WholeFileReadReply* New() const PROTOBUF_FINAL { return New(NULL); }
-
-  WholeFileReadReply* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
-  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const WholeFileReadReply& from);
-  void MergeFrom(const WholeFileReadReply& from);
-  void Clear() PROTOBUF_FINAL;
-  bool IsInitialized() const PROTOBUF_FINAL;
-
-  size_t ByteSizeLong() const PROTOBUF_FINAL;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
-  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
-      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
-  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(WholeFileReadReply* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return NULL;
-  }
-  inline void* MaybeArenaPtr() const {
-    return NULL;
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // string data = 1;
-  void clear_data();
-  static const int kDataFieldNumber = 1;
-  const ::std::string& data() const;
-  void set_data(const ::std::string& value);
-  #if LANG_CXX11
-  void set_data(::std::string&& value);
-  #endif
-  void set_data(const char* value);
-  void set_data(const char* value, size_t size);
-  ::std::string* mutable_data();
-  ::std::string* release_data();
-  void set_allocated_data(::std::string* data);
-
-  // uint64 len = 2;
-  void clear_len();
-  static const int kLenFieldNumber = 2;
-  ::google::protobuf::uint64 len() const;
-  void set_len(::google::protobuf::uint64 value);
-
-  // @@protoc_insertion_point(class_scope:edgefs.WholeFileReadReply)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr data_;
-  ::google::protobuf::uint64 len_;
-  mutable int _cached_size_;
-  friend struct ::protobuf_center_5fservice_2eproto::TableStruct;
-  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsWholeFileReadReplyImpl();
+  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsReadReplyImpl();
 };
 // ===================================================================
 
-class WorkerService_Stub;
+class CenterService_Stub;
 
-class WorkerService : public ::google::protobuf::Service {
+class CenterService : public ::google::protobuf::Service {
  protected:
   // This class should be treated as an abstract interface.
-  inline WorkerService() {};
+  inline CenterService() {};
  public:
-  virtual ~WorkerService();
+  virtual ~CenterService();
 
-  typedef WorkerService_Stub Stub;
+  typedef CenterService_Stub Stub;
 
   static const ::google::protobuf::ServiceDescriptor* descriptor();
 
+  virtual void Read(::google::protobuf::RpcController* controller,
+                       const ::edgefs::ReadRequest* request,
+                       ::edgefs::ReadReply* response,
+                       ::google::protobuf::Closure* done);
 
   // implements Service ----------------------------------------------
 
@@ -659,24 +331,28 @@ class WorkerService : public ::google::protobuf::Service {
     const ::google::protobuf::MethodDescriptor* method) const;
 
  private:
-  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(WorkerService);
+  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(CenterService);
 };
 
-class WorkerService_Stub : public WorkerService {
+class CenterService_Stub : public CenterService {
  public:
-  WorkerService_Stub(::google::protobuf::RpcChannel* channel);
-  WorkerService_Stub(::google::protobuf::RpcChannel* channel,
+  CenterService_Stub(::google::protobuf::RpcChannel* channel);
+  CenterService_Stub(::google::protobuf::RpcChannel* channel,
                    ::google::protobuf::Service::ChannelOwnership ownership);
-  ~WorkerService_Stub();
+  ~CenterService_Stub();
 
   inline ::google::protobuf::RpcChannel* channel() { return channel_; }
 
-  // implements WorkerService ------------------------------------------
+  // implements CenterService ------------------------------------------
 
+  void Read(::google::protobuf::RpcController* controller,
+                       const ::edgefs::ReadRequest* request,
+                       ::edgefs::ReadReply* response,
+                       ::google::protobuf::Closure* done);
  private:
   ::google::protobuf::RpcChannel* channel_;
   bool owns_channel_;
-  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(WorkerService_Stub);
+  GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(CenterService_Stub);
 };
 
 
@@ -689,301 +365,163 @@ class WorkerService_Stub : public WorkerService {
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// MetadatesReply
-
-// -------------------------------------------------------------------
-
-// FileReadRequest
+// ReadRequest
 
 // string path = 1;
-inline void FileReadRequest::clear_path() {
+inline void ReadRequest::clear_path() {
   path_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& FileReadRequest::path() const {
-  // @@protoc_insertion_point(field_get:edgefs.FileReadRequest.path)
+inline const ::std::string& ReadRequest::path() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReadRequest.path)
   return path_.GetNoArena();
 }
-inline void FileReadRequest::set_path(const ::std::string& value) {
+inline void ReadRequest::set_path(const ::std::string& value) {
   
   path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:edgefs.FileReadRequest.path)
+  // @@protoc_insertion_point(field_set:edgefs.ReadRequest.path)
 }
 #if LANG_CXX11
-inline void FileReadRequest::set_path(::std::string&& value) {
+inline void ReadRequest::set_path(::std::string&& value) {
   
   path_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:edgefs.FileReadRequest.path)
+  // @@protoc_insertion_point(field_set_rvalue:edgefs.ReadRequest.path)
 }
 #endif
-inline void FileReadRequest::set_path(const char* value) {
+inline void ReadRequest::set_path(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:edgefs.FileReadRequest.path)
+  // @@protoc_insertion_point(field_set_char:edgefs.ReadRequest.path)
 }
-inline void FileReadRequest::set_path(const char* value, size_t size) {
+inline void ReadRequest::set_path(const char* value, size_t size) {
   
   path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:edgefs.FileReadRequest.path)
+  // @@protoc_insertion_point(field_set_pointer:edgefs.ReadRequest.path)
 }
-inline ::std::string* FileReadRequest::mutable_path() {
+inline ::std::string* ReadRequest::mutable_path() {
   
-  // @@protoc_insertion_point(field_mutable:edgefs.FileReadRequest.path)
+  // @@protoc_insertion_point(field_mutable:edgefs.ReadRequest.path)
   return path_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* FileReadRequest::release_path() {
-  // @@protoc_insertion_point(field_release:edgefs.FileReadRequest.path)
+inline ::std::string* ReadRequest::release_path() {
+  // @@protoc_insertion_point(field_release:edgefs.ReadRequest.path)
   
   return path_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void FileReadRequest::set_allocated_path(::std::string* path) {
+inline void ReadRequest::set_allocated_path(::std::string* path) {
   if (path != NULL) {
     
   } else {
     
   }
   path_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), path);
-  // @@protoc_insertion_point(field_set_allocated:edgefs.FileReadRequest.path)
+  // @@protoc_insertion_point(field_set_allocated:edgefs.ReadRequest.path)
 }
 
 // uint64 offset = 2;
-inline void FileReadRequest::clear_offset() {
+inline void ReadRequest::clear_offset() {
   offset_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 FileReadRequest::offset() const {
-  // @@protoc_insertion_point(field_get:edgefs.FileReadRequest.offset)
+inline ::google::protobuf::uint64 ReadRequest::offset() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReadRequest.offset)
   return offset_;
 }
-inline void FileReadRequest::set_offset(::google::protobuf::uint64 value) {
+inline void ReadRequest::set_offset(::google::protobuf::uint64 value) {
   
   offset_ = value;
-  // @@protoc_insertion_point(field_set:edgefs.FileReadRequest.offset)
+  // @@protoc_insertion_point(field_set:edgefs.ReadRequest.offset)
 }
 
 // uint64 len = 3;
-inline void FileReadRequest::clear_len() {
+inline void ReadRequest::clear_len() {
   len_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 FileReadRequest::len() const {
-  // @@protoc_insertion_point(field_get:edgefs.FileReadRequest.len)
+inline ::google::protobuf::uint64 ReadRequest::len() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReadRequest.len)
   return len_;
 }
-inline void FileReadRequest::set_len(::google::protobuf::uint64 value) {
+inline void ReadRequest::set_len(::google::protobuf::uint64 value) {
   
   len_ = value;
-  // @@protoc_insertion_point(field_set:edgefs.FileReadRequest.len)
+  // @@protoc_insertion_point(field_set:edgefs.ReadRequest.len)
 }
 
 // -------------------------------------------------------------------
 
-// FileReadReply
+// ReadReply
 
-// string data = 1;
-inline void FileReadReply::clear_data() {
+// bytes data = 1;
+inline void ReadReply::clear_data() {
   data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& FileReadReply::data() const {
-  // @@protoc_insertion_point(field_get:edgefs.FileReadReply.data)
+inline const ::std::string& ReadReply::data() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReadReply.data)
   return data_.GetNoArena();
 }
-inline void FileReadReply::set_data(const ::std::string& value) {
+inline void ReadReply::set_data(const ::std::string& value) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:edgefs.FileReadReply.data)
+  // @@protoc_insertion_point(field_set:edgefs.ReadReply.data)
 }
 #if LANG_CXX11
-inline void FileReadReply::set_data(::std::string&& value) {
+inline void ReadReply::set_data(::std::string&& value) {
   
   data_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:edgefs.FileReadReply.data)
+  // @@protoc_insertion_point(field_set_rvalue:edgefs.ReadReply.data)
 }
 #endif
-inline void FileReadReply::set_data(const char* value) {
+inline void ReadReply::set_data(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:edgefs.FileReadReply.data)
+  // @@protoc_insertion_point(field_set_char:edgefs.ReadReply.data)
 }
-inline void FileReadReply::set_data(const char* value, size_t size) {
+inline void ReadReply::set_data(const void* value, size_t size) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:edgefs.FileReadReply.data)
+  // @@protoc_insertion_point(field_set_pointer:edgefs.ReadReply.data)
 }
-inline ::std::string* FileReadReply::mutable_data() {
+inline ::std::string* ReadReply::mutable_data() {
   
-  // @@protoc_insertion_point(field_mutable:edgefs.FileReadReply.data)
+  // @@protoc_insertion_point(field_mutable:edgefs.ReadReply.data)
   return data_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* FileReadReply::release_data() {
-  // @@protoc_insertion_point(field_release:edgefs.FileReadReply.data)
+inline ::std::string* ReadReply::release_data() {
+  // @@protoc_insertion_point(field_release:edgefs.ReadReply.data)
   
   return data_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void FileReadReply::set_allocated_data(::std::string* data) {
+inline void ReadReply::set_allocated_data(::std::string* data) {
   if (data != NULL) {
     
   } else {
     
   }
   data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), data);
-  // @@protoc_insertion_point(field_set_allocated:edgefs.FileReadReply.data)
+  // @@protoc_insertion_point(field_set_allocated:edgefs.ReadReply.data)
 }
 
 // uint64 len = 2;
-inline void FileReadReply::clear_len() {
+inline void ReadReply::clear_len() {
   len_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 FileReadReply::len() const {
-  // @@protoc_insertion_point(field_get:edgefs.FileReadReply.len)
+inline ::google::protobuf::uint64 ReadReply::len() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReadReply.len)
   return len_;
 }
-inline void FileReadReply::set_len(::google::protobuf::uint64 value) {
+inline void ReadReply::set_len(::google::protobuf::uint64 value) {
   
   len_ = value;
-  // @@protoc_insertion_point(field_set:edgefs.FileReadReply.len)
-}
-
-// -------------------------------------------------------------------
-
-// WholeFileReadRequest
-
-// string path = 1;
-inline void WholeFileReadRequest::clear_path() {
-  path_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& WholeFileReadRequest::path() const {
-  // @@protoc_insertion_point(field_get:edgefs.WholeFileReadRequest.path)
-  return path_.GetNoArena();
-}
-inline void WholeFileReadRequest::set_path(const ::std::string& value) {
-  
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:edgefs.WholeFileReadRequest.path)
-}
-#if LANG_CXX11
-inline void WholeFileReadRequest::set_path(::std::string&& value) {
-  
-  path_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:edgefs.WholeFileReadRequest.path)
-}
-#endif
-inline void WholeFileReadRequest::set_path(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:edgefs.WholeFileReadRequest.path)
-}
-inline void WholeFileReadRequest::set_path(const char* value, size_t size) {
-  
-  path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:edgefs.WholeFileReadRequest.path)
-}
-inline ::std::string* WholeFileReadRequest::mutable_path() {
-  
-  // @@protoc_insertion_point(field_mutable:edgefs.WholeFileReadRequest.path)
-  return path_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* WholeFileReadRequest::release_path() {
-  // @@protoc_insertion_point(field_release:edgefs.WholeFileReadRequest.path)
-  
-  return path_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void WholeFileReadRequest::set_allocated_path(::std::string* path) {
-  if (path != NULL) {
-    
-  } else {
-    
-  }
-  path_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), path);
-  // @@protoc_insertion_point(field_set_allocated:edgefs.WholeFileReadRequest.path)
-}
-
-// -------------------------------------------------------------------
-
-// WholeFileReadReply
-
-// string data = 1;
-inline void WholeFileReadReply::clear_data() {
-  data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& WholeFileReadReply::data() const {
-  // @@protoc_insertion_point(field_get:edgefs.WholeFileReadReply.data)
-  return data_.GetNoArena();
-}
-inline void WholeFileReadReply::set_data(const ::std::string& value) {
-  
-  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:edgefs.WholeFileReadReply.data)
-}
-#if LANG_CXX11
-inline void WholeFileReadReply::set_data(::std::string&& value) {
-  
-  data_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:edgefs.WholeFileReadReply.data)
-}
-#endif
-inline void WholeFileReadReply::set_data(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:edgefs.WholeFileReadReply.data)
-}
-inline void WholeFileReadReply::set_data(const char* value, size_t size) {
-  
-  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:edgefs.WholeFileReadReply.data)
-}
-inline ::std::string* WholeFileReadReply::mutable_data() {
-  
-  // @@protoc_insertion_point(field_mutable:edgefs.WholeFileReadReply.data)
-  return data_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* WholeFileReadReply::release_data() {
-  // @@protoc_insertion_point(field_release:edgefs.WholeFileReadReply.data)
-  
-  return data_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void WholeFileReadReply::set_allocated_data(::std::string* data) {
-  if (data != NULL) {
-    
-  } else {
-    
-  }
-  data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), data);
-  // @@protoc_insertion_point(field_set_allocated:edgefs.WholeFileReadReply.data)
-}
-
-// uint64 len = 2;
-inline void WholeFileReadReply::clear_len() {
-  len_ = GOOGLE_ULONGLONG(0);
-}
-inline ::google::protobuf::uint64 WholeFileReadReply::len() const {
-  // @@protoc_insertion_point(field_get:edgefs.WholeFileReadReply.len)
-  return len_;
-}
-inline void WholeFileReadReply::set_len(::google::protobuf::uint64 value) {
-  
-  len_ = value;
-  // @@protoc_insertion_point(field_set:edgefs.WholeFileReadReply.len)
+  // @@protoc_insertion_point(field_set:edgefs.ReadReply.len)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 

@@ -20,34 +20,19 @@
 #endif
 // @@protoc_insertion_point(includes)
 namespace edgefs {
-class MetadatesReplyDefaultTypeInternal {
+class ReadRequestDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<MetadatesReply>
+  ::google::protobuf::internal::ExplicitlyConstructed<ReadRequest>
       _instance;
-} _MetadatesReply_default_instance_;
-class FileReadRequestDefaultTypeInternal {
+} _ReadRequest_default_instance_;
+class ReadReplyDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<FileReadRequest>
+  ::google::protobuf::internal::ExplicitlyConstructed<ReadReply>
       _instance;
-} _FileReadRequest_default_instance_;
-class FileReadReplyDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<FileReadReply>
-      _instance;
-} _FileReadReply_default_instance_;
-class WholeFileReadRequestDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<WholeFileReadRequest>
-      _instance;
-} _WholeFileReadRequest_default_instance_;
-class WholeFileReadReplyDefaultTypeInternal {
- public:
-  ::google::protobuf::internal::ExplicitlyConstructed<WholeFileReadReply>
-      _instance;
-} _WholeFileReadReply_default_instance_;
+} _ReadReply_default_instance_;
 }  // namespace edgefs
 namespace protobuf_center_5fservice_2eproto {
-void InitDefaultsMetadatesReplyImpl() {
+void InitDefaultsReadRequestImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
 #ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
@@ -56,19 +41,19 @@ void InitDefaultsMetadatesReplyImpl() {
   ::google::protobuf::internal::InitProtobufDefaults();
 #endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
   {
-    void* ptr = &::edgefs::_MetadatesReply_default_instance_;
-    new (ptr) ::edgefs::MetadatesReply();
+    void* ptr = &::edgefs::_ReadRequest_default_instance_;
+    new (ptr) ::edgefs::ReadRequest();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::edgefs::MetadatesReply::InitAsDefaultInstance();
+  ::edgefs::ReadRequest::InitAsDefaultInstance();
 }
 
-void InitDefaultsMetadatesReply() {
+void InitDefaultsReadRequest() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsMetadatesReplyImpl);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsReadRequestImpl);
 }
 
-void InitDefaultsFileReadRequestImpl() {
+void InitDefaultsReadReplyImpl() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
 #ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
@@ -77,133 +62,46 @@ void InitDefaultsFileReadRequestImpl() {
   ::google::protobuf::internal::InitProtobufDefaults();
 #endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
   {
-    void* ptr = &::edgefs::_FileReadRequest_default_instance_;
-    new (ptr) ::edgefs::FileReadRequest();
+    void* ptr = &::edgefs::_ReadReply_default_instance_;
+    new (ptr) ::edgefs::ReadReply();
     ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::edgefs::FileReadRequest::InitAsDefaultInstance();
+  ::edgefs::ReadReply::InitAsDefaultInstance();
 }
 
-void InitDefaultsFileReadRequest() {
+void InitDefaultsReadReply() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsFileReadRequestImpl);
+  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsReadReplyImpl);
 }
 
-void InitDefaultsFileReadReplyImpl() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  {
-    void* ptr = &::edgefs::_FileReadReply_default_instance_;
-    new (ptr) ::edgefs::FileReadReply();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::edgefs::FileReadReply::InitAsDefaultInstance();
-}
-
-void InitDefaultsFileReadReply() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsFileReadReplyImpl);
-}
-
-void InitDefaultsWholeFileReadRequestImpl() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  {
-    void* ptr = &::edgefs::_WholeFileReadRequest_default_instance_;
-    new (ptr) ::edgefs::WholeFileReadRequest();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::edgefs::WholeFileReadRequest::InitAsDefaultInstance();
-}
-
-void InitDefaultsWholeFileReadRequest() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsWholeFileReadRequestImpl);
-}
-
-void InitDefaultsWholeFileReadReplyImpl() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  {
-    void* ptr = &::edgefs::_WholeFileReadReply_default_instance_;
-    new (ptr) ::edgefs::WholeFileReadReply();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::edgefs::WholeFileReadReply::InitAsDefaultInstance();
-}
-
-void InitDefaultsWholeFileReadReply() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsWholeFileReadReplyImpl);
-}
-
-::google::protobuf::Metadata file_level_metadata[5];
+::google::protobuf::Metadata file_level_metadata[2];
 const ::google::protobuf::ServiceDescriptor* file_level_service_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::MetadatesReply, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::ReadRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::ReadRequest, path_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::ReadRequest, offset_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::ReadRequest, len_),
   ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::FileReadRequest, _internal_metadata_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::ReadReply, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::FileReadRequest, path_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::FileReadRequest, offset_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::FileReadRequest, len_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::FileReadReply, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::FileReadReply, data_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::FileReadReply, len_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::WholeFileReadRequest, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::WholeFileReadRequest, path_),
-  ~0u,  // no _has_bits_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::WholeFileReadReply, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::WholeFileReadReply, data_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::WholeFileReadReply, len_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::ReadReply, data_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::edgefs::ReadReply, len_),
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::edgefs::MetadatesReply)},
-  { 5, -1, sizeof(::edgefs::FileReadRequest)},
-  { 13, -1, sizeof(::edgefs::FileReadReply)},
-  { 20, -1, sizeof(::edgefs::WholeFileReadRequest)},
-  { 26, -1, sizeof(::edgefs::WholeFileReadReply)},
+  { 0, -1, sizeof(::edgefs::ReadRequest)},
+  { 8, -1, sizeof(::edgefs::ReadReply)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::edgefs::_MetadatesReply_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::edgefs::_FileReadRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::edgefs::_FileReadReply_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::edgefs::_WholeFileReadRequest_default_instance_),
-  reinterpret_cast<const ::google::protobuf::Message*>(&::edgefs::_WholeFileReadReply_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::edgefs::_ReadRequest_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::edgefs::_ReadReply_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
@@ -222,26 +120,23 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 5);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
 }
 
 void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\024center_service.proto\022\006edgefs\032\033google/p"
-      "rotobuf/empty.proto\"\020\n\016MetadatesReply\"<\n"
-      "\017FileReadRequest\022\014\n\004path\030\001 \001(\t\022\016\n\006offset"
-      "\030\002 \001(\004\022\013\n\003len\030\003 \001(\004\"*\n\rFileReadReply\022\014\n\004"
-      "data\030\001 \001(\t\022\013\n\003len\030\002 \001(\004\"$\n\024WholeFileRead"
-      "Request\022\014\n\004path\030\001 \001(\t\"/\n\022WholeFileReadRe"
-      "ply\022\014\n\004data\030\001 \001(\t\022\013\n\003len\030\002 \001(\0042\017\n\rWorker"
-      "ServiceB\003\200\001\001b\006proto3"
+      "\n\024center_service.proto\022\006edgefs\"8\n\013ReadRe"
+      "quest\022\014\n\004path\030\001 \001(\t\022\016\n\006offset\030\002 \001(\004\022\013\n\003l"
+      "en\030\003 \001(\004\"&\n\tReadReply\022\014\n\004data\030\001 \001(\014\022\013\n\003l"
+      "en\030\002 \001(\0042\?\n\rCenterService\022.\n\004Read\022\023.edge"
+      "fs.ReadRequest\032\021.edgefs.ReadReplyB\003\200\001\001b\006"
+      "proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 300);
+      descriptor, 206);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "center_service.proto", &protobuf_RegisterTypes);
-  ::protobuf_google_2fprotobuf_2fempty_2eproto::AddDescriptors();
 }
 
 void AddDescriptors() {
@@ -259,217 +154,23 @@ namespace edgefs {
 
 // ===================================================================
 
-void MetadatesReply::InitAsDefaultInstance() {
+void ReadRequest::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int ReadRequest::kPathFieldNumber;
+const int ReadRequest::kOffsetFieldNumber;
+const int ReadRequest::kLenFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-MetadatesReply::MetadatesReply()
+ReadRequest::ReadRequest()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_center_5fservice_2eproto::InitDefaultsMetadatesReply();
+    ::protobuf_center_5fservice_2eproto::InitDefaultsReadRequest();
   }
   SharedCtor();
-  // @@protoc_insertion_point(constructor:edgefs.MetadatesReply)
+  // @@protoc_insertion_point(constructor:edgefs.ReadRequest)
 }
-MetadatesReply::MetadatesReply(const MetadatesReply& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:edgefs.MetadatesReply)
-}
-
-void MetadatesReply::SharedCtor() {
-  _cached_size_ = 0;
-}
-
-MetadatesReply::~MetadatesReply() {
-  // @@protoc_insertion_point(destructor:edgefs.MetadatesReply)
-  SharedDtor();
-}
-
-void MetadatesReply::SharedDtor() {
-}
-
-void MetadatesReply::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* MetadatesReply::descriptor() {
-  ::protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const MetadatesReply& MetadatesReply::default_instance() {
-  ::protobuf_center_5fservice_2eproto::InitDefaultsMetadatesReply();
-  return *internal_default_instance();
-}
-
-MetadatesReply* MetadatesReply::New(::google::protobuf::Arena* arena) const {
-  MetadatesReply* n = new MetadatesReply;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void MetadatesReply::Clear() {
-// @@protoc_insertion_point(message_clear_start:edgefs.MetadatesReply)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _internal_metadata_.Clear();
-}
-
-bool MetadatesReply::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:edgefs.MetadatesReply)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-  handle_unusual:
-    if (tag == 0) {
-      goto success;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, _internal_metadata_.mutable_unknown_fields()));
-  }
-success:
-  // @@protoc_insertion_point(parse_success:edgefs.MetadatesReply)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:edgefs.MetadatesReply)
-  return false;
-#undef DO_
-}
-
-void MetadatesReply::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:edgefs.MetadatesReply)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:edgefs.MetadatesReply)
-}
-
-::google::protobuf::uint8* MetadatesReply::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:edgefs.MetadatesReply)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:edgefs.MetadatesReply)
-  return target;
-}
-
-size_t MetadatesReply::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:edgefs.MetadatesReply)
-  size_t total_size = 0;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void MetadatesReply::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:edgefs.MetadatesReply)
-  GOOGLE_DCHECK_NE(&from, this);
-  const MetadatesReply* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const MetadatesReply>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.MetadatesReply)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.MetadatesReply)
-    MergeFrom(*source);
-  }
-}
-
-void MetadatesReply::MergeFrom(const MetadatesReply& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.MetadatesReply)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-}
-
-void MetadatesReply::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:edgefs.MetadatesReply)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void MetadatesReply::CopyFrom(const MetadatesReply& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.MetadatesReply)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool MetadatesReply::IsInitialized() const {
-  return true;
-}
-
-void MetadatesReply::Swap(MetadatesReply* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void MetadatesReply::InternalSwap(MetadatesReply* other) {
-  using std::swap;
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata MetadatesReply::GetMetadata() const {
-  protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages];
-}
-
-
-// ===================================================================
-
-void FileReadRequest::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int FileReadRequest::kPathFieldNumber;
-const int FileReadRequest::kOffsetFieldNumber;
-const int FileReadRequest::kLenFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-FileReadRequest::FileReadRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_center_5fservice_2eproto::InitDefaultsFileReadRequest();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:edgefs.FileReadRequest)
-}
-FileReadRequest::FileReadRequest(const FileReadRequest& from)
+ReadRequest::ReadRequest(const ReadRequest& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       _cached_size_(0) {
@@ -481,10 +182,10 @@ FileReadRequest::FileReadRequest(const FileReadRequest& from)
   ::memcpy(&offset_, &from.offset_,
     static_cast<size_t>(reinterpret_cast<char*>(&len_) -
     reinterpret_cast<char*>(&offset_)) + sizeof(len_));
-  // @@protoc_insertion_point(copy_constructor:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(copy_constructor:edgefs.ReadRequest)
 }
 
-void FileReadRequest::SharedCtor() {
+void ReadRequest::SharedCtor() {
   path_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&offset_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&len_) -
@@ -492,40 +193,40 @@ void FileReadRequest::SharedCtor() {
   _cached_size_ = 0;
 }
 
-FileReadRequest::~FileReadRequest() {
-  // @@protoc_insertion_point(destructor:edgefs.FileReadRequest)
+ReadRequest::~ReadRequest() {
+  // @@protoc_insertion_point(destructor:edgefs.ReadRequest)
   SharedDtor();
 }
 
-void FileReadRequest::SharedDtor() {
+void ReadRequest::SharedDtor() {
   path_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
-void FileReadRequest::SetCachedSize(int size) const {
+void ReadRequest::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* FileReadRequest::descriptor() {
+const ::google::protobuf::Descriptor* ReadRequest::descriptor() {
   ::protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const FileReadRequest& FileReadRequest::default_instance() {
-  ::protobuf_center_5fservice_2eproto::InitDefaultsFileReadRequest();
+const ReadRequest& ReadRequest::default_instance() {
+  ::protobuf_center_5fservice_2eproto::InitDefaultsReadRequest();
   return *internal_default_instance();
 }
 
-FileReadRequest* FileReadRequest::New(::google::protobuf::Arena* arena) const {
-  FileReadRequest* n = new FileReadRequest;
+ReadRequest* ReadRequest::New(::google::protobuf::Arena* arena) const {
+  ReadRequest* n = new ReadRequest;
   if (arena != NULL) {
     arena->Own(n);
   }
   return n;
 }
 
-void FileReadRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:edgefs.FileReadRequest)
+void ReadRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:edgefs.ReadRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -537,11 +238,11 @@ void FileReadRequest::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool FileReadRequest::MergePartialFromCodedStream(
+bool ReadRequest::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(parse_start:edgefs.ReadRequest)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
@@ -556,7 +257,7 @@ bool FileReadRequest::MergePartialFromCodedStream(
           DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
             this->path().data(), static_cast<int>(this->path().length()),
             ::google::protobuf::internal::WireFormatLite::PARSE,
-            "edgefs.FileReadRequest.path"));
+            "edgefs.ReadRequest.path"));
         } else {
           goto handle_unusual;
         }
@@ -603,17 +304,17 @@ bool FileReadRequest::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(parse_success:edgefs.ReadRequest)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(parse_failure:edgefs.ReadRequest)
   return false;
 #undef DO_
 }
 
-void FileReadRequest::SerializeWithCachedSizes(
+void ReadRequest::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(serialize_start:edgefs.ReadRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -622,7 +323,7 @@ void FileReadRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->path().data(), static_cast<int>(this->path().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "edgefs.FileReadRequest.path");
+      "edgefs.ReadRequest.path");
     ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->path(), output);
   }
@@ -641,13 +342,13 @@ void FileReadRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(serialize_end:edgefs.ReadRequest)
 }
 
-::google::protobuf::uint8* FileReadRequest::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* ReadRequest::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:edgefs.ReadRequest)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -656,7 +357,7 @@ void FileReadRequest::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
       this->path().data(), static_cast<int>(this->path().length()),
       ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "edgefs.FileReadRequest.path");
+      "edgefs.ReadRequest.path");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->path(), target);
@@ -676,12 +377,12 @@ void FileReadRequest::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:edgefs.ReadRequest)
   return target;
 }
 
-size_t FileReadRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:edgefs.FileReadRequest)
+size_t ReadRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:edgefs.ReadRequest)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -717,23 +418,23 @@ size_t FileReadRequest::ByteSizeLong() const {
   return total_size;
 }
 
-void FileReadRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:edgefs.FileReadRequest)
+void ReadRequest::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:edgefs.ReadRequest)
   GOOGLE_DCHECK_NE(&from, this);
-  const FileReadRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const FileReadRequest>(
+  const ReadRequest* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ReadRequest>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.ReadRequest)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.FileReadRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.ReadRequest)
     MergeFrom(*source);
   }
 }
 
-void FileReadRequest::MergeFrom(const FileReadRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.FileReadRequest)
+void ReadRequest::MergeFrom(const ReadRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.ReadRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -751,29 +452,29 @@ void FileReadRequest::MergeFrom(const FileReadRequest& from) {
   }
 }
 
-void FileReadRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:edgefs.FileReadRequest)
+void ReadRequest::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:edgefs.ReadRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void FileReadRequest::CopyFrom(const FileReadRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.FileReadRequest)
+void ReadRequest::CopyFrom(const ReadRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.ReadRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool FileReadRequest::IsInitialized() const {
+bool ReadRequest::IsInitialized() const {
   return true;
 }
 
-void FileReadRequest::Swap(FileReadRequest* other) {
+void ReadRequest::Swap(ReadRequest* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void FileReadRequest::InternalSwap(FileReadRequest* other) {
+void ReadRequest::InternalSwap(ReadRequest* other) {
   using std::swap;
   path_.Swap(&other->path_);
   swap(offset_, other->offset_);
@@ -782,7 +483,7 @@ void FileReadRequest::InternalSwap(FileReadRequest* other) {
   swap(_cached_size_, other->_cached_size_);
 }
 
-::google::protobuf::Metadata FileReadRequest::GetMetadata() const {
+::google::protobuf::Metadata ReadRequest::GetMetadata() const {
   protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -790,22 +491,22 @@ void FileReadRequest::InternalSwap(FileReadRequest* other) {
 
 // ===================================================================
 
-void FileReadReply::InitAsDefaultInstance() {
+void ReadReply::InitAsDefaultInstance() {
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int FileReadReply::kDataFieldNumber;
-const int FileReadReply::kLenFieldNumber;
+const int ReadReply::kDataFieldNumber;
+const int ReadReply::kLenFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
-FileReadReply::FileReadReply()
+ReadReply::ReadReply()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_center_5fservice_2eproto::InitDefaultsFileReadReply();
+    ::protobuf_center_5fservice_2eproto::InitDefaultsReadReply();
   }
   SharedCtor();
-  // @@protoc_insertion_point(constructor:edgefs.FileReadReply)
+  // @@protoc_insertion_point(constructor:edgefs.ReadReply)
 }
-FileReadReply::FileReadReply(const FileReadReply& from)
+ReadReply::ReadReply(const ReadReply& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       _cached_size_(0) {
@@ -815,49 +516,49 @@ FileReadReply::FileReadReply(const FileReadReply& from)
     data_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.data_);
   }
   len_ = from.len_;
-  // @@protoc_insertion_point(copy_constructor:edgefs.FileReadReply)
+  // @@protoc_insertion_point(copy_constructor:edgefs.ReadReply)
 }
 
-void FileReadReply::SharedCtor() {
+void ReadReply::SharedCtor() {
   data_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   len_ = GOOGLE_ULONGLONG(0);
   _cached_size_ = 0;
 }
 
-FileReadReply::~FileReadReply() {
-  // @@protoc_insertion_point(destructor:edgefs.FileReadReply)
+ReadReply::~ReadReply() {
+  // @@protoc_insertion_point(destructor:edgefs.ReadReply)
   SharedDtor();
 }
 
-void FileReadReply::SharedDtor() {
+void ReadReply::SharedDtor() {
   data_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
-void FileReadReply::SetCachedSize(int size) const {
+void ReadReply::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* FileReadReply::descriptor() {
+const ::google::protobuf::Descriptor* ReadReply::descriptor() {
   ::protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
 }
 
-const FileReadReply& FileReadReply::default_instance() {
-  ::protobuf_center_5fservice_2eproto::InitDefaultsFileReadReply();
+const ReadReply& ReadReply::default_instance() {
+  ::protobuf_center_5fservice_2eproto::InitDefaultsReadReply();
   return *internal_default_instance();
 }
 
-FileReadReply* FileReadReply::New(::google::protobuf::Arena* arena) const {
-  FileReadReply* n = new FileReadReply;
+ReadReply* ReadReply::New(::google::protobuf::Arena* arena) const {
+  ReadReply* n = new ReadReply;
   if (arena != NULL) {
     arena->Own(n);
   }
   return n;
 }
 
-void FileReadReply::Clear() {
-// @@protoc_insertion_point(message_clear_start:edgefs.FileReadReply)
+void ReadReply::Clear() {
+// @@protoc_insertion_point(message_clear_start:edgefs.ReadReply)
   ::google::protobuf::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -867,26 +568,22 @@ void FileReadReply::Clear() {
   _internal_metadata_.Clear();
 }
 
-bool FileReadReply::MergePartialFromCodedStream(
+bool ReadReply::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:edgefs.FileReadReply)
+  // @@protoc_insertion_point(parse_start:edgefs.ReadReply)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // string data = 1;
+      // bytes data = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->mutable_data()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->data().data(), static_cast<int>(this->data().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "edgefs.FileReadReply.data"));
         } else {
           goto handle_unusual;
         }
@@ -919,27 +616,23 @@ bool FileReadReply::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:edgefs.FileReadReply)
+  // @@protoc_insertion_point(parse_success:edgefs.ReadReply)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:edgefs.FileReadReply)
+  // @@protoc_insertion_point(parse_failure:edgefs.ReadReply)
   return false;
 #undef DO_
 }
 
-void FileReadReply::SerializeWithCachedSizes(
+void ReadReply::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:edgefs.FileReadReply)
+  // @@protoc_insertion_point(serialize_start:edgefs.ReadReply)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string data = 1;
+  // bytes data = 1;
   if (this->data().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->data().data(), static_cast<int>(this->data().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "edgefs.FileReadReply.data");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
       1, this->data(), output);
   }
 
@@ -952,24 +645,20 @@ void FileReadReply::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
   }
-  // @@protoc_insertion_point(serialize_end:edgefs.FileReadReply)
+  // @@protoc_insertion_point(serialize_end:edgefs.ReadReply)
 }
 
-::google::protobuf::uint8* FileReadReply::InternalSerializeWithCachedSizesToArray(
+::google::protobuf::uint8* ReadReply::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:edgefs.FileReadReply)
+  // @@protoc_insertion_point(serialize_to_array_start:edgefs.ReadReply)
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string data = 1;
+  // bytes data = 1;
   if (this->data().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->data().data(), static_cast<int>(this->data().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "edgefs.FileReadReply.data");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
         1, this->data(), target);
   }
 
@@ -982,12 +671,12 @@ void FileReadReply::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:edgefs.FileReadReply)
+  // @@protoc_insertion_point(serialize_to_array_end:edgefs.ReadReply)
   return target;
 }
 
-size_t FileReadReply::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:edgefs.FileReadReply)
+size_t ReadReply::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:edgefs.ReadReply)
   size_t total_size = 0;
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -995,10 +684,10 @@ size_t FileReadReply::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // string data = 1;
+  // bytes data = 1;
   if (this->data().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
         this->data());
   }
 
@@ -1016,23 +705,23 @@ size_t FileReadReply::ByteSizeLong() const {
   return total_size;
 }
 
-void FileReadReply::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:edgefs.FileReadReply)
+void ReadReply::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:edgefs.ReadReply)
   GOOGLE_DCHECK_NE(&from, this);
-  const FileReadReply* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const FileReadReply>(
+  const ReadReply* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const ReadReply>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.FileReadReply)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.ReadReply)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.FileReadReply)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.ReadReply)
     MergeFrom(*source);
   }
 }
 
-void FileReadReply::MergeFrom(const FileReadReply& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.FileReadReply)
+void ReadReply::MergeFrom(const ReadReply& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.ReadReply)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::google::protobuf::uint32 cached_has_bits = 0;
@@ -1047,29 +736,29 @@ void FileReadReply::MergeFrom(const FileReadReply& from) {
   }
 }
 
-void FileReadReply::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:edgefs.FileReadReply)
+void ReadReply::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:edgefs.ReadReply)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void FileReadReply::CopyFrom(const FileReadReply& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.FileReadReply)
+void ReadReply::CopyFrom(const ReadReply& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.ReadReply)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool FileReadReply::IsInitialized() const {
+bool ReadReply::IsInitialized() const {
   return true;
 }
 
-void FileReadReply::Swap(FileReadReply* other) {
+void ReadReply::Swap(ReadReply* other) {
   if (other == this) return;
   InternalSwap(other);
 }
-void FileReadReply::InternalSwap(FileReadReply* other) {
+void ReadReply::InternalSwap(ReadReply* other) {
   using std::swap;
   data_.Swap(&other->data_);
   swap(len_, other->len_);
@@ -1077,7 +766,7 @@ void FileReadReply::InternalSwap(FileReadReply* other) {
   swap(_cached_size_, other->_cached_size_);
 }
 
-::google::protobuf::Metadata FileReadReply::GetMetadata() const {
+::google::protobuf::Metadata ReadReply::GetMetadata() const {
   protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
   return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages];
 }
@@ -1085,585 +774,50 @@ void FileReadReply::InternalSwap(FileReadReply* other) {
 
 // ===================================================================
 
-void WholeFileReadRequest::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int WholeFileReadRequest::kPathFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+CenterService::~CenterService() {}
 
-WholeFileReadRequest::WholeFileReadRequest()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_center_5fservice_2eproto::InitDefaultsWholeFileReadRequest();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:edgefs.WholeFileReadRequest)
-}
-WholeFileReadRequest::WholeFileReadRequest(const WholeFileReadRequest& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  path_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.path().size() > 0) {
-    path_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.path_);
-  }
-  // @@protoc_insertion_point(copy_constructor:edgefs.WholeFileReadRequest)
-}
-
-void WholeFileReadRequest::SharedCtor() {
-  path_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  _cached_size_ = 0;
-}
-
-WholeFileReadRequest::~WholeFileReadRequest() {
-  // @@protoc_insertion_point(destructor:edgefs.WholeFileReadRequest)
-  SharedDtor();
-}
-
-void WholeFileReadRequest::SharedDtor() {
-  path_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-
-void WholeFileReadRequest::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* WholeFileReadRequest::descriptor() {
-  ::protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const WholeFileReadRequest& WholeFileReadRequest::default_instance() {
-  ::protobuf_center_5fservice_2eproto::InitDefaultsWholeFileReadRequest();
-  return *internal_default_instance();
-}
-
-WholeFileReadRequest* WholeFileReadRequest::New(::google::protobuf::Arena* arena) const {
-  WholeFileReadRequest* n = new WholeFileReadRequest;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void WholeFileReadRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:edgefs.WholeFileReadRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  path_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  _internal_metadata_.Clear();
-}
-
-bool WholeFileReadRequest::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:edgefs.WholeFileReadRequest)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // string path = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_path()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->path().data(), static_cast<int>(this->path().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "edgefs.WholeFileReadRequest.path"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:edgefs.WholeFileReadRequest)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:edgefs.WholeFileReadRequest)
-  return false;
-#undef DO_
-}
-
-void WholeFileReadRequest::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:edgefs.WholeFileReadRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string path = 1;
-  if (this->path().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->path().data(), static_cast<int>(this->path().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "edgefs.WholeFileReadRequest.path");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->path(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:edgefs.WholeFileReadRequest)
-}
-
-::google::protobuf::uint8* WholeFileReadRequest::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:edgefs.WholeFileReadRequest)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string path = 1;
-  if (this->path().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->path().data(), static_cast<int>(this->path().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "edgefs.WholeFileReadRequest.path");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->path(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:edgefs.WholeFileReadRequest)
-  return target;
-}
-
-size_t WholeFileReadRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:edgefs.WholeFileReadRequest)
-  size_t total_size = 0;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
-  // string path = 1;
-  if (this->path().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->path());
-  }
-
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void WholeFileReadRequest::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:edgefs.WholeFileReadRequest)
-  GOOGLE_DCHECK_NE(&from, this);
-  const WholeFileReadRequest* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const WholeFileReadRequest>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.WholeFileReadRequest)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.WholeFileReadRequest)
-    MergeFrom(*source);
-  }
-}
-
-void WholeFileReadRequest::MergeFrom(const WholeFileReadRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.WholeFileReadRequest)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.path().size() > 0) {
-
-    path_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.path_);
-  }
-}
-
-void WholeFileReadRequest::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:edgefs.WholeFileReadRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void WholeFileReadRequest::CopyFrom(const WholeFileReadRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.WholeFileReadRequest)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool WholeFileReadRequest::IsInitialized() const {
-  return true;
-}
-
-void WholeFileReadRequest::Swap(WholeFileReadRequest* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void WholeFileReadRequest::InternalSwap(WholeFileReadRequest* other) {
-  using std::swap;
-  path_.Swap(&other->path_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata WholeFileReadRequest::GetMetadata() const {
-  protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages];
-}
-
-
-// ===================================================================
-
-void WholeFileReadReply::InitAsDefaultInstance() {
-}
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int WholeFileReadReply::kDataFieldNumber;
-const int WholeFileReadReply::kLenFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-WholeFileReadReply::WholeFileReadReply()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_center_5fservice_2eproto::InitDefaultsWholeFileReadReply();
-  }
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:edgefs.WholeFileReadReply)
-}
-WholeFileReadReply::WholeFileReadReply(const WholeFileReadReply& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
-      _cached_size_(0) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  data_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.data().size() > 0) {
-    data_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.data_);
-  }
-  len_ = from.len_;
-  // @@protoc_insertion_point(copy_constructor:edgefs.WholeFileReadReply)
-}
-
-void WholeFileReadReply::SharedCtor() {
-  data_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  len_ = GOOGLE_ULONGLONG(0);
-  _cached_size_ = 0;
-}
-
-WholeFileReadReply::~WholeFileReadReply() {
-  // @@protoc_insertion_point(destructor:edgefs.WholeFileReadReply)
-  SharedDtor();
-}
-
-void WholeFileReadReply::SharedDtor() {
-  data_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-
-void WholeFileReadReply::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* WholeFileReadReply::descriptor() {
-  ::protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
-const WholeFileReadReply& WholeFileReadReply::default_instance() {
-  ::protobuf_center_5fservice_2eproto::InitDefaultsWholeFileReadReply();
-  return *internal_default_instance();
-}
-
-WholeFileReadReply* WholeFileReadReply::New(::google::protobuf::Arena* arena) const {
-  WholeFileReadReply* n = new WholeFileReadReply;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void WholeFileReadReply::Clear() {
-// @@protoc_insertion_point(message_clear_start:edgefs.WholeFileReadReply)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  len_ = GOOGLE_ULONGLONG(0);
-  _internal_metadata_.Clear();
-}
-
-bool WholeFileReadReply::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:edgefs.WholeFileReadReply)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // string data = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_data()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->data().data(), static_cast<int>(this->data().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "edgefs.WholeFileReadReply.data"));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      // uint64 len = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(16u /* 16 & 0xFF */)) {
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &len_)));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:edgefs.WholeFileReadReply)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:edgefs.WholeFileReadReply)
-  return false;
-#undef DO_
-}
-
-void WholeFileReadReply::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:edgefs.WholeFileReadReply)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string data = 1;
-  if (this->data().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->data().data(), static_cast<int>(this->data().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "edgefs.WholeFileReadReply.data");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->data(), output);
-  }
-
-  // uint64 len = 2;
-  if (this->len() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->len(), output);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
-  }
-  // @@protoc_insertion_point(serialize_end:edgefs.WholeFileReadReply)
-}
-
-::google::protobuf::uint8* WholeFileReadReply::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:edgefs.WholeFileReadReply)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string data = 1;
-  if (this->data().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->data().data(), static_cast<int>(this->data().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "edgefs.WholeFileReadReply.data");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->data(), target);
-  }
-
-  // uint64 len = 2;
-  if (this->len() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->len(), target);
-  }
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:edgefs.WholeFileReadReply)
-  return target;
-}
-
-size_t WholeFileReadReply::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:edgefs.WholeFileReadReply)
-  size_t total_size = 0;
-
-  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
-  }
-  // string data = 1;
-  if (this->data().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->data());
-  }
-
-  // uint64 len = 2;
-  if (this->len() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->len());
-  }
-
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void WholeFileReadReply::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:edgefs.WholeFileReadReply)
-  GOOGLE_DCHECK_NE(&from, this);
-  const WholeFileReadReply* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const WholeFileReadReply>(
-          &from);
-  if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.WholeFileReadReply)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.WholeFileReadReply)
-    MergeFrom(*source);
-  }
-}
-
-void WholeFileReadReply::MergeFrom(const WholeFileReadReply& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.WholeFileReadReply)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.data().size() > 0) {
-
-    data_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.data_);
-  }
-  if (from.len() != 0) {
-    set_len(from.len());
-  }
-}
-
-void WholeFileReadReply::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:edgefs.WholeFileReadReply)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void WholeFileReadReply::CopyFrom(const WholeFileReadReply& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.WholeFileReadReply)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool WholeFileReadReply::IsInitialized() const {
-  return true;
-}
-
-void WholeFileReadReply::Swap(WholeFileReadReply* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void WholeFileReadReply::InternalSwap(WholeFileReadReply* other) {
-  using std::swap;
-  data_.Swap(&other->data_);
-  swap(len_, other->len_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata WholeFileReadReply::GetMetadata() const {
-  protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_center_5fservice_2eproto::file_level_metadata[kIndexInFileMessages];
-}
-
-
-// ===================================================================
-
-WorkerService::~WorkerService() {}
-
-const ::google::protobuf::ServiceDescriptor* WorkerService::descriptor() {
+const ::google::protobuf::ServiceDescriptor* CenterService::descriptor() {
   protobuf_center_5fservice_2eproto::protobuf_AssignDescriptorsOnce();
   return protobuf_center_5fservice_2eproto::file_level_service_descriptors[0];
 }
 
-const ::google::protobuf::ServiceDescriptor* WorkerService::GetDescriptor() {
+const ::google::protobuf::ServiceDescriptor* CenterService::GetDescriptor() {
   return descriptor();
 }
 
-void WorkerService::CallMethod(const ::google::protobuf::MethodDescriptor* method,
+void CenterService::Read(::google::protobuf::RpcController* controller,
+                         const ::edgefs::ReadRequest*,
+                         ::edgefs::ReadReply*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method Read() not implemented.");
+  done->Run();
+}
+
+void CenterService::CallMethod(const ::google::protobuf::MethodDescriptor* method,
                              ::google::protobuf::RpcController* controller,
                              const ::google::protobuf::Message* request,
                              ::google::protobuf::Message* response,
                              ::google::protobuf::Closure* done) {
   GOOGLE_DCHECK_EQ(method->service(), protobuf_center_5fservice_2eproto::file_level_service_descriptors[0]);
   switch(method->index()) {
+    case 0:
+      Read(controller,
+             ::google::protobuf::down_cast<const ::edgefs::ReadRequest*>(request),
+             ::google::protobuf::down_cast< ::edgefs::ReadReply*>(response),
+             done);
+      break;
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       break;
   }
 }
 
-const ::google::protobuf::Message& WorkerService::GetRequestPrototype(
+const ::google::protobuf::Message& CenterService::GetRequestPrototype(
     const ::google::protobuf::MethodDescriptor* method) const {
   GOOGLE_DCHECK_EQ(method->service(), descriptor());
   switch(method->index()) {
+    case 0:
+      return ::edgefs::ReadRequest::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *::google::protobuf::MessageFactory::generated_factory()
@@ -1671,10 +825,12 @@ const ::google::protobuf::Message& WorkerService::GetRequestPrototype(
   }
 }
 
-const ::google::protobuf::Message& WorkerService::GetResponsePrototype(
+const ::google::protobuf::Message& CenterService::GetResponsePrototype(
     const ::google::protobuf::MethodDescriptor* method) const {
   GOOGLE_DCHECK_EQ(method->service(), descriptor());
   switch(method->index()) {
+    case 0:
+      return ::edgefs::ReadReply::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
       return *::google::protobuf::MessageFactory::generated_factory()
@@ -1682,17 +838,24 @@ const ::google::protobuf::Message& WorkerService::GetResponsePrototype(
   }
 }
 
-WorkerService_Stub::WorkerService_Stub(::google::protobuf::RpcChannel* channel)
+CenterService_Stub::CenterService_Stub(::google::protobuf::RpcChannel* channel)
   : channel_(channel), owns_channel_(false) {}
-WorkerService_Stub::WorkerService_Stub(
+CenterService_Stub::CenterService_Stub(
     ::google::protobuf::RpcChannel* channel,
     ::google::protobuf::Service::ChannelOwnership ownership)
   : channel_(channel),
     owns_channel_(ownership == ::google::protobuf::Service::STUB_OWNS_CHANNEL) {}
-WorkerService_Stub::~WorkerService_Stub() {
+CenterService_Stub::~CenterService_Stub() {
   if (owns_channel_) delete channel_;
 }
 
+void CenterService_Stub::Read(::google::protobuf::RpcController* controller,
+                              const ::edgefs::ReadRequest* request,
+                              ::edgefs::ReadReply* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(0),
+                       controller, request, response, done);
+}
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace edgefs
