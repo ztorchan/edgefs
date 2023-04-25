@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16.0)
 project(utorfs C CXX)
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -D_FILE_OFFSET_BITS=64")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -D_FILE_OFFSET_BITS=64")
 
@@ -24,6 +26,7 @@ foreach(PROTO_FILE ${PROTO_FILE_LIST})
 endforeach()
 
 include_directories(${CMAKE_SOURCE_DIR}/include/)
+include_directories(${CMAKE_SOURCE_DIR}/third-party/rapidjson/include/)
 
 find_package(gflags REQUIRED)
 find_package(OpenSSL)
@@ -32,10 +35,12 @@ find_library(BRPC_LIB NAMES libbrpc.a brpc)
 find_library(LEVELDB_LIB NAMES leveldb)
 
 set(FS_SRCS
+  ${CMAKE_SOURCE_DIR}/include/edgefs/option.h
   ${CMAKE_SOURCE_DIR}/src/mm.cc
   ${CMAKE_SOURCE_DIR}/src/bitmap.cc
   ${CMAKE_SOURCE_DIR}/src/edgefs.cc
   ${CMAKE_SOURCE_DIR}/edgefs_main.cc
+
 )
 
 set(EDGE_RPC_SRCS

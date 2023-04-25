@@ -6,6 +6,7 @@
 #include <map>
 #include <thread>
 #include <mutex>
+#include <condition_variable>
 #include <atomic>
 #include <string>
 #include <cstring>
@@ -16,6 +17,7 @@
 #include <fuse.h>
 
 #include "edgefs/edgerpc.h"
+#include "edgefs/option.h"
 
 namespace edgefs
 {
@@ -24,7 +26,13 @@ class BitMap;
 
 enum class chunck_state {
   ALIVE,
+  WAIT4GC,
   INVAILD
+};
+
+enum class GC_REASON {
+  EXPIRED,
+  COLDDATA
 };
 
 struct dentry {
@@ -65,9 +73,23 @@ struct file {
   std::atomic<uint32_t> f_ref;
 };
 
+struct pull_request {
+  std::string pr_path;
+  uint64_t pr_chunck_size;
+  uint64_t pr_start_chunck_no;
+  uint64_t pr_chuncks_num;
+};
+
+struct gc_request {
+  std::string gcr_path;
+  uint64_t gcr_start_chunck_no;
+  uint64_t gcr_chuncks_num;
+  GC_REASON gcr_reason;
+};
+
 class EdgeFS {
 public:
-  static void Init();
+  static void Init(std::string config_path);
   static int getattr(const char *path, struct stat *st);
   static int mknod(const char *path, mode_t mode, dev_t);
   static int mkdir(const char *path, mode_t mode);
@@ -76,7 +98,7 @@ public:
   static int read(const char *path, char *buf, std::size_t size, off_t off, struct fuse_file_info *);
   static int write(const char *path, const char *data, std::size_t size, off_t off, struct fuse_file_info *);
   // static int statfs(const char *, struct statvfs *);
-  static int readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offser, struct fuse_file_info * fi);
+  static int readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info * fi);
   static int open(const char *path, struct fuse_file_info *fi);
   static int unlink(const char *path);
   static int releasedir(const char *path, struct fuse_file_info *fi);
@@ -92,9 +114,18 @@ private:
   static std::thread* gc_thread_;
   static std::thread* pull_thread_;
   static std::thread* scan_thread_;
+  
+  static struct dentry* root_dentry_;     // fs root dentry
 
-  static std::string center_ipv4_;
-  static struct dentry* root_dentry_;
+  static std::list<gc_request*> gc_list_;
+  static std::mutex gc_mtx_;
+  static std::condition_variable gc_cv_;
+  
+  static std::list<pull_request*> pull_list_;
+  static std::mutex pull_mtx_;
+  static std::condition_variable pull_cv_;
+
+  static Option options_;
 
   friend class EdgeServiceImpl;
 };
