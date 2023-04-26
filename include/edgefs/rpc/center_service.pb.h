@@ -43,45 +43,45 @@ struct TableStruct {
   static const ::google::protobuf::uint32 offsets[];
 };
 void AddDescriptors();
-void InitDefaultsReadRequestImpl();
-void InitDefaultsReadRequest();
-void InitDefaultsReadReplyImpl();
-void InitDefaultsReadReply();
+void InitDefaultsPullRequestImpl();
+void InitDefaultsPullRequest();
+void InitDefaultsPullReplyImpl();
+void InitDefaultsPullReply();
 inline void InitDefaults() {
-  InitDefaultsReadRequest();
-  InitDefaultsReadReply();
+  InitDefaultsPullRequest();
+  InitDefaultsPullReply();
 }
 }  // namespace protobuf_center_5fservice_2eproto
 namespace edgefs {
-class ReadReply;
-class ReadReplyDefaultTypeInternal;
-extern ReadReplyDefaultTypeInternal _ReadReply_default_instance_;
-class ReadRequest;
-class ReadRequestDefaultTypeInternal;
-extern ReadRequestDefaultTypeInternal _ReadRequest_default_instance_;
+class PullReply;
+class PullReplyDefaultTypeInternal;
+extern PullReplyDefaultTypeInternal _PullReply_default_instance_;
+class PullRequest;
+class PullRequestDefaultTypeInternal;
+extern PullRequestDefaultTypeInternal _PullRequest_default_instance_;
 }  // namespace edgefs
 namespace edgefs {
 
 // ===================================================================
 
-class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.ReadRequest) */ {
+class PullRequest : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.PullRequest) */ {
  public:
-  ReadRequest();
-  virtual ~ReadRequest();
+  PullRequest();
+  virtual ~PullRequest();
 
-  ReadRequest(const ReadRequest& from);
+  PullRequest(const PullRequest& from);
 
-  inline ReadRequest& operator=(const ReadRequest& from) {
+  inline PullRequest& operator=(const PullRequest& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ReadRequest(ReadRequest&& from) noexcept
-    : ReadRequest() {
+  PullRequest(PullRequest&& from) noexcept
+    : PullRequest() {
     *this = ::std::move(from);
   }
 
-  inline ReadRequest& operator=(ReadRequest&& from) noexcept {
+  inline PullRequest& operator=(PullRequest&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -91,30 +91,30 @@ class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ReadRequest& default_instance();
+  static const PullRequest& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ReadRequest* internal_default_instance() {
-    return reinterpret_cast<const ReadRequest*>(
-               &_ReadRequest_default_instance_);
+  static inline const PullRequest* internal_default_instance() {
+    return reinterpret_cast<const PullRequest*>(
+               &_PullRequest_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     0;
 
-  void Swap(ReadRequest* other);
-  friend void swap(ReadRequest& a, ReadRequest& b) {
+  void Swap(PullRequest* other);
+  friend void swap(PullRequest& a, PullRequest& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ReadRequest* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline PullRequest* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  ReadRequest* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  PullRequest* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ReadRequest& from);
-  void MergeFrom(const ReadRequest& from);
+  void CopyFrom(const PullRequest& from);
+  void MergeFrom(const PullRequest& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -130,7 +130,7 @@ class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ReadRequest* other);
+  void InternalSwap(PullRequest* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -160,49 +160,56 @@ class ReadRequest : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::std::string* release_path();
   void set_allocated_path(::std::string* path);
 
-  // uint64 offset = 2;
-  void clear_offset();
-  static const int kOffsetFieldNumber = 2;
-  ::google::protobuf::uint64 offset() const;
-  void set_offset(::google::protobuf::uint64 value);
+  // uint64 chunck_size = 2;
+  void clear_chunck_size();
+  static const int kChunckSizeFieldNumber = 2;
+  ::google::protobuf::uint64 chunck_size() const;
+  void set_chunck_size(::google::protobuf::uint64 value);
 
-  // uint64 len = 3;
-  void clear_len();
-  static const int kLenFieldNumber = 3;
-  ::google::protobuf::uint64 len() const;
-  void set_len(::google::protobuf::uint64 value);
+  // uint64 start_chunck_no = 3;
+  void clear_start_chunck_no();
+  static const int kStartChunckNoFieldNumber = 3;
+  ::google::protobuf::uint64 start_chunck_no() const;
+  void set_start_chunck_no(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:edgefs.ReadRequest)
+  // uint64 chuncks_num = 4;
+  void clear_chuncks_num();
+  static const int kChuncksNumFieldNumber = 4;
+  ::google::protobuf::uint64 chuncks_num() const;
+  void set_chuncks_num(::google::protobuf::uint64 value);
+
+  // @@protoc_insertion_point(class_scope:edgefs.PullRequest)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr path_;
-  ::google::protobuf::uint64 offset_;
-  ::google::protobuf::uint64 len_;
+  ::google::protobuf::uint64 chunck_size_;
+  ::google::protobuf::uint64 start_chunck_no_;
+  ::google::protobuf::uint64 chuncks_num_;
   mutable int _cached_size_;
   friend struct ::protobuf_center_5fservice_2eproto::TableStruct;
-  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsReadRequestImpl();
+  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsPullRequestImpl();
 };
 // -------------------------------------------------------------------
 
-class ReadReply : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.ReadReply) */ {
+class PullReply : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:edgefs.PullReply) */ {
  public:
-  ReadReply();
-  virtual ~ReadReply();
+  PullReply();
+  virtual ~PullReply();
 
-  ReadReply(const ReadReply& from);
+  PullReply(const PullReply& from);
 
-  inline ReadReply& operator=(const ReadReply& from) {
+  inline PullReply& operator=(const PullReply& from) {
     CopyFrom(from);
     return *this;
   }
   #if LANG_CXX11
-  ReadReply(ReadReply&& from) noexcept
-    : ReadReply() {
+  PullReply(PullReply&& from) noexcept
+    : PullReply() {
     *this = ::std::move(from);
   }
 
-  inline ReadReply& operator=(ReadReply&& from) noexcept {
+  inline PullReply& operator=(PullReply&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -212,30 +219,30 @@ class ReadReply : public ::google::protobuf::Message /* @@protoc_insertion_point
   }
   #endif
   static const ::google::protobuf::Descriptor* descriptor();
-  static const ReadReply& default_instance();
+  static const PullReply& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const ReadReply* internal_default_instance() {
-    return reinterpret_cast<const ReadReply*>(
-               &_ReadReply_default_instance_);
+  static inline const PullReply* internal_default_instance() {
+    return reinterpret_cast<const PullReply*>(
+               &_PullReply_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
     1;
 
-  void Swap(ReadReply* other);
-  friend void swap(ReadReply& a, ReadReply& b) {
+  void Swap(PullReply* other);
+  friend void swap(PullReply& a, PullReply& b) {
     a.Swap(&b);
   }
 
   // implements Message ----------------------------------------------
 
-  inline ReadReply* New() const PROTOBUF_FINAL { return New(NULL); }
+  inline PullReply* New() const PROTOBUF_FINAL { return New(NULL); }
 
-  ReadReply* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  PullReply* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
   void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
   void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
-  void CopyFrom(const ReadReply& from);
-  void MergeFrom(const ReadReply& from);
+  void CopyFrom(const PullReply& from);
+  void MergeFrom(const PullReply& from);
   void Clear() PROTOBUF_FINAL;
   bool IsInitialized() const PROTOBUF_FINAL;
 
@@ -251,7 +258,7 @@ class ReadReply : public ::google::protobuf::Message /* @@protoc_insertion_point
   void SharedCtor();
   void SharedDtor();
   void SetCachedSize(int size) const PROTOBUF_FINAL;
-  void InternalSwap(ReadReply* other);
+  void InternalSwap(PullReply* other);
   private:
   inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
     return NULL;
@@ -267,35 +274,43 @@ class ReadReply : public ::google::protobuf::Message /* @@protoc_insertion_point
 
   // accessors -------------------------------------------------------
 
-  // bytes data = 1;
+  // repeated bytes data = 1;
+  int data_size() const;
   void clear_data();
   static const int kDataFieldNumber = 1;
-  const ::std::string& data() const;
-  void set_data(const ::std::string& value);
+  const ::std::string& data(int index) const;
+  ::std::string* mutable_data(int index);
+  void set_data(int index, const ::std::string& value);
   #if LANG_CXX11
-  void set_data(::std::string&& value);
+  void set_data(int index, ::std::string&& value);
   #endif
-  void set_data(const char* value);
-  void set_data(const void* value, size_t size);
-  ::std::string* mutable_data();
-  ::std::string* release_data();
-  void set_allocated_data(::std::string* data);
+  void set_data(int index, const char* value);
+  void set_data(int index, const void* value, size_t size);
+  ::std::string* add_data();
+  void add_data(const ::std::string& value);
+  #if LANG_CXX11
+  void add_data(::std::string&& value);
+  #endif
+  void add_data(const char* value);
+  void add_data(const void* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& data() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_data();
 
-  // uint64 len = 2;
-  void clear_len();
-  static const int kLenFieldNumber = 2;
-  ::google::protobuf::uint64 len() const;
-  void set_len(::google::protobuf::uint64 value);
+  // uint64 chuncks_num = 2;
+  void clear_chuncks_num();
+  static const int kChuncksNumFieldNumber = 2;
+  ::google::protobuf::uint64 chuncks_num() const;
+  void set_chuncks_num(::google::protobuf::uint64 value);
 
-  // @@protoc_insertion_point(class_scope:edgefs.ReadReply)
+  // @@protoc_insertion_point(class_scope:edgefs.PullReply)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr data_;
-  ::google::protobuf::uint64 len_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> data_;
+  ::google::protobuf::uint64 chuncks_num_;
   mutable int _cached_size_;
   friend struct ::protobuf_center_5fservice_2eproto::TableStruct;
-  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsReadReplyImpl();
+  friend void ::protobuf_center_5fservice_2eproto::InitDefaultsPullReplyImpl();
 };
 // ===================================================================
 
@@ -313,8 +328,8 @@ class CenterService : public ::google::protobuf::Service {
   static const ::google::protobuf::ServiceDescriptor* descriptor();
 
   virtual void Read(::google::protobuf::RpcController* controller,
-                       const ::edgefs::ReadRequest* request,
-                       ::edgefs::ReadReply* response,
+                       const ::edgefs::PullRequest* request,
+                       ::edgefs::PullReply* response,
                        ::google::protobuf::Closure* done);
 
   // implements Service ----------------------------------------------
@@ -346,8 +361,8 @@ class CenterService_Stub : public CenterService {
   // implements CenterService ------------------------------------------
 
   void Read(::google::protobuf::RpcController* controller,
-                       const ::edgefs::ReadRequest* request,
-                       ::edgefs::ReadReply* response,
+                       const ::edgefs::PullRequest* request,
+                       ::edgefs::PullReply* response,
                        ::google::protobuf::Closure* done);
  private:
   ::google::protobuf::RpcChannel* channel_;
@@ -365,158 +380,188 @@ class CenterService_Stub : public CenterService {
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// ReadRequest
+// PullRequest
 
 // string path = 1;
-inline void ReadRequest::clear_path() {
+inline void PullRequest::clear_path() {
   path_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline const ::std::string& ReadRequest::path() const {
-  // @@protoc_insertion_point(field_get:edgefs.ReadRequest.path)
+inline const ::std::string& PullRequest::path() const {
+  // @@protoc_insertion_point(field_get:edgefs.PullRequest.path)
   return path_.GetNoArena();
 }
-inline void ReadRequest::set_path(const ::std::string& value) {
+inline void PullRequest::set_path(const ::std::string& value) {
   
   path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:edgefs.ReadRequest.path)
+  // @@protoc_insertion_point(field_set:edgefs.PullRequest.path)
 }
 #if LANG_CXX11
-inline void ReadRequest::set_path(::std::string&& value) {
+inline void PullRequest::set_path(::std::string&& value) {
   
   path_.SetNoArena(
     &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:edgefs.ReadRequest.path)
+  // @@protoc_insertion_point(field_set_rvalue:edgefs.PullRequest.path)
 }
 #endif
-inline void ReadRequest::set_path(const char* value) {
+inline void PullRequest::set_path(const char* value) {
   GOOGLE_DCHECK(value != NULL);
   
   path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:edgefs.ReadRequest.path)
+  // @@protoc_insertion_point(field_set_char:edgefs.PullRequest.path)
 }
-inline void ReadRequest::set_path(const char* value, size_t size) {
+inline void PullRequest::set_path(const char* value, size_t size) {
   
   path_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:edgefs.ReadRequest.path)
+  // @@protoc_insertion_point(field_set_pointer:edgefs.PullRequest.path)
 }
-inline ::std::string* ReadRequest::mutable_path() {
+inline ::std::string* PullRequest::mutable_path() {
   
-  // @@protoc_insertion_point(field_mutable:edgefs.ReadRequest.path)
+  // @@protoc_insertion_point(field_mutable:edgefs.PullRequest.path)
   return path_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::std::string* ReadRequest::release_path() {
-  // @@protoc_insertion_point(field_release:edgefs.ReadRequest.path)
+inline ::std::string* PullRequest::release_path() {
+  // @@protoc_insertion_point(field_release:edgefs.PullRequest.path)
   
   return path_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void ReadRequest::set_allocated_path(::std::string* path) {
+inline void PullRequest::set_allocated_path(::std::string* path) {
   if (path != NULL) {
     
   } else {
     
   }
   path_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), path);
-  // @@protoc_insertion_point(field_set_allocated:edgefs.ReadRequest.path)
+  // @@protoc_insertion_point(field_set_allocated:edgefs.PullRequest.path)
 }
 
-// uint64 offset = 2;
-inline void ReadRequest::clear_offset() {
-  offset_ = GOOGLE_ULONGLONG(0);
+// uint64 chunck_size = 2;
+inline void PullRequest::clear_chunck_size() {
+  chunck_size_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 ReadRequest::offset() const {
-  // @@protoc_insertion_point(field_get:edgefs.ReadRequest.offset)
-  return offset_;
+inline ::google::protobuf::uint64 PullRequest::chunck_size() const {
+  // @@protoc_insertion_point(field_get:edgefs.PullRequest.chunck_size)
+  return chunck_size_;
 }
-inline void ReadRequest::set_offset(::google::protobuf::uint64 value) {
+inline void PullRequest::set_chunck_size(::google::protobuf::uint64 value) {
   
-  offset_ = value;
-  // @@protoc_insertion_point(field_set:edgefs.ReadRequest.offset)
+  chunck_size_ = value;
+  // @@protoc_insertion_point(field_set:edgefs.PullRequest.chunck_size)
 }
 
-// uint64 len = 3;
-inline void ReadRequest::clear_len() {
-  len_ = GOOGLE_ULONGLONG(0);
+// uint64 start_chunck_no = 3;
+inline void PullRequest::clear_start_chunck_no() {
+  start_chunck_no_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 ReadRequest::len() const {
-  // @@protoc_insertion_point(field_get:edgefs.ReadRequest.len)
-  return len_;
+inline ::google::protobuf::uint64 PullRequest::start_chunck_no() const {
+  // @@protoc_insertion_point(field_get:edgefs.PullRequest.start_chunck_no)
+  return start_chunck_no_;
 }
-inline void ReadRequest::set_len(::google::protobuf::uint64 value) {
+inline void PullRequest::set_start_chunck_no(::google::protobuf::uint64 value) {
   
-  len_ = value;
-  // @@protoc_insertion_point(field_set:edgefs.ReadRequest.len)
+  start_chunck_no_ = value;
+  // @@protoc_insertion_point(field_set:edgefs.PullRequest.start_chunck_no)
+}
+
+// uint64 chuncks_num = 4;
+inline void PullRequest::clear_chuncks_num() {
+  chuncks_num_ = GOOGLE_ULONGLONG(0);
+}
+inline ::google::protobuf::uint64 PullRequest::chuncks_num() const {
+  // @@protoc_insertion_point(field_get:edgefs.PullRequest.chuncks_num)
+  return chuncks_num_;
+}
+inline void PullRequest::set_chuncks_num(::google::protobuf::uint64 value) {
+  
+  chuncks_num_ = value;
+  // @@protoc_insertion_point(field_set:edgefs.PullRequest.chuncks_num)
 }
 
 // -------------------------------------------------------------------
 
-// ReadReply
+// PullReply
 
-// bytes data = 1;
-inline void ReadReply::clear_data() {
-  data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// repeated bytes data = 1;
+inline int PullReply::data_size() const {
+  return data_.size();
 }
-inline const ::std::string& ReadReply::data() const {
-  // @@protoc_insertion_point(field_get:edgefs.ReadReply.data)
-  return data_.GetNoArena();
+inline void PullReply::clear_data() {
+  data_.Clear();
 }
-inline void ReadReply::set_data(const ::std::string& value) {
-  
-  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:edgefs.ReadReply.data)
+inline const ::std::string& PullReply::data(int index) const {
+  // @@protoc_insertion_point(field_get:edgefs.PullReply.data)
+  return data_.Get(index);
+}
+inline ::std::string* PullReply::mutable_data(int index) {
+  // @@protoc_insertion_point(field_mutable:edgefs.PullReply.data)
+  return data_.Mutable(index);
+}
+inline void PullReply::set_data(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:edgefs.PullReply.data)
+  data_.Mutable(index)->assign(value);
 }
 #if LANG_CXX11
-inline void ReadReply::set_data(::std::string&& value) {
-  
-  data_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:edgefs.ReadReply.data)
+inline void PullReply::set_data(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:edgefs.PullReply.data)
+  data_.Mutable(index)->assign(std::move(value));
 }
 #endif
-inline void ReadReply::set_data(const char* value) {
+inline void PullReply::set_data(int index, const char* value) {
   GOOGLE_DCHECK(value != NULL);
-  
-  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:edgefs.ReadReply.data)
+  data_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:edgefs.PullReply.data)
 }
-inline void ReadReply::set_data(const void* value, size_t size) {
-  
-  data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:edgefs.ReadReply.data)
+inline void PullReply::set_data(int index, const void* value, size_t size) {
+  data_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:edgefs.PullReply.data)
 }
-inline ::std::string* ReadReply::mutable_data() {
-  
-  // @@protoc_insertion_point(field_mutable:edgefs.ReadReply.data)
-  return data_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline ::std::string* PullReply::add_data() {
+  // @@protoc_insertion_point(field_add_mutable:edgefs.PullReply.data)
+  return data_.Add();
 }
-inline ::std::string* ReadReply::release_data() {
-  // @@protoc_insertion_point(field_release:edgefs.ReadReply.data)
-  
-  return data_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline void PullReply::add_data(const ::std::string& value) {
+  data_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:edgefs.PullReply.data)
 }
-inline void ReadReply::set_allocated_data(::std::string* data) {
-  if (data != NULL) {
-    
-  } else {
-    
-  }
-  data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), data);
-  // @@protoc_insertion_point(field_set_allocated:edgefs.ReadReply.data)
+#if LANG_CXX11
+inline void PullReply::add_data(::std::string&& value) {
+  data_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:edgefs.PullReply.data)
+}
+#endif
+inline void PullReply::add_data(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  data_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:edgefs.PullReply.data)
+}
+inline void PullReply::add_data(const void* value, size_t size) {
+  data_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:edgefs.PullReply.data)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+PullReply::data() const {
+  // @@protoc_insertion_point(field_list:edgefs.PullReply.data)
+  return data_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+PullReply::mutable_data() {
+  // @@protoc_insertion_point(field_mutable_list:edgefs.PullReply.data)
+  return &data_;
 }
 
-// uint64 len = 2;
-inline void ReadReply::clear_len() {
-  len_ = GOOGLE_ULONGLONG(0);
+// uint64 chuncks_num = 2;
+inline void PullReply::clear_chuncks_num() {
+  chuncks_num_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 ReadReply::len() const {
-  // @@protoc_insertion_point(field_get:edgefs.ReadReply.len)
-  return len_;
+inline ::google::protobuf::uint64 PullReply::chuncks_num() const {
+  // @@protoc_insertion_point(field_get:edgefs.PullReply.chuncks_num)
+  return chuncks_num_;
 }
-inline void ReadReply::set_len(::google::protobuf::uint64 value) {
+inline void PullReply::set_chuncks_num(::google::protobuf::uint64 value) {
   
-  len_ = value;
-  // @@protoc_insertion_point(field_set:edgefs.ReadReply.len)
+  chuncks_num_ = value;
+  // @@protoc_insertion_point(field_set:edgefs.PullReply.chuncks_num)
 }
 
 #ifdef __GNUC__

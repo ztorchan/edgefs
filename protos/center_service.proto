@@ -4,17 +4,18 @@ package edgefs;
 
 option cc_generic_services = true;
 
-message ReadRequest {
+message PullRequest {
   string path = 1;
-  uint64 offset = 2;
-  uint64 len = 3;
+  uint64 chunck_size = 2;
+  uint64 start_chunck_no = 3;
+  uint64 chuncks_num = 4;
 }
 
-message ReadReply {
-  bytes data = 1;
-  uint64 len = 2;
+message PullReply {
+  repeated bytes data = 1;
+  uint64 chuncks_num = 2;
 }
 
 service CenterService {
-  rpc Read (ReadRequest) returns (ReadReply);
+  rpc Read (PullRequest) returns (PullReply);
 }

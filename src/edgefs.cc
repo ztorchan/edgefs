@@ -129,14 +129,37 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
     if(it == target_dentry->d_childs.end()) {
       // can not find target file, commit a pull request
       std::unique_lock<std::mutex> lck(pull_mtx_);
+      uint64_t start_chunck = offset / options_.chunck_size;
+      uint64_t end_chunck = (offset + size - 1) / options_.chunck_size;
       pull_list_.push_back(new pull_request{
         path,
-        
+        options_.chunck_size,
+        start_chunck,
+        end_chunck - start_chunck + 1
       });
       return 0;
     }
     target_dentry = it->second;
   }
+
+  // successfully find target dentry
+  struct inode* target_inode = target_dentry->d_inode;
+  if(offset >= target_inode->i_len) {
+    // offset is greater than file length
+    return 0;
+  }
+  if(offset + size > target_inode->i_len) {
+    // size is greater than rest length, change size
+    size = target_inode->i_len - offset;
+  }
+  
+  // convert to chunck no and offset
+  uint64_t start_chunck = offset / target_inode->i_chunck_size;
+  uint64_t start_chunck_offset = offset % target_inode->i_chunck_size;
+  uint64_t end_chunck = (offset + size - 1) / target_inode->i_chunck_size;
+  uint64_t end_chunck_offset = (offset + size - 1) % target_inode->i_chunck_size;
+  //check if all chunck exist
+
 
 
 }

@@ -1,48 +1,79 @@
 #include "edgefs/mm.h"
 
-#include <assert.h>
+#include <cassert>
+#include <cstring>
 
 namespace edgefs
 {
 
-char* MManger::Allocate(uint32_t bytes) {
-  // The semantics of what to return are a bit messy if we allow
-  // 0-byte allocations, so we disallow them here (we don't need
-  // them for our internal use).
+uint32_t tablesize(uint32_t n) {
+  if(n == 0) 
+    return 1;
+
+  n--;
+  n |= n >> 1;
+  n |= n >> 2;
+  n |= n >> 4;
+  n |= n >> 8;
+  n |= n >> 16;
+  return n + 1;
+}
+
+struct cacheblock* MManger::Allocate(uint32_t bytes) {
   assert(bytes > 0);
-  if (bytes <= alloc_bytes_remaining_) {
-    char* result = alloc_ptr_;
-    alloc_ptr_ += bytes;
-    alloc_bytes_remaining_ -= bytes;
-    return result;
-  }
-  return AllocateFallback(bytes);
-}
-
-char* MManger::AllocateFallback(uint32_t bytes) {
-  if (bytes > BLOCKSIZE / 4) {
-    // Object is more than a quarter of our block size.  Allocate it separately
-    // to avoid wasting too much space in leftover bytes.
-    char* result = AllocateNewBlock(bytes);
-    return result;
+  assert(bytes < MAX_BLOCK_SIZE);
+  bytes = tablesize(bytes);
+  
+  if(MemoryUsage() + bytes > MAX_MEM_USAGE) {
+    return nullptr;
   }
 
-  // We waste the remaining space in the current block.
-  alloc_ptr_ = AllocateNewBlock(BLOCKSIZE);
-  alloc_bytes_remaining_ = BLOCKSIZE;
-
-  char* result = alloc_ptr_;
-  alloc_ptr_ += bytes;
-  alloc_bytes_remaining_ -= bytes;
-  return result;
+  std::list<cacheblock*>& free_blocks = free_blocks_[bytes];
+  std::list<cacheblock*>& allocated_blocks = allocated_blocks_[bytes];
+  std::unique_lock<std::mutex> lck(mtxs_[bytes]);
+  
+  struct cacheblock* new_block = nullptr;
+  if(free_blocks.empty()) {
+    new_block = new cacheblock{
+      new char[bytes],
+      0,
+      bytes,
+      time(nullptr),
+      time(nullptr),
+      0
+    };
+    memory_usage_ += bytes;
+  } else {
+    new_block = free_blocks.front();
+    free_blocks.pop_front();
+    new_block->b_ctime = time(nullptr);
+    new_block->b_atime = time(nullptr);
+  }
+  allocated_blocks.push_back(new_block);
+  allocated_memory_usage_ += bytes;
+  
+  return new_block;
 }
 
-char* MManger::AllocateNewBlock(uint32_t block_bytes) {
-  char* result = new char[block_bytes];
-  blocks_.push_back(result);
-  memory_usage_.fetch_add(block_bytes + sizeof(char*),
-                          std::memory_order_relaxed);
-  return result;
+void MManger::Free(struct cacheblock* block) {
+  uint32_t bytes = block->b_size;
+  std::list<cacheblock*>& free_blocks = free_blocks_[bytes];
+  std::list<cacheblock*>& allocated_blocks = allocated_blocks_[bytes];
+  std::unique_lock<std::mutex> lck(mtxs_[bytes]);
+
+  if(free_blocks.size() >= (MAX_FREE / allocated_blocks_.size() / bytes)) {
+    // To many free blocks, free the block
+    delete[] block->b_data;
+    delete block;
+    memory_usage_ -= bytes;
+  } else {
+    // clean the block and push it to free list
+    memset(block->b_data, 0, block->b_size);
+    block->b_len = 0;
+    block->b_ctime = 0;
+    block->b_atime = 0;
+    block->b_acounter = 0;
+  }
 }
 
 } // namespace edgefs
