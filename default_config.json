@@ -4,5 +4,7 @@
   "center_address" : "127.0.0.1",
   "rpc_port" : 2333,
   "chunck_size" : 67108864,
-  "block_size" : 4194304
+  "block_size" : 4194304,
+  "max_cache_size" : 1073741824,
+  "max_free_cache" : 134217728
 }

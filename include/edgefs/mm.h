@@ -10,7 +10,7 @@
 #include <mutex>
 
 #define MAX_BLOCK_SIZE 16777216   // 16 * 1024 * 1024
-#define MAX_FREE 134217728        // 128 * 1024 * 1024
+#define MAX_FREE_MEM 134217728        // 128 * 1024 * 1024
 #define MAX_MEM_USAGE 1073741824  // 1024 * 1024 * 1024
 
 namespace edgefs
@@ -27,19 +27,20 @@ struct cacheblock {
 
 class MManger {
 public:
-  MManger();
+  MManger(uint32_t max_free_mem = MAX_FREE_MEM);
   ~MManger();
 
   MManger(const MManger&) = delete;
-  MManger& operator=(const MManger&) = delete;
 
   struct cacheblock* Allocate(uint32_t bytes);
   void Free(struct cacheblock* block);
 
+  void SetMaxFreeMem(uint32_t max_free_mem) { max_free_mem_ = max_free_mem; }
+
   uint32_t MemoryUsage() const { return memory_usage_.load(std::memory_order_relaxed); }
 
 private:
-
+  uint32_t max_free_mem_;
   std::map<uint32_t, std::list<cacheblock*>> allocated_blocks_;
   std::map<uint32_t, std::list<cacheblock*>> free_blocks_;
   std::map<uint32_t, std::mutex> mtxs_;

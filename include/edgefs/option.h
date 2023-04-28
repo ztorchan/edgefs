@@ -61,6 +61,18 @@ public:
       assert(doc["block_size"].IsUint64());
       block_size = doc["block_size"].GetUint64();
     }
+
+    // max size of total block cache
+    if(doc.HasMember("max_cache_size")) {
+      assert(doc["max_cache_size"].IsUint());
+      max_cache_size = doc["max_cache_size"].GetUint();
+    }
+
+    // max size of total free cache hold by mm
+    if(doc.HasMember("max_free_cache")) {
+      assert(doc["max_free_cache"].IsUint64());
+      max_free_cache = doc["max_free_cache"].GetUint64();
+    }
   }
 
 public:
@@ -81,6 +93,12 @@ public:
 
   // File cache block size (bytes)
   uint64_t block_size = 4 * 1024 * 1024;
+
+  // Max size of total block cache
+  uint32_t max_cache_size = 1024 * 1024 * 1024;
+
+  // Max size of total free cache hold by mm
+  uint32_t max_free_cache = 128 * 1024 * 1024;
 
 };
 

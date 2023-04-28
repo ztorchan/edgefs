@@ -17,18 +17,25 @@
 #include <stdlib.h>
 #include <fuse.h>
 
+#include "edgefs/mm.h"
 #include "edgefs/edgerpc.h"
 #include "edgefs/option.h"
+
+#define _OUT
 
 namespace edgefs
 {
 
 class BitMap;
 
+enum class file_state {
+  ALIVE,
+  INVAILD
+};
+
 enum class chunck_state {
   ALIVE,
-  WAIT4GC,
-  INVAILD
+  WAIT4GC
 };
 
 enum class GC_REASON {
@@ -44,25 +51,25 @@ struct dentry {
 };
 
 struct inode {
-  uint64_t  i_len;           // file length
-  uint64_t  i_chunck_size;   // Disk chunck: 64 MB default (64 * 1024 * 1024)
-  uint64_t  i_block_size;    // Memory block: 2 MB default (2 * 1024 * 1024)
-  uint64_t  i_nlink;         // hard link number
-  uint64_t  i_lock;          // file lock
-  time_t    i_mtime;         // last modify time
-  time_t    i_atime;         // last access time
-  mode_t    i_mode;          // inode mode
-  uid_t     i_uid;           // user id
-  gid_t     i_gid;           // group id
+  uint64_t    i_len;           // file length
+  uint64_t    i_chunck_size;   // Disk chunck: 64 MB default (64 * 1024 * 1024)
+  uint64_t    i_block_size;    // Memory block: 2 MB default (2 * 1024 * 1024)
+  uint64_t    i_nlink;         // hard link number
+  uint64_t    i_lock;          // file lock
+  file_state  i_state;       
+  time_t      i_mtime;         // last modify time
+  time_t      i_atime;         // last access time
+  mode_t      i_mode;          // inode mode
+  uid_t       i_uid;           // user id
+  gid_t       i_gid;           // group id
 
-  BitMap*   i_shard_bitmap;  // if chunck exist 
+  BitMap*     i_chunck_bitmap; // if chunck exist 
   std::map<uint64_t, subinode*> i_subinodes;  // chunck file inode
 };
 
 struct subinode {
   uint64_t      subi_no;                              // chunck no
   inode*        subi_inode;                           // parent inode
-  chunck_state  subi_state;                           // chunck state
   time_t        subi_ctime;                           // last modify time
   time_t        subi_atime;                           // last access time
   uint64_t      subi_acounter;                        // total access times
@@ -80,7 +87,7 @@ struct pull_request {
   std::string pr_path;        // file path
   uint64_t pr_chunck_size;    // file chunck size
   uint64_t pr_start_chunck;   // first chunck no 
-  std::size_t pr_chunck_num;  // chuncks number
+  uint64_t pr_chunck_num;     // chuncks number
 };
 
 struct gc_request {
@@ -107,15 +114,15 @@ public:
   static int releasedir(const char *path, struct fuse_file_info *fi);
 
 private:
+  static int read_from_chunck(struct subinode* subi, char *buf, std::size_t size, off_t offset);
+  static bool check_chuncks_exist(struct inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extent);
   static void RPC();
-  static void GC();
-  static void PULL();
+  static void GC_AND_PULL();
   static void SCAN();
 
 private:
   static std::thread* rpc_thread_;
-  static std::thread* gc_thread_;
-  static std::thread* pull_thread_;
+  static std::thread* gc_and_pull_thread_;
   static std::thread* scan_thread_;
 
   static struct dentry* root_dentry_;     // fs root dentry
@@ -129,6 +136,7 @@ private:
   static std::condition_variable pull_cv_;
 
   static Option options_;
+  static MManger mm_;
 
   friend class EdgeServiceImpl;
 };

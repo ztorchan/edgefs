@@ -10,6 +10,7 @@
 #include <rapidjson/document.h>
 
 #include "edgefs/edgefs.h"
+#include "edgefs/bitmap.h"
 #include "edgefs/rpc/center_service.pb.h"
 
 #define EDGEFS_PORT 2333
@@ -28,6 +29,7 @@ std::list<pull_request*> EdgeFS::pull_list_;
 std::mutex EdgeFS::pull_mtx_;
 std::condition_variable EdgeFS::pull_cv_;
 Option EdgeFS::options_;
+MManger EdgeFS::mm_;
 
 
 void SplitPath(const char *path, std::vector<std::string>& d_names) {
@@ -56,6 +58,7 @@ void SplitPath(const char *path, std::vector<std::string>& d_names) {
 
 void EdgeFS::Init(std::string config_path) {
   options_ = Option(config_path);
+  mm_.SetMaxFreeMem(options_.max_free_cache);
 
   std::filesystem::remove_all(options_.data_root_path);
   std::filesystem::create_directories(options_.data_root_path);
@@ -144,6 +147,9 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
 
   // successfully find target dentry
   struct inode* target_inode = target_dentry->d_inode;
+  if(target_inode->i_state == file_state::INVAILD) {
+    
+  }
   if(offset >= target_inode->i_len) {
     // offset is greater than file length
     return 0;
@@ -154,13 +160,54 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   }
   
   // convert to chunck no and offset
-  uint64_t start_chunck = offset / target_inode->i_chunck_size;
+  uint64_t start_chunck_no = offset / target_inode->i_chunck_size;
   uint64_t start_chunck_offset = offset % target_inode->i_chunck_size;
-  uint64_t end_chunck = (offset + size - 1) / target_inode->i_chunck_size;
+  uint64_t end_chunck_no = (offset + size - 1) / target_inode->i_chunck_size;
   uint64_t end_chunck_offset = (offset + size - 1) % target_inode->i_chunck_size;
+  
   //check if all chunck exist
+  std::vector<std::pair<uint64_t, uint64_t>> lack_extents;
+  if(!check_chuncks_exist(target_inode, start_chunck_no, end_chunck_no, lack_extents)) {
+    std::unique_lock<std::mutex> lck(pull_mtx_);
+    for(const auto& extent : lack_extents) {
+      pull_list_.push_back(new pull_request{path, options_.chunck_size, extent.first, extent.second});
+    }
+    pull_cv_.notify_all();
+    return 0;
+  }
+
+  // all chunck exist, read chunck
 
 
+
+}
+
+bool EdgeFS::check_chuncks_exist(struct inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extents) {
+  bool all_exist = true;
+  uint64_t now_extent_start_chunck = -1;
+  for(uint64_t chunck_no = start_chunck_no; chunck_no <= end_chunck_no; chunck_no++) {
+    if(!in->i_chunck_bitmap->Get(chunck_no)) {
+      // chunck does not exist
+      all_exist = false;
+      if(now_extent_start_chunck == -1) {
+        now_extent_start_chunck = chunck_no;
+      }
+    } else {
+      // exist
+      if(now_extent_start_chunck != -1) {
+        lack_extents.push_back({now_extent_start_chunck, chunck_no - now_extent_start_chunck + 1});
+        now_extent_start_chunck = -1;
+      }
+    }
+  }
+
+  if(now_extent_start_chunck != -1) {
+    lack_extents.push_back({now_extent_start_chunck, end_chunck_no - now_extent_start_chunck + 1});
+  }
+  return all_exist;
+}
+
+int EdgeFS::read_from_chunck(struct subinode* subi, char *buf, std::size_t size, off_t offset) {
 
 }
 

@@ -19,6 +19,35 @@ uint32_t tablesize(uint32_t n) {
   return n + 1;
 }
 
+MManger::MManger(uint32_t max_free_mem) :
+  max_free_mem_(max_free_mem),
+  allocated_blocks_(),
+  free_blocks_(),
+  mtxs_(),
+  memory_usage_(0),
+  allocated_memory_usage_(0) {}
+
+MManger::~MManger() {
+  for(auto& it : allocated_blocks_) {
+    auto& blocks = it.second;
+    while(!blocks.empty()) {
+      cacheblock* block = blocks.front();
+      delete[] block->b_data;
+      delete block;
+      blocks.pop_front();
+    }
+  }
+  for(auto& it : free_blocks_) {
+    auto& blocks = it.second;
+    while(!blocks.empty()) {
+      cacheblock* block = blocks.front();
+      delete[] block->b_data;
+      delete block;
+      blocks.pop_front();
+    }
+  }
+}
+
 struct cacheblock* MManger::Allocate(uint32_t bytes) {
   assert(bytes > 0);
   assert(bytes < MAX_BLOCK_SIZE);
@@ -34,8 +63,12 @@ struct cacheblock* MManger::Allocate(uint32_t bytes) {
   
   struct cacheblock* new_block = nullptr;
   if(free_blocks.empty()) {
+    char* new_buf = new char[bytes];
+    if(new_buf == nullptr) {
+      return nullptr;
+    }
     new_block = new cacheblock{
-      new char[bytes],
+      new_buf,
       0,
       bytes,
       time(nullptr),
@@ -61,7 +94,7 @@ void MManger::Free(struct cacheblock* block) {
   std::list<cacheblock*>& allocated_blocks = allocated_blocks_[bytes];
   std::unique_lock<std::mutex> lck(mtxs_[bytes]);
 
-  if(free_blocks.size() >= (MAX_FREE / allocated_blocks_.size() / bytes)) {
+  if(free_blocks.size() >= (max_free_mem_ / allocated_blocks_.size() / bytes)) {
     // To many free blocks, free the block
     delete[] block->b_data;
     delete block;
