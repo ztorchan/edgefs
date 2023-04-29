@@ -56,7 +56,7 @@ struct inode {
   uint64_t    i_block_size;    // Memory block: 2 MB default (2 * 1024 * 1024)
   uint64_t    i_nlink;         // hard link number
   uint64_t    i_lock;          // file lock
-  file_state  i_state;       
+  file_state  i_state;         // file state
   time_t      i_mtime;         // last modify time
   time_t      i_atime;         // last access time
   mode_t      i_mode;          // inode mode
@@ -73,6 +73,7 @@ struct subinode {
   time_t        subi_ctime;                           // last modify time
   time_t        subi_atime;                           // last access time
   uint64_t      subi_acounter;                        // total access times
+  chunck_state  subi_state;
 
   BitMap*       subi_block_bitmap;                    // if cache block exist
   std::map<uint64_t, struct cacheblock*> subi_blocks;  // cache blocks
@@ -114,7 +115,7 @@ public:
   static int releasedir(const char *path, struct fuse_file_info *fi);
 
 private:
-  static int read_from_chunck(struct subinode* subi, char *buf, std::size_t size, off_t offset);
+  static int read_from_chunck(const char *path, struct subinode* subi, char *buf, std::size_t size, off_t offset);
   static bool check_chuncks_exist(struct inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extent);
   static void RPC();
   static void GC_AND_PULL();

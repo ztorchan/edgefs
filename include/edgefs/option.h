@@ -36,12 +36,18 @@ public:
     if(doc.HasMember("root")) {
       assert(doc["root"].IsString());
       root_path = doc["root"].GetString();
+      if(root_path[root_path.size() - 1] == '/') {
+        root_path.pop_back();
+      }
     }
 
     // data root path
     if(doc.HasMember("data_root")) {
       assert(doc["data_root"].IsString());
       data_root_path = doc["data_root"].GetString();
+      if(data_root_path[root_path.size() - 1] == '/') {
+        data_root_path.pop_back();
+      }
     }
 
     // edge rpc port
@@ -92,7 +98,7 @@ public:
   uint64_t chunck_size = 64 * 1024 * 1024;
 
   // File cache block size (bytes)
-  uint64_t block_size = 4 * 1024 * 1024;
+  uint64_t block_size = 8 * 1024 * 1024;
 
   // Max size of total block cache
   uint32_t max_cache_size = 1024 * 1024 * 1024;

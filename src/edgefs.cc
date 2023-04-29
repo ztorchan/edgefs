@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <cstdio>
 #include <chrono>
 #include <fstream>
 #include <sstream>
@@ -161,9 +162,9 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   
   // convert to chunck no and offset
   uint64_t start_chunck_no = offset / target_inode->i_chunck_size;
-  uint64_t start_chunck_offset = offset % target_inode->i_chunck_size;
+  uint64_t start_chunck_offset = offset % target_inode->i_chunck_size;              // the first byte
   uint64_t end_chunck_no = (offset + size - 1) / target_inode->i_chunck_size;
-  uint64_t end_chunck_offset = (offset + size - 1) % target_inode->i_chunck_size;
+  uint64_t end_chunck_offset = (offset + size - 1) % target_inode->i_chunck_size;   // the last byte
   
   //check if all chunck exist
   std::vector<std::pair<uint64_t, uint64_t>> lack_extents;
@@ -177,6 +178,28 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   }
 
   // all chunck exist, read chunck
+  char* cur_buf_ptr = buf;
+  uint64_t cur_offset;
+  uint64_t cur_size;
+  for(uint64_t chunck_no = start_chunck_no; chunck_no <= end_chunck_no; chunck_no++) {
+    if(chunck_no == start_chunck_no) {
+      cur_offset = start_chunck_offset;
+    } else {
+      cur_offset = 0;
+    }
+    if(chunck_no == end_chunck_no) {
+      cur_size = end_chunck_offset - cur_offset + 1;
+    } else{
+      cur_size = target_inode->i_chunck_size - cur_offset;
+    }
+    
+    int read_btyes = read_from_chunck(path, target_inode->i_subinodes[chunck_no], cur_buf_ptr, cur_size, cur_offset);
+    if(read_btyes != cur_size) {
+      return 0;
+    } else {
+      cur_buf_ptr += read_btyes;
+    }
+  }
 
 
 
@@ -207,8 +230,78 @@ bool EdgeFS::check_chuncks_exist(struct inode* in, uint64_t start_chunck_no, uin
   return all_exist;
 }
 
-int EdgeFS::read_from_chunck(struct subinode* subi, char *buf, std::size_t size, off_t offset) {
+int EdgeFS::read_from_chunck(const char *path, struct subinode* subi, char *buf, std::size_t size, off_t offset) {
+  // convert to block no and offset
+  uint64_t start_block_no = offset / subi->subi_inode->i_block_size;
+  uint64_t start_block_offset = offset % subi->subi_inode->i_block_size;              // the first byte
+  uint64_t end_block_no = (offset + size - 1) / subi->subi_inode->i_block_size;
+  uint64_t end_block_offset = (offset + size - 1) % subi->subi_inode->i_block_size;   // the last byte
 
+  FILE* f_chunck = NULL;
+  uint64_t total_read_bytes;
+  char* cur_buf_ptr = buf;
+  uint64_t cur_offset;
+  uint64_t cur_size;
+  for(uint64_t block_no = start_block_no; block_no <= end_block_no; block_no++) {
+    // current block offset and size
+    if(block_no == start_block_no) {
+      cur_offset = start_block_offset;
+    } else {
+      cur_offset = 0;
+    }
+    if(block_no == end_block_no) {
+      cur_size = end_block_offset - cur_offset + 1;
+    } else{
+      cur_size = subi->subi_inode->i_block_size - cur_offset;
+    }
+    
+    // check cache
+    if(subi->subi_block_bitmap->Get(block_no)) {
+      memcpy(cur_buf_ptr, (subi->subi_blocks[block_no]->b_data + cur_offset), cur_size);
+      subi->subi_blocks[block_no]->b_atime = time(NULL);
+      subi->subi_blocks[block_no]->b_acounter++;
+    } else {
+      // firstly open chunck file
+      if(f_chunck == NULL) {
+        std::string chunck_data_path = options_.data_root_path + std::string(path) + "/" + std::to_string(subi->subi_no);
+        f_chunck = fopen(chunck_data_path.c_str(), "r");
+        if(f_chunck == NULL) {
+          return 0;
+        }
+      }
+      
+      // cache the block 
+      cacheblock* new_block = mm_.Allocate(subi->subi_inode->i_block_size);
+      if(new_block != nullptr) {
+        // successfully allocate a block
+        fseek(f_chunck, block_no * subi->subi_inode->i_block_size, SEEK_SET);
+        if(fread(new_block->b_data, 1, subi->subi_inode->i_block_size, f_chunck) != subi->subi_inode->i_block_size) {
+          mm_.Free(new_block);
+          return 0;
+        }
+        new_block->b_len = subi->subi_inode->i_block_size;
+        new_block->b_atime = time(NULL);
+        new_block->b_acounter++;
+        subi->subi_blocks[block_no] = new_block;
+        subi->subi_block_bitmap->Set(block_no);
+        memcpy(cur_buf_ptr, new_block->b_data + cur_offset, cur_size);
+      } else {
+        // fail to allocate a block, seek and read from disk
+        fseek(f_chunck, block_no * subi->subi_inode->i_block_size + cur_offset, SEEK_SET);
+        if(fread(cur_buf_ptr, 1, cur_size, f_chunck) != cur_size){
+          return 0;
+        }
+      }
+    }
+    cur_buf_ptr += cur_size;
+    total_read_bytes += cur_size;
+  }
+
+  assert(total_read_bytes == size);
+  if(f_chunck != NULL) {
+    fclose(f_chunck);
+  }
+  return total_read_bytes;
 }
 
 void EdgeFS::RPC() {
@@ -231,7 +324,7 @@ void EdgeFS::RPC() {
   LOG(INFO) << "EdgeRPC Stop";
 }
 
-void EdgeFS::GC() {
+void EdgeFS::GC_AND_PULL() {
   while(true) {
     std::unique_lock<std::mutex> lck(EdgeFS::gc_mtx_);
     EdgeFS::gc_cv_.wait(lck, [&] {

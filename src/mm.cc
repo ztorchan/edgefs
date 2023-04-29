@@ -72,7 +72,7 @@ struct cacheblock* MManger::Allocate(uint32_t bytes) {
       0,
       bytes,
       time(nullptr),
-      time(nullptr),
+      0,
       0
     };
     memory_usage_ += bytes;
