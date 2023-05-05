@@ -35,12 +35,10 @@ public:
   struct cacheblock* Allocate(uint32_t bytes);
   void Free(struct cacheblock* block);
 
-  void SetMaxFreeMem(uint32_t max_free_mem) { max_free_mem_ = max_free_mem; }
-
   uint32_t MemoryUsage() const { return memory_usage_.load(std::memory_order_relaxed); }
 
 private:
-  uint32_t max_free_mem_;
+  const uint32_t max_free_mem_;
   std::map<uint32_t, std::list<cacheblock*>> allocated_blocks_;
   std::map<uint32_t, std::list<cacheblock*>> free_blocks_;
   std::map<uint32_t, std::mutex> mtxs_;

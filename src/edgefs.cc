@@ -20,17 +20,13 @@ namespace edgefs
 {
 
 std::thread* EdgeFS::rpc_thread_ = nullptr;
-std::thread* EdgeFS::gc_thread_ = nullptr;
-std::thread* EdgeFS::pull_thread_ = nullptr;
+std::thread* EdgeFS::gc_and_pull_thread_ = nullptr;
 struct dentry* EdgeFS::root_dentry_ = nullptr;
-std::list<gc_request*> EdgeFS::gc_list_;
-std::mutex EdgeFS::gc_mtx_;
-std::condition_variable EdgeFS::gc_cv_;
-std::list<pull_request*> EdgeFS::pull_list_;
-std::mutex EdgeFS::pull_mtx_;
-std::condition_variable EdgeFS::pull_cv_;
+std::list<request*> EdgeFS::req_list_;
+std::mutex EdgeFS::req_mtx_;
+std::condition_variable EdgeFS::req_cv_;
 Option EdgeFS::options_;
-MManger EdgeFS::mm_;
+MManger* EdgeFS::mm_ = nullptr;
 
 
 void SplitPath(const char *path, std::vector<std::string>& d_names) {
@@ -59,7 +55,7 @@ void SplitPath(const char *path, std::vector<std::string>& d_names) {
 
 void EdgeFS::Init(std::string config_path) {
   options_ = Option(config_path);
-  mm_.SetMaxFreeMem(options_.max_free_cache);
+  mm_ = new MManger(options_.max_free_cache);
 
   std::filesystem::remove_all(options_.data_root_path);
   std::filesystem::create_directories(options_.data_root_path);
@@ -132,15 +128,22 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
       // can not find target file, commit a pull request
-      std::unique_lock<std::mutex> lck(pull_mtx_);
+      std::unique_lock<std::mutex> lck(req_mtx_);
       uint64_t start_chunck = offset / options_.chunck_size;
       uint64_t end_chunck = (offset + size - 1) / options_.chunck_size;
-      pull_list_.push_back(new pull_request{
-        path,
-        options_.chunck_size,
-        start_chunck,
-        end_chunck - start_chunck + 1
+      req_list_.push_back(new request{
+        RequestType::PULL,
+        time(NULL),
+        {
+          .r_pr_content = {
+            path, 
+            options_.chunck_size, 
+            start_chunck, 
+            end_chunck - start_chunck + 1
+          }
+        }
       });
+      req_cv_.notify_all();
       return 0;
     }
     target_dentry = it->second;
@@ -169,11 +172,22 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   //check if all chunck exist
   std::vector<std::pair<uint64_t, uint64_t>> lack_extents;
   if(!check_chuncks_exist(target_inode, start_chunck_no, end_chunck_no, lack_extents)) {
-    std::unique_lock<std::mutex> lck(pull_mtx_);
+    std::unique_lock<std::mutex> lck(req_mtx_);
     for(const auto& extent : lack_extents) {
-      pull_list_.push_back(new pull_request{path, options_.chunck_size, extent.first, extent.second});
+      req_list_.push_back(new request{
+        RequestType::PULL,
+        time(NULL),
+        {
+          .r_pr_content = {
+            path, 
+            options_.chunck_size, 
+            extent.first, 
+            extent.second
+          }
+        }
+      });
     }
-    pull_cv_.notify_all();
+    req_cv_.notify_all();
     return 0;
   }
 
@@ -181,6 +195,7 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   char* cur_buf_ptr = buf;
   uint64_t cur_offset;
   uint64_t cur_size;
+  uint64_t total_read_bytes = 0;
   for(uint64_t chunck_no = start_chunck_no; chunck_no <= end_chunck_no; chunck_no++) {
     if(chunck_no == start_chunck_no) {
       cur_offset = start_chunck_offset;
@@ -193,16 +208,17 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
       cur_size = target_inode->i_chunck_size - cur_offset;
     }
     
-    int read_btyes = read_from_chunck(path, target_inode->i_subinodes[chunck_no], cur_buf_ptr, cur_size, cur_offset);
-    if(read_btyes != cur_size) {
+    int read_bytes = read_from_chunck(path, target_inode->i_subinodes[chunck_no], cur_buf_ptr, cur_size, cur_offset);
+    if(read_bytes != cur_size) {
       return 0;
     } else {
-      cur_buf_ptr += read_btyes;
+      cur_buf_ptr += read_bytes;
+      total_read_bytes += read_bytes;
     }
   }
 
-
-
+  assert(total_read_bytes == size);
+  return total_read_bytes;
 }
 
 bool EdgeFS::check_chuncks_exist(struct inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extents) {
@@ -271,12 +287,12 @@ int EdgeFS::read_from_chunck(const char *path, struct subinode* subi, char *buf,
       }
       
       // cache the block 
-      cacheblock* new_block = mm_.Allocate(subi->subi_inode->i_block_size);
+      cacheblock* new_block = mm_->Allocate(subi->subi_inode->i_block_size);
       if(new_block != nullptr) {
         // successfully allocate a block
         fseek(f_chunck, block_no * subi->subi_inode->i_block_size, SEEK_SET);
         if(fread(new_block->b_data, 1, subi->subi_inode->i_block_size, f_chunck) != subi->subi_inode->i_block_size) {
-          mm_.Free(new_block);
+          mm_->Free(new_block);
           return 0;
         }
         new_block->b_len = subi->subi_inode->i_block_size;
@@ -326,18 +342,12 @@ void EdgeFS::RPC() {
 
 void EdgeFS::GC_AND_PULL() {
   while(true) {
-    std::unique_lock<std::mutex> lck(EdgeFS::gc_mtx_);
-    EdgeFS::gc_cv_.wait(lck, [&] {
-      return !EdgeFS::gc_list_.empty();
+    std::unique_lock<std::mutex> lck(EdgeFS::req_mtx_);
+    EdgeFS::req_cv_.wait(lck, [&] {
+      return !EdgeFS::req_list_.empty();
     });
 
     
-  }
-}
-
-void EdgeFS::PULL() {
-  while(true) {
-
   }
 }
 

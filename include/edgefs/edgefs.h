@@ -43,6 +43,11 @@ enum class GC_REASON {
   COLDDATA
 };
 
+enum class RequestType {
+  PULL,
+  GC,
+};
+
 struct dentry {
   std::string     d_name;
   struct inode*   d_inode;
@@ -63,6 +68,7 @@ struct inode {
   uid_t       i_uid;           // user id
   gid_t       i_gid;           // group id
 
+  std::mutex  i_mtx;
   BitMap*     i_chunck_bitmap; // if chunck exist 
   std::map<uint64_t, subinode*> i_subinodes;  // chunck file inode
 };
@@ -82,6 +88,15 @@ struct subinode {
 struct file {
   struct dentry* f_dentry;
   std::atomic<uint32_t> f_ref;
+};
+
+struct request {
+  RequestType r_type;
+  time_t      r_time;
+  union {
+    pull_request r_pr_content;
+    gc_request   r_gc_content;
+  };
 };
 
 struct pull_request {
@@ -128,16 +143,12 @@ private:
 
   static struct dentry* root_dentry_;     // fs root dentry
 
-  static std::list<gc_request*> gc_list_;
-  static std::mutex gc_mtx_;
-  static std::condition_variable gc_cv_;
-  
-  static std::list<pull_request*> pull_list_;
-  static std::mutex pull_mtx_;
-  static std::condition_variable pull_cv_;
+  static std::list<request*> req_list_;
+  static std::mutex req_mtx_;
+  static std::condition_variable req_cv_;
 
   static Option options_;
-  static MManger mm_;
+  static MManger* mm_;
 
   friend class EdgeServiceImpl;
 };
