@@ -5,17 +5,33 @@ package edgefs;
 option cc_generic_services = true;
 
 message PullRequest {
-  string path = 1;
-  uint64 chunck_size = 2;
-  uint64 start_chunck_no = 3;
-  uint64 chuncks_num = 4;
+  string pr_path = 1;
+  int64  pr_time = 2;
+  uint64 chunck_size = 3;
+  uint64 start_chunck = 4;
+  uint64 chuncks_num = 5;
 }
 
 message PullReply {
-  repeated bytes data = 1;
-  uint64 chuncks_num = 2;
+  message Chunck {
+    uint64 chunck_no = 1;
+    string data = 2;
+  }
+  bool ok = 1;
+  repeated Chunck chuncks = 2;
+}
+
+message StatRequest {
+  string pr_path = 1;
+}
+
+message StatReply {
+  bool   ok = 1;
+  uint64 len = 2;
+  int64  mtime = 3;
 }
 
 service CenterService {
-  rpc Read (PullRequest) returns (PullReply);
+  rpc PULL (PullRequest) returns (PullReply);
+  rpc Stat (StatRequest) returns (StatReply);
 }

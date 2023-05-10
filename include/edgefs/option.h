@@ -31,6 +31,11 @@ public:
     assert(doc["center_address"].IsString());
     center_address = doc["center_address"].GetString();
 
+    // Data Center rpc port
+    assert(doc.HasMember("center_port"));
+    assert(doc["center_port"].IsUint());
+    center_port = doc["center_port"].GetUint();
+
     /* Optional config */
     // root path
     if(doc.HasMember("root")) {
@@ -50,7 +55,7 @@ public:
       }
     }
 
-    // edge rpc port
+    // edge rpc listen port
     if(doc.HasMember("rpc_port")) {
       assert(doc["rpc_port"].IsUint());
       rpc_port = doc["rpc_port"].GetUint();
@@ -90,6 +95,9 @@ public:
 
   // Data center address(ipv4)
   std::string center_address;
+
+  // Data center rpc port
+  uint32_t center_port;
 
   // Edge RPC listen port
   uint32_t rpc_port = 2333;

@@ -28,30 +28,29 @@ namespace edgefs
 
 class BitMap;
 
-enum class file_state {
+/* Some State and Type enum */
+enum class FileState {
   ALIVE,
   INVAILD
 };
 
-enum class chunck_state {
-  ALIVE,
-  WAIT4GC
-};
-
-enum class GC_REASON {
-  EXPIRED,
-  COLDDATA
+enum class ChunckState {
+  ACTIVE,
+  INACTIVE
 };
 
 enum class RequestType {
   PULL,
   GC,
 };
+/**/
 
+/* File system normal struct */
 struct dentry {
   std::string     d_name;
-  struct inode*   d_inode;
+  struct inode*   d_inode;        // nullptr means directory
   struct dentry*  d_parent;
+  std::mutex      d_mtx;
   std::map<std::string, struct dentry*> d_childs;
 };
 
@@ -59,16 +58,12 @@ struct inode {
   uint64_t    i_len;           // file length
   uint64_t    i_chunck_size;   // Disk chunck: 64 MB default (64 * 1024 * 1024)
   uint64_t    i_block_size;    // Memory block: 2 MB default (2 * 1024 * 1024)
-  uint64_t    i_nlink;         // hard link number
-  uint64_t    i_lock;          // file lock
-  file_state  i_state;         // file state
+  uint64_t    i_ref;           // file reference counter
+  FileState   i_state;         // file state
   time_t      i_mtime;         // last modify time
   time_t      i_atime;         // last access time
   mode_t      i_mode;          // inode mode
-  uid_t       i_uid;           // user id
-  gid_t       i_gid;           // group id
 
-  std::mutex  i_mtx;
   BitMap*     i_chunck_bitmap; // if chunck exist 
   std::map<uint64_t, subinode*> i_subinodes;  // chunck file inode
 };
@@ -79,39 +74,33 @@ struct subinode {
   time_t        subi_ctime;                           // last modify time
   time_t        subi_atime;                           // last access time
   uint64_t      subi_acounter;                        // total access times
-  chunck_state  subi_state;
+  ChunckState   subi_state;
 
   BitMap*       subi_block_bitmap;                    // if cache block exist
   std::map<uint64_t, struct cacheblock*> subi_blocks;  // cache blocks
 };
+/**/
 
-struct file {
-  struct dentry* f_dentry;
-  std::atomic<uint32_t> f_ref;
-};
-
+/* Request */
 struct request {
-  RequestType r_type;
-  time_t      r_time;
-  union {
-    pull_request r_pr_content;
-    gc_request   r_gc_content;
-  };
+  RequestType r_type;         // request type
+  time_t      r_time;         // request time
 };
 
-struct pull_request {
+struct pull_request : public request {
   std::string pr_path;        // file path
   uint64_t pr_chunck_size;    // file chunck size
   uint64_t pr_start_chunck;   // first chunck no 
   uint64_t pr_chunck_num;     // chuncks number
 };
 
-struct gc_request {
+struct gc_request : public request {
   std::string gcr_path;         // file path
   uint64_t gcr_start_chunck_no; // gc start chunck number
   uint64_t gcr_chuncks_num;     // gc chuncks number
-  GC_REASON gcr_reason;         // gc reason
 };
+/**/
+
 
 class EdgeFS {
 public:

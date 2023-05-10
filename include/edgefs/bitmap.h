@@ -22,6 +22,7 @@ public:
   void Set(uint64_t loc);
   void Rel(uint64_t loc);
   bool Get(uint64_t loc) const;
+  uint64_t size() { return size_; }
 
 private:
   uint64_t size_;
