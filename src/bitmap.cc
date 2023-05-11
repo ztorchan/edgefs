@@ -3,7 +3,7 @@
 namespace edgefs
 {
 
-BitMap::BitMap(uint64_t size) : size_(size) {
+BitMap::BitMap(uint64_t size) : size_(size), cur_set_(0) {
   uint64_t u8_size = size_ / 8;
   if(size_ % 8 != 0) {
     u8_size++;
@@ -12,6 +12,7 @@ BitMap::BitMap(uint64_t size) : size_(size) {
 }
 
 void BitMap::Set(uint64_t loc) {
+  std::unique_lock<std::mutex> lck(mtx_);
   if(loc > size_) {
     return;
   }
@@ -19,9 +20,11 @@ void BitMap::Set(uint64_t loc) {
   uint64_t offset = loc % 8;
   uint8_t tmp = 0b1 << offset;
   bits_[addr] |= tmp;
+  cur_set_++;
 }
 
 void BitMap::Rel(uint64_t loc) {
+  std::unique_lock<std::mutex> lck(mtx_);
   if(loc > size_) {
     return;
   }
@@ -29,6 +32,7 @@ void BitMap::Rel(uint64_t loc) {
   uint64_t offset = loc % 8;
   uint8_t tmp = 0b11111111 ^ (0b1 << offset);
   bits_[addr] &= tmp;
+  cur_set_--;
 }
 
 bool BitMap::Get(uint64_t loc) const {

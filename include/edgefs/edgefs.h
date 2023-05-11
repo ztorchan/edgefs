@@ -43,6 +43,12 @@ enum class RequestType {
   PULL,
   GC,
 };
+
+enum class GCReason {
+  COLDCHUNCK,
+  FILEINVAILD
+};
+
 /**/
 
 /* File system normal struct */
@@ -63,6 +69,8 @@ struct inode {
   time_t      i_mtime;         // last modify time
   time_t      i_atime;         // last access time
   mode_t      i_mode;          // inode mode
+  
+  struct dentry* i_dentry;
 
   BitMap*     i_chunck_bitmap; // if chunck exist 
   std::map<uint64_t, subinode*> i_subinodes;  // chunck file inode
@@ -77,7 +85,7 @@ struct subinode {
   ChunckState   subi_state;
 
   BitMap*       subi_block_bitmap;                    // if cache block exist
-  std::map<uint64_t, struct cacheblock*> subi_blocks;  // cache blocks
+  std::map<uint64_t, struct cacheblock*> subi_blocks; // cache blocks
 };
 /**/
 
@@ -98,6 +106,7 @@ struct gc_request : public request {
   std::string gcr_path;         // file path
   uint64_t gcr_start_chunck_no; // gc start chunck number
   uint64_t gcr_chuncks_num;     // gc chuncks number
+  GCReason gcr_reason;          // gc reason
 };
 /**/
 
@@ -119,8 +128,11 @@ public:
   static int releasedir(const char *path, struct fuse_file_info *fi);
 
 private:
+  static std::string get_path_from_inode(struct inode* in);
   static int read_from_chunck(const char *path, struct subinode* subi, char *buf, std::size_t size, off_t offset);
   static bool check_chuncks_exist(struct inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extent);
+  static void gc_extent(struct inode* in, uint64_t start_chunck_no, uint64_t chunck_num);
+  static void gc_whole_file(struct inode* in);
   static void RPC();
   static void GC_AND_PULL();
   static void SCAN();

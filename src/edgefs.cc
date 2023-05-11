@@ -225,6 +225,15 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   return total_read_bytes;
 }
 
+std::string EdgeFS::get_path_from_inode(struct inode* in) {
+  std::string path;
+  struct dentry* cur_den = in->i_dentry;
+  while(cur_den->d_parent != nullptr) {
+    path = std::string("/") + cur_den->d_name + path;
+  }
+  return path;
+}
+
 bool EdgeFS::check_chuncks_exist(struct inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extents) {
   bool all_exist = true;
   uint64_t now_extent_start_chunck = -1;
@@ -325,6 +334,63 @@ int EdgeFS::read_from_chunck(const char *path, struct subinode* subi, char *buf,
     fclose(f_chunck);
   }
   return total_read_bytes;
+}
+
+void EdgeFS::gc_extent(struct inode* in, uint64_t start_chunck_no, uint64_t chunck_num) {
+  assert(in != nullptr);
+  std::string path = get_path_from_inode(in);
+  for(uint64_t chunck_no = start_chunck_no; chunck_no < start_chunck_no + chunck_num; chunck_no++) {
+    if(!in->i_chunck_bitmap->Get(chunck_no)) {
+      // chunck doesn't exist
+      assert(in->i_subinodes.find(chunck_no) == in->i_subinodes.end());
+      continue;
+    }
+    assert(in->i_subinodes.find(chunck_no) != in->i_subinodes.end());
+    struct subinode* subi = in->i_subinodes[chunck_no];
+    assert(subi != nullptr);
+    if(subi->subi_state == ChunckState::INACTIVE) {
+      // Chunck may become active again between from publishing the request to now
+      // If chunck is active, do not gc
+      assert(subi->subi_block_bitmap->cur_set() == 0);
+      assert(subi->subi_blocks.size() == 0);
+      std::string chunck_file_path = options_.data_root_path + path + "/" + std::to_string(chunck_no);
+      remove(chunck_file_path.c_str());
+      delete subi->subi_block_bitmap;
+      delete subi;
+      in->i_chunck_bitmap->Rel(chunck_no);
+      in->i_subinodes.erase(chunck_no);
+    }
+  }
+}
+
+void EdgeFS::gc_whole_file(struct inode* in) {
+  assert(in != nullptr);
+  // delete all exist chuncks 
+  std::string path = get_path_from_inode(in);
+  for(auto it = in->i_subinodes.begin(); it != in->i_subinodes.end(); it++) {
+    uint64_t chunck_no = it->first;
+    struct subinode* subi = it->second;
+    assert(subi->subi_block_bitmap->cur_set() == 0);
+    assert(subi->subi_blocks.size() == 0);
+    std::string chunck_file_path = options_.data_root_path + path + "/" + std::to_string(chunck_no);
+    remove(chunck_file_path.c_str());
+    delete subi->subi_block_bitmap;
+    delete subi;
+    it->second = nullptr;
+  }
+  // delete inode
+  struct dentry* den = in->i_dentry;
+  delete in->i_chunck_bitmap;
+  delete in;
+  den->d_inode = nullptr;
+  // recursively delete empty directory
+  while(den != root_dentry_ && !den->d_childs.empty()) {
+    assert(den->d_inode == nullptr);
+    struct dentry* parent = den->d_parent;
+    parent->d_childs.erase(den->d_name);
+    delete den;
+    den = parent;
+  }
 }
 
 void EdgeFS::RPC() {
@@ -461,6 +527,7 @@ void EdgeFS::GC_AND_PULL() {
                   new_inode->i_mtime = rpc_stat_reply.mtime();
                   new_inode->i_atime = time(NULL);
                   new_inode->i_mode = 0444 | __S_IFREG;
+                  new_inode->i_dentry = new_dentry;
                   new_inode->i_subinodes = std::map<uint64_t, subinode*>();
                   uint64_t total_chunck_num = new_inode->i_len / new_inode->i_chunck_size;
                   if(new_inode->i_len % new_inode->i_chunck_size != 0) {
@@ -478,6 +545,7 @@ void EdgeFS::GC_AND_PULL() {
           }
         }
 
+        assert(target_dentry->d_inode != nullptr);
         for(const auto& extent : split_extents) {
           // request each extents
           cntl.Reset();
@@ -494,6 +562,8 @@ void EdgeFS::GC_AND_PULL() {
             for(int chunck_num = 0; chunck_num < rpc_pull_reply.chuncks_size(); chunck_num++) {
               // write each chunck
               uint64_t chunck_no = rpc_pull_reply.chuncks(chunck_num).chunck_no();
+              assert(!target_dentry->d_inode->i_chunck_bitmap->Get(chunck_no));
+              assert(target_dentry->d_inode->i_subinodes.find(chunck_no) == target_dentry->d_inode->i_subinodes.end());
               std::string chunck_file_path = options_.data_root_path + cur_pr->pr_path + "/" + std::to_string(chunck_no);
               FILE* f_chunck = fopen(chunck_file_path.c_str(), "w");
               if(f_chunck == NULL) {
@@ -523,15 +593,52 @@ void EdgeFS::GC_AND_PULL() {
           }
         }
       }
-    } else if(cur_req->r_type == RequestType::GC) {
+      // finish request
+      req_list_.pop_front();
+      delete cur_pr;
 
+    } else if(cur_req->r_type == RequestType::GC) {
+      gc_request* cur_gcr = reinterpret_cast<gc_request*>(cur_req);
+      // 1. search dentry
+      struct dentry* target_dentry = root_dentry_;
+      std::vector<std::string> d_names;
+      SplitPath(cur_gcr->gcr_path.c_str(), d_names);
+      for(const auto& dname : d_names) {
+        auto it = target_dentry->d_childs.find(dname);
+        if(it == target_dentry->d_childs.end()) {
+          // can not find target file
+          target_dentry = nullptr;
+          break;
+        }
+        target_dentry = it->second;
+      }
+      if(target_dentry == nullptr || target_dentry->d_inode == nullptr) {
+        // (1) dentry doesn't exist
+        // (2) dentry is not a file
+        // throw the request
+        req_list_.pop_front();
+        delete cur_gcr;
+        continue;
+      }
+
+      // 2. check the file modify time 
+      struct inode* target_inode = target_dentry->d_inode;
+      if(target_inode->i_mtime >= cur_gcr->r_time) {
+        req_list_.pop_front();
+        delete cur_gcr;
+        continue;
+      }
+
+      // 3. start to gc
+      if(cur_gcr->gcr_reason == GCReason::COLDCHUNCK) {
+        gc_extent(target_inode, cur_gcr->gcr_start_chunck_no, cur_gcr->gcr_chuncks_num);
+      } else if(cur_gcr->gcr_reason == GCReason::FILEINVAILD) {
+        gc_whole_file(target_inode);
+      }
     } else {
       // throw and nothing to do
-
     }
-    
   }
-
   delete stub;
 }
 
