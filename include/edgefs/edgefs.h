@@ -6,6 +6,7 @@
 #include <map>
 #include <thread>
 #include <mutex>
+#include <shared_mutex>
 #include <condition_variable>
 #include <atomic>
 #include <string>
@@ -45,8 +46,8 @@ enum class RequestType {
 };
 
 enum class GCReason {
-  COLDCHUNCK,
-  FILEINVAILD
+  INACTIVECHUNCK,
+  INVAILDFILE
 };
 
 /**/
@@ -54,9 +55,10 @@ enum class GCReason {
 /* File system normal struct */
 struct dentry {
   std::string     d_name;
-  struct inode*   d_inode;        // nullptr means directory
-  struct dentry*  d_parent;
-  std::mutex      d_mtx;
+  inode*   d_inode;        // nullptr means directory
+  dentry*  d_parent;
+  uint64_t        d_ref;
+  std::shared_mutex      d_mtx;
   std::map<std::string, struct dentry*> d_childs;
 };
 
@@ -64,13 +66,12 @@ struct inode {
   uint64_t    i_len;           // file length
   uint64_t    i_chunck_size;   // Disk chunck: 64 MB default (64 * 1024 * 1024)
   uint64_t    i_block_size;    // Memory block: 2 MB default (2 * 1024 * 1024)
-  uint64_t    i_ref;           // file reference counter
   FileState   i_state;         // file state
   time_t      i_mtime;         // last modify time
   time_t      i_atime;         // last access time
   mode_t      i_mode;          // inode mode
   
-  struct dentry* i_dentry;
+  dentry* i_dentry;
 
   BitMap*     i_chunck_bitmap; // if chunck exist 
   std::map<uint64_t, subinode*> i_subinodes;  // chunck file inode
@@ -85,7 +86,7 @@ struct subinode {
   ChunckState   subi_state;
 
   BitMap*       subi_block_bitmap;                    // if cache block exist
-  std::map<uint64_t, struct cacheblock*> subi_blocks; // cache blocks
+  std::map<uint64_t, cacheblock*> subi_blocks; // cache blocks
 };
 /**/
 
@@ -128,11 +129,12 @@ public:
   static int releasedir(const char *path, struct fuse_file_info *fi);
 
 private:
-  static std::string get_path_from_inode(struct inode* in);
-  static int read_from_chunck(const char *path, struct subinode* subi, char *buf, std::size_t size, off_t offset);
-  static bool check_chuncks_exist(struct inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extent);
-  static void gc_extent(struct inode* in, uint64_t start_chunck_no, uint64_t chunck_num);
-  static void gc_whole_file(struct inode* in);
+  static std::string get_path_from_inode(inode* in);
+  static int read_from_chunck(const char *path, subinode* subi, char *buf, std::size_t size, off_t offset);
+  static bool check_chuncks_exist(inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extent);
+  static void gc_extent(inode* in, uint64_t start_chunck_no, uint64_t chunck_num);
+  static void gc_whole_file(inode* in);
+  static void dfs_scan(dentry* cur_den);
   static void RPC();
   static void GC_AND_PULL();
   static void SCAN();
@@ -142,7 +144,7 @@ private:
   static std::thread* gc_and_pull_thread_;
   static std::thread* scan_thread_;
 
-  static struct dentry* root_dentry_;     // fs root dentry
+  static dentry* root_dentry_;     // fs root dentry
 
   static std::list<request*> req_list_;
   static std::mutex req_mtx_;

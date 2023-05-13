@@ -32,8 +32,8 @@ public:
 
   MManger(const MManger&) = delete;
 
-  struct cacheblock* Allocate(uint32_t bytes);
-  void Free(struct cacheblock* block);
+  cacheblock* Allocate(uint32_t bytes);
+  void Free(cacheblock* block);
 
   uint32_t MemoryUsage() const { return memory_usage_.load(std::memory_order_relaxed); }
 

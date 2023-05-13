@@ -48,7 +48,7 @@ MManger::~MManger() {
   }
 }
 
-struct cacheblock* MManger::Allocate(uint32_t bytes) {
+cacheblock* MManger::Allocate(uint32_t bytes) {
   assert(bytes > 0);
   assert(bytes < MAX_BLOCK_SIZE);
   bytes = tablesize(bytes);
@@ -61,7 +61,7 @@ struct cacheblock* MManger::Allocate(uint32_t bytes) {
   std::list<cacheblock*>& allocated_blocks = allocated_blocks_[bytes];
   std::unique_lock<std::mutex> lck(mtxs_[bytes]);
   
-  struct cacheblock* new_block = nullptr;
+  cacheblock* new_block = nullptr;
   if(free_blocks.empty()) {
     char* new_buf = new char[bytes];
     if(new_buf == nullptr) {
@@ -88,7 +88,7 @@ struct cacheblock* MManger::Allocate(uint32_t bytes) {
   return new_block;
 }
 
-void MManger::Free(struct cacheblock* block) {
+void MManger::Free(cacheblock* block) {
   uint32_t bytes = block->b_size;
   std::list<cacheblock*>& free_blocks = free_blocks_[bytes];
   std::list<cacheblock*>& allocated_blocks = allocated_blocks_[bytes];

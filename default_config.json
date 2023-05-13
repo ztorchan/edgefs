@@ -6,5 +6,10 @@
   "chunck_size" : 67108864,
   "block_size" : 4194304,
   "max_cache_size" : 1073741824,
-  "max_free_cache" : 134217728
+  "max_free_cache" : 134217728,
+  "min_chunck_active_time" : 60,
+  "chunck_active_access_frequency" : 30,
+  "min_block_active_time" : 60,
+  "block_active_access_frequency" : 30,
+  "scan_period" : 60 
 }

@@ -40,7 +40,6 @@ set(FS_SRCS
   ${CMAKE_SOURCE_DIR}/src/bitmap.cc
   ${CMAKE_SOURCE_DIR}/src/edgefs.cc
   ${CMAKE_SOURCE_DIR}/edgefs_main.cc
-
 )
 
 set(EDGE_RPC_SRCS

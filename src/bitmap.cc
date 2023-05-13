@@ -13,7 +13,7 @@ BitMap::BitMap(uint64_t size) : size_(size), cur_set_(0) {
 
 void BitMap::Set(uint64_t loc) {
   std::unique_lock<std::mutex> lck(mtx_);
-  if(loc > size_) {
+  if(loc > size_ || Get(loc)) {
     return;
   }
   uint64_t addr = loc / 8;
@@ -25,7 +25,7 @@ void BitMap::Set(uint64_t loc) {
 
 void BitMap::Rel(uint64_t loc) {
   std::unique_lock<std::mutex> lck(mtx_);
-  if(loc > size_) {
+  if(loc > size_ || !Get(loc)) {
     return;
   }
   uint64_t addr = loc / 8;

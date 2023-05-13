@@ -84,6 +84,36 @@ public:
       assert(doc["max_free_cache"].IsUint64());
       max_free_cache = doc["max_free_cache"].GetUint64();
     }
+
+    // Minimum active time after Chunck is accessed
+    if(doc.HasMember("min_chunck_active_time")) {
+      assert(doc["min_chunck_active_time"].IsUint());
+      min_chunck_active_time = doc["min_chunck_active_time"].GetUint();
+    }
+
+    // Maximum avg access period required to keep active
+    if(doc.HasMember("chunck_active_access_frequency")) {
+      assert(doc["chunck_active_access_frequency"].IsUint());
+      chunck_active_access_frequency = doc["chunck_active_access_frequency"].GetUint();
+    }
+
+    // Minimum active time after Chunck is accessed
+    if(doc.HasMember("min_block_active_time")) {
+      assert(doc["min_block_active_time"].IsUint());
+      min_block_active_time = doc["min_block_active_time"].GetUint();
+    }
+
+    // Maximum avg access period required to keep active
+    if(doc.HasMember("block_active_access_frequency")) {
+      assert(doc["block_active_access_frequency"].IsUint());
+      block_active_access_frequency = doc["block_active_access_frequency"].GetUint();
+    }
+
+    // Scan thread work period
+    if(doc.HasMember("scan_period")) {
+      assert(doc["scan_period"].IsUint());
+      scan_period = doc["scan_period"].GetUint();
+    }
   }
 
 public:
@@ -114,6 +144,20 @@ public:
   // Max size of total free cache hold by mm
   uint32_t max_free_cache = 128 * 1024 * 1024;
 
+  // Minimum active time after chunck is accessed
+  uint32_t min_chunck_active_time = 60;
+
+  // Maximum avg access period required to keep chunck active
+  uint32_t chunck_active_access_frequency = 30;
+
+  // Minimum active time after block is accessed
+  uint32_t min_block_active_time = 20;
+
+  // Maximum avg access period required to keep block active
+  uint32_t block_active_access_frequency = 10;
+
+  // Scan thread work period
+  uint32_t scan_period = 60;
 };
 
 } // namespace edgefs
