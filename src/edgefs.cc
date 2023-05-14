@@ -30,31 +30,6 @@ std::condition_variable EdgeFS::req_cv_;
 Option EdgeFS::options_;
 MManger* EdgeFS::mm_ = nullptr;
 
-
-void SplitPath(const char *path, std::vector<std::string>& d_names) {
-  d_names.clear();
-  uint32_t head = 0;
-  if(path[head] == '/') {
-    head++;
-  }
-
-  uint32_t len = 1;
-  while(path[head] != 0) {
-    while(path[head + len] != '/' && path[head + len] != 0) {
-      len++;
-    }
-    d_names.emplace_back(path + head, len);
-    
-    head += len;
-    if(path[head] == 0) {
-      break;
-    }
-    while(path[head] == '/') {
-      head++;
-    }
-  }
-}
-
 void EdgeFS::Init(std::string config_path) {
   LOG(INFO) << "EdgeFS Initial...";
   LOG(INFO) << "Load configuration from: " << config_path;
@@ -75,7 +50,7 @@ int EdgeFS::getattr(const char *path, struct stat *st) {
   // find target dentry
   dentry* target_dentry = root_dentry_;
   std::vector<std::string> d_names;
-  SplitPath(path, d_names);
+  split_path(path, d_names);
   for(const auto& dname : d_names) {
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
@@ -102,7 +77,7 @@ int EdgeFS::readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t o
   // find target dentry
   dentry* target_dentry = root_dentry_;
   std::vector<std::string> d_names;
-  SplitPath(path, d_names);
+  split_path(path, d_names);
   for(const auto& dname : d_names) {
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
@@ -134,12 +109,8 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   // find target dentry
   dentry* target_dentry = root_dentry_;
   std::vector<std::string> d_names;
-  SplitPath(path, d_names);
+  split_path(path, d_names);
   for(const auto& dname : d_names) {
-    if(target_dentry->d_inode != nullptr) {
-      LOG(INFO) << "Path does not exist";
-      return 0;
-    }
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
       // can not find target file, publish a pull request
@@ -170,7 +141,7 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
     LOG(INFO) << "Given path is a directory";
     return 0;
   }
-  if(target_inode->i_state == FileState::INVAILD) {
+  if(target_inode->i_state == FileState::INVALID) {
     // file is invaild
     LOG(INFO) << "File has been invaild";
     return 0;
@@ -255,6 +226,30 @@ std::string EdgeFS::get_path_from_inode(inode* in) {
   return path;
 }
 
+void EdgeFS::split_path(const char *path, std::vector<std::string>& d_names) {
+  d_names.clear();
+  uint32_t head = 0;
+  if(path[head] == '/') {
+    head++;
+  }
+
+  uint32_t len = 1;
+  while(path[head] != 0) {
+    while(path[head + len] != '/' && path[head + len] != 0) {
+      len++;
+    }
+    d_names.emplace_back(path + head, len);
+    
+    head += len;
+    if(path[head] == 0) {
+      break;
+    }
+    while(path[head] == '/') {
+      head++;
+    }
+  }
+}
+
 bool EdgeFS::check_chuncks_exist(inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extents) {
   bool all_exist = true;
   uint64_t now_extent_start_chunck = -1;
@@ -321,7 +316,7 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
       // firstly open chunck file
       if(f_chunck == NULL) {
         std::string chunck_data_path = options_.data_root_path + std::string(path) + "/" + std::to_string(subi->subi_no);
-        f_chunck = fopen(chunck_data_path.c_str(), "r");
+        f_chunck = fopen(chunck_data_path.c_str(), "rb");
         if(f_chunck == NULL) {
           return 0;
         }
@@ -437,7 +432,7 @@ void EdgeFS::dfs_scan(dentry* cur_den) {
     // dentry is a file, acquire unique lock
     std::unique_lock<std::shared_mutex> lck(cur_den->d_mtx);
     inode* in = cur_den->d_inode;
-    if(in->i_state == FileState::INVAILD) {
+    if(in->i_state == FileState::INVALID) {
       // File is invaild, no need to scan
       LOG(INFO) << "File " << cur_den->d_name << " is invaild";
       return;
@@ -524,7 +519,7 @@ void EdgeFS::dfs_scan(dentry* cur_den) {
 
 void EdgeFS::RPC() {
   brpc::Server edge_server;
-  EdgeServiceImpl edge_service(options_.root_path, options_.data_root_path);
+  EdgeServiceImpl edge_service;
   if(edge_server.AddService(&edge_service, brpc::SERVER_DOESNT_OWN_SERVICE) != 0) {
     LOG(ERROR) << "Fail to add service";
     exit(-1);
@@ -579,7 +574,7 @@ void EdgeFS::GC_AND_PULL() {
       // 1. search dentry
       dentry* target_dentry = root_dentry_;
       std::vector<std::string> d_names;
-      SplitPath(cur_pr->pr_path.c_str(), d_names);
+      split_path(cur_pr->pr_path.c_str(), d_names);
       for(size_t i = 0; i < d_names.size(); i++) {
         if(i != d_names.size() - 1 && target_dentry->d_inode != nullptr) {
           error_request = true;
@@ -607,7 +602,7 @@ void EdgeFS::GC_AND_PULL() {
       if(!need_pull) {
         inode* target_inode = target_dentry->d_inode;
         // check if file is alive
-        if(target_inode == nullptr || target_inode->i_state == FileState::INVAILD) {
+        if(target_inode == nullptr || target_inode->i_state == FileState::INVALID) {
           // (1) it is a directory
           // (2) file is invaild
           // throw the request
@@ -730,7 +725,7 @@ void EdgeFS::GC_AND_PULL() {
               assert(!target_dentry->d_inode->i_chunck_bitmap->Get(chunck_no));
               assert(target_dentry->d_inode->i_subinodes.find(chunck_no) == target_dentry->d_inode->i_subinodes.end());
               std::string chunck_file_path = options_.data_root_path + cur_pr->pr_path + "/" + std::to_string(chunck_no);
-              FILE* f_chunck = fopen(chunck_file_path.c_str(), "w");
+              FILE* f_chunck = fopen(chunck_file_path.c_str(), "wb");
               if(f_chunck == NULL) {
                 LOG(INFO) << "Create chunck " << chunck_no << " file failed";
                 continue;
@@ -775,7 +770,7 @@ void EdgeFS::GC_AND_PULL() {
       // 1. search dentry
       dentry* target_dentry = root_dentry_;
       std::vector<std::string> d_names;
-      SplitPath(cur_gcr->gcr_path.c_str(), d_names);
+      split_path(cur_gcr->gcr_path.c_str(), d_names);
       for(const auto& dname : d_names) {
         auto it = target_dentry->d_childs.find(dname);
         if(it == target_dentry->d_childs.end()) {

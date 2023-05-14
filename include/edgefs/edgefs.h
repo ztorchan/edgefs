@@ -32,7 +32,7 @@ class BitMap;
 /* Some State and Type enum */
 enum class FileState {
   ALIVE,
-  INVAILD
+  INVALID
 };
 
 enum class ChunckState {
@@ -127,6 +127,8 @@ public:
   static int open(const char *path, struct fuse_file_info *fi);
   static int unlink(const char *path);
   static int releasedir(const char *path, struct fuse_file_info *fi);
+
+  static void split_path(const char *path, std::vector<std::string>& d_names);
 
 private:
   static std::string get_path_from_inode(inode* in);

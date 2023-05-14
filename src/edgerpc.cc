@@ -1,3 +1,5 @@
+#include <string>
+
 #include <brpc/channel.h>
 #include <glog/logging.h>
 
@@ -7,20 +9,29 @@
 namespace edgefs
 {
 
-EdgeServiceImpl::EdgeServiceImpl(std::string edgefs_root, std::string edgefs_data_root) : 
-  EdgeService(),
-  edgefs_root_(edgefs_root),
-  edgefs_data_root_(edgefs_data_root) {}
-
-void EdgeServiceImpl::Invalid(::google::protobuf::RpcController* controller,
+void EdgeServiceImpl::Invalid(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::edgefs::InvalidFileRequest* request,
-                              ::google::protobuf::Empty* response,
+                              PROTOBUF_NAMESPACE_ID::Empty* response,
                               ::google::protobuf::Closure* done) {
   brpc::ClosureGuard done_guard(done);
   brpc::Controller* ctl = static_cast<brpc::Controller*>(controller);
 
-  
-
+  LOG(INFO) << "Try to invalid file: " << request->path();
+  std::vector<std::string> d_names;
+  EdgeFS::split_path(request->path().c_str(), d_names);
+  dentry* target_dentry = EdgeFS::root_dentry_;
+  for(const auto& dname : d_names) {
+    auto it = target_dentry->d_childs.find(dname);
+    if(it == target_dentry->d_childs.end()) {
+      // can not find such file
+      LOG(INFO) << "Can not find such file";
+      return;
+    }
+    target_dentry = it->second;
+  }
+  target_dentry->d_inode->i_state = FileState::INVALID;
+  LOG(INFO) << "Invalid file successfully";
+  return ;
 }
 
 } // namespace edgefs
