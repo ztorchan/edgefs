@@ -56,12 +56,17 @@ void SplitPath(const char *path, std::vector<std::string>& d_names) {
 }
 
 void EdgeFS::Init(std::string config_path) {
+  LOG(INFO) << "EdgeFS Initial...";
+  LOG(INFO) << "Load configuration from: " << config_path;
   options_ = Option(config_path);
+  LOG(INFO) << "Successfully load configuration";
+  LOG(INFO) << "Create memory manager";
   mm_ = new MManger(options_.max_free_cache);
 
+  LOG(INFO) << "Initial data path: " << options_.data_root_path;
   std::filesystem::remove_all(options_.data_root_path);
   std::filesystem::create_directories(options_.data_root_path);
-
+  LOG(INFO) << "EdgeFS initial completed";
 }
 
 int EdgeFS::getattr(const char *path, struct stat *st) {
@@ -74,6 +79,7 @@ int EdgeFS::getattr(const char *path, struct stat *st) {
   for(const auto& dname : d_names) {
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
+      LOG(INFO) << "Can not find the dentry";
       return 0;
     }
     target_dentry = it->second;
@@ -100,6 +106,7 @@ int EdgeFS::readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t o
   for(const auto& dname : d_names) {
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
+      LOG(INFO) << "Can not find the dentry";
       return 0;
     }
     target_dentry = it->second;
@@ -129,9 +136,14 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   std::vector<std::string> d_names;
   SplitPath(path, d_names);
   for(const auto& dname : d_names) {
+    if(target_dentry->d_inode != nullptr) {
+      LOG(INFO) << "Path does not exist";
+      return 0;
+    }
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
-      // can not find target file, commit a pull request
+      // can not find target file, publish a pull request
+      LOG(INFO) << "Can not find the dentry, publish a pull request";
       std::unique_lock<std::mutex> lck(req_mtx_);
       uint64_t start_chunck = offset / options_.chunck_size;
       uint64_t end_chunck = (offset + size - 1) / options_.chunck_size;
@@ -155,10 +167,12 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   inode* target_inode = target_dentry->d_inode;
   if(target_inode == nullptr) {
     // it is a directory
+    LOG(INFO) << "Given path is a directory";
     return 0;
   }
   if(target_inode->i_state == FileState::INVAILD) {
     // file is invaild
+    LOG(INFO) << "File has been invaild";
     return 0;
   }
   if(offset >= target_inode->i_len) {
@@ -175,12 +189,16 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   uint64_t start_chunck_offset = offset % target_inode->i_chunck_size;              // the first byte
   uint64_t end_chunck_no = (offset + size - 1) / target_inode->i_chunck_size;
   uint64_t end_chunck_offset = (offset + size - 1) % target_inode->i_chunck_size;   // the last byte
-  
+  LOG(INFO) << "Read from chunck " << start_chunck_no << ":" << start_chunck_offset 
+            << " to chunck " << end_chunck_no << ":" << end_chunck_offset; 
+
   //check if all chunck exist
   std::vector<std::pair<uint64_t, uint64_t>> lack_extents;
   if(!check_chuncks_exist(target_inode, start_chunck_no, end_chunck_no, lack_extents)) {
     std::unique_lock<std::mutex> lck(req_mtx_);
     for(const auto& extent : lack_extents) {
+      LOG(INFO) << "Chuncks " << extent.first << " to " << extent.first + extent.second - 1 << "do not exist, "
+                << "publish a pull request";
       pull_request* new_pr = new pull_request;
       {
         new_pr->r_type = RequestType::PULL;
@@ -197,6 +215,7 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   }
 
   // all chunck exist, read chunck
+  LOG(INFO) << "All chuncks exist";
   char* cur_buf_ptr = buf;
   uint64_t cur_offset;
   uint64_t cur_size;
@@ -223,6 +242,7 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
   }
 
   assert(total_read_bytes == size);
+  LOG(INFO) << "Successfully read " << total_read_bytes << " bytes";
   return total_read_bytes;
 }
 
@@ -270,6 +290,9 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
   uint64_t end_block_no = (offset + size - 1) / subi->subi_inode->i_block_size;
   uint64_t end_block_offset = (offset + size - 1) % subi->subi_inode->i_block_size;   // the last byte
 
+  LOG(INFO) << "Read chunck " << subi->subi_no << " blocks " << start_block_no << ":" << start_block_offset
+            << " to " << end_block_no << ":" << end_block_offset;
+
   FILE* f_chunck = NULL;
   uint64_t total_read_bytes;
   char* cur_buf_ptr = buf;
@@ -290,6 +313,7 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
     
     // check cache
     if(subi->subi_block_bitmap->Get(block_no)) {
+      LOG(INFO) << "Block " << block_no << " has been cached";
       memcpy(cur_buf_ptr, (subi->subi_blocks[block_no]->b_data + cur_offset), cur_size);
       subi->subi_blocks[block_no]->b_atime = time(NULL);
       subi->subi_blocks[block_no]->b_acounter++;
@@ -304,6 +328,7 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
       }
       
       // cache the block 
+      LOG(INFO) << "Try to cache block " << block_no;
       cacheblock* new_block = mm_->Allocate(subi->subi_inode->i_block_size);
       if(new_block != nullptr) {
         // successfully allocate a block
@@ -318,8 +343,10 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
         subi->subi_blocks[block_no] = new_block;
         subi->subi_block_bitmap->Set(block_no);
         memcpy(cur_buf_ptr, new_block->b_data + cur_offset, cur_size);
+        LOG(INFO) << "Successfully cache";
       } else {
         // fail to allocate a block, seek and read from disk
+        LOG(INFO) << "Cache failed, directly read from disk";
         fseek(f_chunck, block_no * subi->subi_inode->i_block_size + cur_offset, SEEK_SET);
         if(fread(cur_buf_ptr, 1, cur_size, f_chunck) != cur_size){
           return 0;
@@ -340,9 +367,11 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
 void EdgeFS::gc_extent(inode* in, uint64_t start_chunck_no, uint64_t chunck_num) {
   assert(in != nullptr);
   std::string path = get_path_from_inode(in);
+  LOG(INFO) << "GC " << path << " from chunck " << start_chunck_no << " to " << start_chunck_no + chunck_num - 1;
   for(uint64_t chunck_no = start_chunck_no; chunck_no < start_chunck_no + chunck_num; chunck_no++) {
     if(!in->i_chunck_bitmap->Get(chunck_no)) {
       // chunck doesn't exist
+      LOG(INFO) << "Chunck " << chunck_no << " does not exist";
       assert(in->i_subinodes.find(chunck_no) == in->i_subinodes.end());
       continue;
     }
@@ -360,6 +389,9 @@ void EdgeFS::gc_extent(inode* in, uint64_t start_chunck_no, uint64_t chunck_num)
       delete subi;
       in->i_chunck_bitmap->Rel(chunck_no);
       in->i_subinodes.erase(chunck_no);
+      LOG(INFO) << "GC chunck " << chunck_no;
+    } else {
+      LOG(INFO) << "Chunck " << chunck_no << " is active, no need to gc";
     }
   }
 }
@@ -368,9 +400,11 @@ void EdgeFS::gc_whole_file(inode* in) {
   assert(in != nullptr);
   // delete all exist chuncks 
   std::string path = get_path_from_inode(in);
+  LOG(INFO) << "GC whole file: " << path;
   for(auto it = in->i_subinodes.begin(); it != in->i_subinodes.end(); it++) {
     uint64_t chunck_no = it->first;
     subinode* subi = it->second;
+    LOG(INFO) << "GC chunck " << chunck_no;
     assert(subi->subi_block_bitmap->cur_set() == 0);
     assert(subi->subi_blocks.size() == 0);
     std::string chunck_file_path = options_.data_root_path + path + "/" + std::to_string(chunck_no);
@@ -380,6 +414,7 @@ void EdgeFS::gc_whole_file(inode* in) {
     it->second = nullptr;
   }
   // delete inode
+  LOG(INFO) << "Delete inode";
   dentry* den = in->i_dentry;
   delete in->i_chunck_bitmap;
   delete in;
@@ -387,6 +422,7 @@ void EdgeFS::gc_whole_file(inode* in) {
   // recursively delete empty directory
   while(den != root_dentry_ && !den->d_childs.empty()) {
     assert(den->d_inode == nullptr);
+    LOG(INFO) << "Delete dentry: " << den->d_name;
     dentry* parent = den->d_parent;
     parent->d_childs.erase(den->d_name);
     delete den;
@@ -395,15 +431,18 @@ void EdgeFS::gc_whole_file(inode* in) {
 }
 
 void EdgeFS::dfs_scan(dentry* cur_den) {
+  LOG(INFO) << "Scan dentry: " << cur_den->d_name;
   if(cur_den->d_inode != nullptr) {
+    LOG(INFO) << "Dentry " << cur_den->d_name << " is a file";
     // dentry is a file, acquire unique lock
     std::unique_lock<std::shared_mutex> lck(cur_den->d_mtx);
     inode* in = cur_den->d_inode;
     if(in->i_state == FileState::INVAILD) {
       // File is invaild, no need to scan
+      LOG(INFO) << "File " << cur_den->d_name << " is invaild";
       return;
     }
-    // scan cold chunck and block
+    // scan inactive chunck and block
     std::vector<uint64_t> chuncks_to_gc;
     for(auto chunck_it = in->i_subinodes.begin(); chunck_it != in->i_subinodes.end(); chunck_it++) {
       uint64_t chunck_no = chunck_it->first;
@@ -412,6 +451,7 @@ void EdgeFS::dfs_scan(dentry* cur_den) {
       if(now_time - subi->subi_atime < options_.min_chunck_active_time || 
          (now_time - subi->subi_ctime) / (subi->subi_acounter + 1) < options_.chunck_active_access_frequency) {
         // chunck is still active, check cache block 
+        LOG(INFO) << "Chunck " << chunck_no << " is still active, check blocks";
         std::vector<uint64_t> block_to_free;
         block_to_free.reserve(subi->subi_blocks.size());
         for(auto block_it = subi->subi_blocks.begin(); block_it != subi->subi_blocks.end(); block_it++) {
@@ -420,8 +460,11 @@ void EdgeFS::dfs_scan(dentry* cur_den) {
           if(now_time - block->b_atime < options_.min_block_active_time || 
              (now_time - block->b_ctime) / (block->b_acounter + 1) < options_.block_active_access_frequency) {
             // block is inactive, free block
+            LOG(INFO) << "Chunck " << chunck_no << " block " << block_no << " is inactive, free it";
             mm_->Free(block);
             block_to_free.push_back(block_no);
+          } else {
+            LOG(INFO) << "Chunck " << chunck_no << " block " << block_no << " is still active";
           }
         }
         for(const block_no : block_to_free) {
@@ -432,6 +475,7 @@ void EdgeFS::dfs_scan(dentry* cur_den) {
         }
       } else {
         // chunck is inactive, free all block
+        LOG(INFO) << "Chunck " << chunck_no << " is inactive, free all blocks and publish gc request";
         chuncks_to_gc.push_back(chunck_no);
         subi->subi_state = ChunckState::INACTIVE;
         for(auto block_it = subi->subi_blocks.begin(); block_it != subi->subi_blocks.end(); block_it++) {
@@ -470,6 +514,7 @@ void EdgeFS::dfs_scan(dentry* cur_den) {
     req_cv_.notify_all();
   } else {
     // dentry is a directory, acquire shared lock
+    LOG(INFO) << "Dentry " << cur_den->d_name << " is a directory";
     std::shared_lock<std::shared_mutex> lck(cur_den->d_mtx);
     for(auto it = cur_den->d_childs.begin(); it != cur_den->d_childs.end(); it++) {
       dfs_scan(it->second);
@@ -491,10 +536,10 @@ void EdgeFS::RPC() {
     LOG(ERROR) << "Fail to start EdgeRPC";
     exit(-1);
   } else {
-    LOG(INFO) << "EdgeRPC Start.";
+    LOG(INFO) << "EdgeRPC start.";
   }
   edge_server.RunUntilAskedToQuit();
-  LOG(INFO) << "EdgeRPC Stop";
+  LOG(INFO) << "EdgeRPC stop";
 }
 
 void EdgeFS::GC_AND_PULL() {
@@ -522,22 +567,40 @@ void EdgeFS::GC_AND_PULL() {
     request* cur_req = req_list_.front();
     if(cur_req->r_type == RequestType::PULL) {
       bool need_pull = false;
+      bool error_request = false;
       pull_request* cur_pr = reinterpret_cast<pull_request*>(cur_req);
+      LOG(INFO) << "Get a pull request, "
+                << "[Time] " << cur_pr->r_time
+                << "[Path] " << cur_pr->pr_path
+                << "[ChunckSize] " << cur_pr->pr_chunck_size
+                << "[StartChunck] " << cur_pr->pr_start_chunck
+                << "[ChunckNum] " << cur_pr->pr_chunck_num;
       std::vector<std::pair<uint64_t, uint64_t>> split_extents;     // <start_chunck, chunck_num>
       // 1. search dentry
       dentry* target_dentry = root_dentry_;
       std::vector<std::string> d_names;
       SplitPath(cur_pr->pr_path.c_str(), d_names);
-      for(const auto& dname : d_names) {
+      for(size_t i = 0; i < d_names.size(); i++) {
+        if(i != d_names.size() - 1 && target_dentry->d_inode != nullptr) {
+          error_request = true;
+          break;
+        }
+        std::string dname = d_names[i];
         auto it = target_dentry->d_childs.find(dname);
         if(it == target_dentry->d_childs.end()) {
-          // can not find target file, commit a pull request
+          // can not find target file, commit the pull request
           need_pull = true;
           target_dentry = nullptr;
           split_extents.emplace_back(cur_pr->pr_start_chunck, cur_pr->pr_chunck_num);
           break;
         }
         target_dentry = it->second;
+      }
+      if(error_request) {
+        LOG(INFO) << "Path is illegal";
+        req_list_.pop_front();
+        delete cur_pr;
+        continue;
       }
 
       // 2. find dentry, check file state
@@ -548,27 +611,35 @@ void EdgeFS::GC_AND_PULL() {
           // (1) it is a directory
           // (2) file is invaild
           // throw the request
+          LOG(INFO) << "Target dentry is directory or invaild file, throw the request";
           req_list_.pop_front();
           delete cur_pr;
           continue;
         } else if(target_inode->i_state == FileState::ALIVE) {
           // file is alive, check each chunck
+          LOG(INFO) << "File is alive, check each chunck";
           uint64_t last_lack_chunck = UINT64_MAX;
           for(uint64_t chunck_no = cur_pr->pr_start_chunck; chunck_no < cur_pr->pr_start_chunck + cur_pr->pr_chunck_num; chunck_no++) {
             if(target_inode->i_chunck_bitmap->Get(chunck_no)) {
               // chunck exist
+              LOG(INFO) << "Chunck " << chunck_no << " exists";
               if(target_inode->i_subinodes[chunck_no]->subi_state == ChunckState::INACTIVE) {
                 // change chunck state to alive
                 target_inode->i_subinodes[chunck_no]->subi_state = ChunckState::ACTIVE;
               }
               if(last_lack_chunck != UINT64_MAX) {
-                  split_extents.emplace_back(last_lack_chunck, chunck_no - last_lack_chunck - 1);
+                  split_extents.emplace_back(last_lack_chunck, chunck_no - last_lack_chunck);
+                  last_lack_chunck = UINT64_MAX;
               }
             } else {
               // chunck doesn't exist, need to pull
               if(last_lack_chunck == UINT64_MAX) {
                 last_lack_chunck = chunck_no;
               }
+            }
+            if(chunck_no == cur_pr->pr_start_chunck + cur_pr->pr_chunck_num - 1 && last_lack_chunck != UINT64_MAX) {
+              // The last chunck
+              split_extents.emplace_back(last_lack_chunck, chunck_no - last_lack_chunck + 1);
             }
           }
         }
@@ -587,6 +658,13 @@ void EdgeFS::GC_AND_PULL() {
           rpc_stat_request.set_pr_path(cur_pr->pr_path);
           stub->Stat(&cntl, &rpc_stat_request, &rpc_stat_reply, NULL);
           if(cntl.Failed() || !rpc_stat_reply.ok()) {
+            LOG(INFO) << "Get metadata failed";
+            req_list_.pop_front();
+            delete cur_pr;
+            continue;
+          }
+          if(rpc_stat_reply.mtime() >= cur_pr->r_time) {
+            LOG(INFO) << "Target file is newer than request time, throw the pull request";
             req_list_.pop_front();
             delete cur_pr;
             continue;
@@ -598,9 +676,11 @@ void EdgeFS::GC_AND_PULL() {
             auto it = target_dentry->d_childs.find(d_names[i]);
             if(it == target_dentry->d_childs.end()) {
               // build dentry
+              LOG(INFO) << "Build dentry: " << d_names[i];
               dentry* new_dentry = new dentry{d_names[i], nullptr, target_dentry, 0, std::shared_mutex(), std::map<std::string, dentry*>()};
               if(i == d_names.size() - 1) {
                 // build inode
+                LOG(INFO) << "Build file inode";
                 inode* new_inode = new inode;
                 {
                   new_inode->i_len = rpc_stat_reply.len();
@@ -632,16 +712,18 @@ void EdgeFS::GC_AND_PULL() {
         for(const auto& extent : split_extents) {
           // request each extents
           cntl.Reset();
+          LOG(INFO) << "Pull chunck " << extent.first << " to " << extent.first + extent.second - 1;
           PullRequest rpc_pull_request;
           PullReply rpc_pull_reply;
           rpc_pull_request.set_pr_path(cur_pr->pr_path);
           rpc_pull_request.set_pr_time(cur_pr->r_time);
           rpc_pull_request.set_chunck_size(cur_pr->pr_chunck_size);
-          rpc_pull_request.set_start_chunck(cur_pr->pr_start_chunck);
-          rpc_pull_request.set_chunck_size(cur_pr->pr_chunck_num);
+          rpc_pull_request.set_start_chunck(extent.first);
+          rpc_pull_request.set_chunck_size(extent.second);
           stub->PULL(&cntl, &rpc_pull_request, &rpc_pull_reply, NULL);
           if(!cntl.Failed() && rpc_pull_reply.ok()) {
             // rpc request successfully
+            LOG(INFO) << "Pull successfully";
             for(int chunck_num = 0; chunck_num < rpc_pull_reply.chuncks_size(); chunck_num++) {
               // write each chunck
               uint64_t chunck_no = rpc_pull_reply.chuncks(chunck_num).chunck_no();
@@ -650,6 +732,7 @@ void EdgeFS::GC_AND_PULL() {
               std::string chunck_file_path = options_.data_root_path + cur_pr->pr_path + "/" + std::to_string(chunck_no);
               FILE* f_chunck = fopen(chunck_file_path.c_str(), "w");
               if(f_chunck == NULL) {
+                LOG(INFO) << "Create chunck " << chunck_no << " file failed";
                 continue;
               }
               if(fwrite(rpc_pull_reply.chuncks(chunck_num).data().c_str(), 1, options_.chunck_size, f_chunck) == options_.chunck_size) {
@@ -671,17 +754,24 @@ void EdgeFS::GC_AND_PULL() {
                 }
                 target_dentry->d_inode->i_chunck_bitmap->Set(chunck_no);
                 target_dentry->d_inode->i_subinodes[chunck_no] = new_subi;
+              } else {
+                LOG(INFO) << "Write chunck " << chunck_no << " file failed";
               }
             }
+          } else {
+            LOG(INFO) << "Pull failed";
           }
         }
       }
       // finish request
+      LOG(INFO) << "Finish pull request";
       req_list_.pop_front();
       delete cur_pr;
-
     } else if(cur_req->r_type == RequestType::GC) {
       gc_request* cur_gcr = reinterpret_cast<gc_request*>(cur_req);
+      LOG(INFO) << "Get a pull request, "
+          << "[Time] " << cur_gcr->r_time
+          << "[Path] " << cur_gcr->gcr_path;
       // 1. search dentry
       dentry* target_dentry = root_dentry_;
       std::vector<std::string> d_names;
@@ -699,6 +789,7 @@ void EdgeFS::GC_AND_PULL() {
         // (1) dentry doesn't exist
         // (2) dentry is not a file
         // throw the request
+        LOG(INFO) << "Dentry does not exist or is a directory";
         req_list_.pop_front();
         delete cur_gcr;
         continue;
@@ -707,6 +798,7 @@ void EdgeFS::GC_AND_PULL() {
       // 2. check the file modify time 
       inode* target_inode = target_dentry->d_inode;
       if(target_inode->i_mtime >= cur_gcr->r_time) {
+        LOG(INFO) << "Target file is newer than request time, throw the pull request";
         req_list_.pop_front();
         delete cur_gcr;
         continue;
@@ -728,7 +820,9 @@ void EdgeFS::GC_AND_PULL() {
 void EdgeFS::SCAN() {
   // DFS traverse all dentry
   while(true) {
+    LOG(INFO) << "Scan start";
     dfs_scan(root_dentry_);
+    LOG(INFO) << "Scan end";
     std::this_thread::sleep_for(std::chrono::seconds(options_.scan_period));
   }
 }

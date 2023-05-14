@@ -8,21 +8,15 @@
 #include <iostream>
 #include <glog/logging.h>
 
-static int edgefs_getattr(const char* path, struct stat* st) {
-  memset(st, 0, sizeof(struct stat));
-  if(strcmp(path, "/") == 0) {
-    st->st_mode = 0755 | __S_IFDIR;
-  } else {
-    st->st_mode = 0644 | __S_IFREG;
-  }
-  return 0;
-}
+#include "edgefs/edgefs.h"
 
-static struct fuse_operations edgefs_ops = {
-  .getattr = edgefs_getattr,
+static const struct fuse_operations edgefs_ops = {
+  .getattr = edgefs::EdgeFS::getattr,
+  .read = edgefs::EdgeFS::read,
+  .readdir = edgefs::EdgeFS::readdir
 };
 
 int main(int argc, char* argv[]) {
-  std::cout << "Mount" << std::endl;
+  edgefs::EdgeFS::Init("./default_config.json");
   return fuse_main(argc, argv, &edgefs_ops, NULL);
 }
