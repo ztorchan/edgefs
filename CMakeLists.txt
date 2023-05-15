@@ -71,4 +71,4 @@ add_library(edgerpc STATIC ${EDGE_RPC_SRCS})
 add_library(centerrpc STATIC ${CENTER_RPC_SRCS})
 
 add_executable(edgefs ${FS_SRCS})
-target_link_libraries(edgefs ${LIBS})
+target_link_libraries(edgefs centerrpc edgerpc ${LIBS})

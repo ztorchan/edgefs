@@ -71,22 +71,23 @@ struct inode {
   time_t      i_atime;         // last access time
   mode_t      i_mode;          // inode mode
   
-  dentry* i_dentry;
+  dentry*     i_dentry;
 
   BitMap*     i_chunck_bitmap; // if chunck exist 
   std::map<uint64_t, subinode*> i_subinodes;  // chunck file inode
 };
 
 struct subinode {
-  uint64_t      subi_no;                              // chunck no
-  inode*        subi_inode;                           // parent inode
-  time_t        subi_ctime;                           // last modify time
-  time_t        subi_atime;                           // last access time
-  uint64_t      subi_acounter;                        // total access times
-  ChunckState   subi_state;
+  uint64_t              subi_no;                // chunck no
+  inode*                subi_inode;             // parent inode
+  time_t                subi_ctime;             // last modify time
+  time_t                subi_atime;             // last access time
+  uint64_t              subi_acounter;          // total access times
+  std::shared_mutex     subi_mtx;               // mutex to protect blocks
+  ChunckState           subi_state;             // chunck state
 
-  BitMap*       subi_block_bitmap;                    // if cache block exist
-  std::map<uint64_t, cacheblock*> subi_blocks; // cache blocks
+  BitMap* subi_block_bitmap;                    // if cache block exist
+  std::map<uint64_t, cacheblock*> subi_blocks;  // cache blocks
 };
 /**/
 
