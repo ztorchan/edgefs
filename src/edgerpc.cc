@@ -1,7 +1,7 @@
 #include <string>
 
 #include <brpc/channel.h>
-#include <glog/logging.h>
+#include <butil/logging.h>
 
 #include "edgefs/edgefs.h"
 #include "edgefs/edgerpc.h"
@@ -9,9 +9,9 @@
 namespace edgefs
 {
 
-void EdgeServiceImpl::Invalid(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+void EdgeServiceImpl::Invalid(::google::protobuf::RpcController* controller,
                               const ::edgefs::InvalidFileRequest* request,
-                              PROTOBUF_NAMESPACE_ID::Empty* response,
+                              ::google::protobuf::Empty* response,
                               ::google::protobuf::Closure* done) {
   brpc::ClosureGuard done_guard(done);
   brpc::Controller* ctl = static_cast<brpc::Controller*>(controller);

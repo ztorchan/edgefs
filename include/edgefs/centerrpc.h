@@ -8,15 +8,15 @@ namespace edgefs
 
 class CenterServiceImpl : public CenterService {
 public:
-  void PULL(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+  void PULL(::google::protobuf::RpcController* controller,
             const ::edgefs::PullRequest* request,
             ::edgefs::PullReply* response,
             ::google::protobuf::Closure* done) override;
-  void Stat(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+  void Stat(::google::protobuf::RpcController* controller,
             const ::edgefs::StatRequest* request,
             ::edgefs::StatReply* response,
             ::google::protobuf::Closure* done) override;
-}
+};
 
 } // namespace edgefs
 

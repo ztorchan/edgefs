@@ -5,6 +5,8 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+
+#include <butil/logging.h>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
 
@@ -72,6 +74,14 @@ public:
       assert(doc["block_size"].IsUint64());
       block_size = doc["block_size"].GetUint64();
     }
+    if(chunck_size < block_size) {
+      LOG(ERROR) << "Chunk size should be greater than block size";
+      exit(-1);
+    }
+    if(chunck_size % block_size != 0) {
+      LOG(ERROR) << "Chunk size should be divisible by block size";
+      exit(-1);
+    }
 
     // max size of total block cache
     if(doc.HasMember("max_cache_size")) {
@@ -83,6 +93,10 @@ public:
     if(doc.HasMember("max_free_cache")) {
       assert(doc["max_free_cache"].IsUint64());
       max_free_cache = doc["max_free_cache"].GetUint64();
+    }
+    if(max_cache_size < max_free_cache) {
+      LOG(ERROR) << "max_cache_size should be greater than max_free_cache";
+      exit(-1);
     }
 
     // Minimum active time after Chunck is accessed

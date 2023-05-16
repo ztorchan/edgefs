@@ -5,14 +5,14 @@
 #include <string>
 
 #include <brpc/channel.h>
-#include <glog/logging.h>
+#include <butil/logging.h>
 
 #include "edgefs/centerrpc.h"
 
 namespace edgefs
 {
 
-void CenterServiceImpl::PULL(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+void CenterServiceImpl::PULL(::google::protobuf::RpcController* controller,
                         const ::edgefs::PullRequest* request,
                         ::edgefs::PullReply* response,
                         ::google::protobuf::Closure* done) {
@@ -26,7 +26,7 @@ void CenterServiceImpl::PULL(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
             << " with size " << request->chunck_size();
 
   struct stat st;
-  if(stat(request->pr_path().c_str(), &st) != 0 || st.st_mtim >= request->pr_time()) {
+  if(stat(request->pr_path().c_str(), &st) != 0 || st.st_mtim.tv_sec >= request->pr_time()) {
     LOG(INFO) << "Stat failed";
     return;
   }
@@ -58,7 +58,7 @@ void CenterServiceImpl::PULL(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
         response->set_ok(true);
         PullReply_Chunck* new_chunck = response->add_chuncks();
         new_chunck->set_chunck_no(chunck_no);
-        new_chunck->set_data(std::string(buf));
+        new_chunck->set_data(std::string(buf, read_size));
       }
     }
   }
@@ -66,7 +66,7 @@ void CenterServiceImpl::PULL(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
   return;
 }
 
-void CenterServiceImpl::Stat(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+void CenterServiceImpl::Stat(::google::protobuf::RpcController* controller,
                              const ::edgefs::StatRequest* request,
                              ::edgefs::StatReply* response,
                              ::google::protobuf::Closure* done) {
@@ -79,9 +79,9 @@ void CenterServiceImpl::Stat(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
     LOG(INFO) << "Stat successfully";
     response->set_ok(true);
     response->set_len(st.st_size);
-    response->set_mtime(st.st_mtim);
+    response->set_mtime(st.st_mtim.tv_sec);
   } else {
-    LOG(INFO) << "Stat failed"
+    LOG(INFO) << "Stat failed";
     response->set_ok(false);
   }
 

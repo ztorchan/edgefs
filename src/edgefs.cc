@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <filesystem>
 
-#include <glog/logging.h>
+#include <butil/logging.h>
 #include <brpc/channel.h>
 #include <brpc/server.h>
 #include <rapidjson/rapidjson.h>
@@ -21,6 +21,7 @@ namespace edgefs
 
 std::thread* EdgeFS::rpc_thread_ = nullptr;
 std::thread* EdgeFS::gc_and_pull_thread_ = nullptr;
+std::thread* EdgeFS::scan_thread_ = nullptr;
 dentry* EdgeFS::root_dentry_ = nullptr;
 std::list<request*> EdgeFS::req_list_;
 std::mutex EdgeFS::req_mtx_;
@@ -34,7 +35,7 @@ void EdgeFS::Init(std::string config_path) {
   options_ = Option(config_path);
   LOG(INFO) << "Successfully load configuration";
   LOG(INFO) << "Create memory manager";
-  mm_ = new MManger(options_.max_free_cache);
+  mm_ = new MManger(options_.max_cache_size, options_.max_free_cache);
 
   LOG(INFO) << "Initial data path: " << options_.data_root_path;
   std::filesystem::remove_all(options_.data_root_path);
@@ -59,7 +60,7 @@ int EdgeFS::getattr(const char *path, struct stat *st) {
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
       LOG(INFO) << "Can not find the dentry";
-      return 0;
+      return -1;
     }
     target_dentry = it->second;
   }
@@ -74,6 +75,7 @@ int EdgeFS::getattr(const char *path, struct stat *st) {
     st->st_atime = target_inode->i_atime;
     st->st_mtime = target_inode->i_mtime;
   }
+  return 0;
 }
 
 int EdgeFS::readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info * fi) {
@@ -89,7 +91,7 @@ int EdgeFS::readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t o
     auto it = target_dentry->d_childs.find(dname);
     if(it == target_dentry->d_childs.end()) {
       LOG(INFO) << "Can not find the dentry";
-      return 0;
+      return -1;
     }
     target_dentry = it->second;
   }
@@ -265,24 +267,24 @@ void EdgeFS::split_path(const char *path, std::vector<std::string>& d_names) {
 
 bool EdgeFS::check_chuncks_exist(inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extents) {
   bool all_exist = true;
-  uint64_t now_extent_start_chunck = -1;
+  uint64_t now_extent_start_chunck = UINT64_MAX;
   for(uint64_t chunck_no = start_chunck_no; chunck_no <= end_chunck_no; chunck_no++) {
     if(!in->i_chunck_bitmap->Get(chunck_no)) {
       // chunck does not exist
       all_exist = false;
-      if(now_extent_start_chunck == -1) {
+      if(now_extent_start_chunck == UINT64_MAX) {
         now_extent_start_chunck = chunck_no;
       }
     } else {
       // exist
-      if(now_extent_start_chunck != -1) {
+      if(now_extent_start_chunck != UINT64_MAX) {
         lack_extents.push_back({now_extent_start_chunck, chunck_no - now_extent_start_chunck + 1});
-        now_extent_start_chunck = -1;
+        now_extent_start_chunck = UINT64_MAX;
       }
     }
   }
 
-  if(now_extent_start_chunck != -1) {
+  if(now_extent_start_chunck != UINT64_MAX) {
     lack_extents.push_back({now_extent_start_chunck, end_chunck_no - now_extent_start_chunck + 1});
   }
   return all_exist;
@@ -297,6 +299,11 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
   uint64_t start_block_offset = offset % subi->subi_inode->i_block_size;              // the first byte
   uint64_t end_block_no = (offset + size - 1) / subi->subi_inode->i_block_size;
   uint64_t end_block_offset = (offset + size - 1) % subi->subi_inode->i_block_size;   // the last byte
+
+  // contain last block in this chunck
+  bool have_last_block_in_file = (subi->subi_no == (subi->subi_inode->i_chunck_bitmap->size() - 1));
+  uint64_t last_block_in_file_size = subi->subi_inode->i_len % subi->subi_inode->i_block_size;
+  uint64_t last_block_in_chunck = subi->subi_block_bitmap->cur_set() - 1;
 
   LOG(INFO) << "Read chunck " << subi->subi_no << " blocks " << start_block_no << ":" << start_block_offset
             << " to " << end_block_no << ":" << end_block_offset;
@@ -345,11 +352,12 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
       if(new_block != nullptr) {
         // successfully allocate a block
         fseek(f_chunck, block_no * subi->subi_inode->i_block_size, SEEK_SET);
-        if(fread(new_block->b_data, 1, subi->subi_inode->i_block_size, f_chunck) != subi->subi_inode->i_block_size) {
+        uint64_t read_size = fread(new_block->b_data, 1, subi->subi_inode->i_block_size, f_chunck);
+        if((have_last_block_in_file && block_no == last_block_in_chunck && read_size != last_block_in_file_size)
+           || read_size != subi->subi_inode->i_block_size) {
           mm_->Free(new_block);
           return 0;
         }
-        new_block->b_len = subi->subi_inode->i_block_size;
         new_block->b_atime = time(NULL);
         new_block->b_acounter++;
         subi->subi_blocks[block_no] = new_block;
@@ -466,7 +474,7 @@ void EdgeFS::dfs_scan(dentry* cur_den) {
             LOG(INFO) << "Chunck " << chunck_no << " block " << block_no << " is still active";
           }
         }
-        for(const block_no : block_to_free) {
+        for(const uint64_t block_no : block_to_free) {
           // erase all blocks have been free
           subi->subi_block_bitmap->Rel(block_no);
           subi->subi_blocks.erase(block_no);
@@ -742,6 +750,7 @@ void EdgeFS::GC_AND_PULL() {
             for(int chunck_num = 0; chunck_num < rpc_pull_reply.chuncks_size(); chunck_num++) {
               // write each chunck
               uint64_t chunck_no = rpc_pull_reply.chuncks(chunck_num).chunck_no();
+              uint64_t cur_chunck_size = rpc_pull_reply.chuncks(chunck_num).data().size();
               assert(!target_dentry->d_inode->i_chunck_bitmap->Get(chunck_no));
               assert(target_dentry->d_inode->i_subinodes.find(chunck_no) == target_dentry->d_inode->i_subinodes.end());
               std::string chunck_file_path = options_.data_root_path + cur_pr->pr_path + "/" + std::to_string(chunck_no);
@@ -750,7 +759,7 @@ void EdgeFS::GC_AND_PULL() {
                 LOG(INFO) << "Create chunck " << chunck_no << " file failed";
                 continue;
               }
-              if(fwrite(rpc_pull_reply.chuncks(chunck_num).data().c_str(), 1, options_.chunck_size, f_chunck) == options_.chunck_size) {
+              if(fwrite(rpc_pull_reply.chuncks(chunck_num).data().c_str(), 1, cur_chunck_size, f_chunck) == cur_chunck_size) {
                 // write successfully
                 subinode* new_subi = new subinode;
                 {
@@ -761,8 +770,8 @@ void EdgeFS::GC_AND_PULL() {
                   new_subi->subi_acounter = 0;
                   new_subi->subi_state = ChunckState::ACTIVE;
                   new_subi->subi_blocks = std::map<uint64_t, cacheblock*>();
-                  uint64_t total_block_num = options_.chunck_size / options_.block_size;
-                  if(options_.chunck_size % options_.block_size != 0) {
+                  uint64_t total_block_num = cur_chunck_size / options_.block_size;
+                  if(cur_chunck_size % options_.block_size != 0) {
                     total_block_num++;
                   }
                   new_subi->subi_block_bitmap = new BitMap(total_block_num);

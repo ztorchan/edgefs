@@ -53,6 +53,10 @@ enum class GCReason {
 /**/
 
 /* File system normal struct */
+struct dentry;
+struct inode;
+struct subinode;
+
 struct dentry {
   std::string     d_name;
   inode*   d_inode;        // nullptr means directory
