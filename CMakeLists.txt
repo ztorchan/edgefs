@@ -42,6 +42,10 @@ set(FS_SRCS
   ${CMAKE_SOURCE_DIR}/edgefs_main.cc
 )
 
+set(CENTER_SERVER_SRCS
+  ${CMAKE_SOURCE_DIR}/center_server.cc
+)
+
 set(EDGE_RPC_SRCS
   ${CMAKE_SOURCE_DIR}/include/edgefs/rpc/edge_service.pb.h
   ${CMAKE_SOURCE_DIR}/include/edgefs/rpc/edge_service.pb.cc
@@ -72,3 +76,6 @@ add_library(centerrpc STATIC ${CENTER_RPC_SRCS})
 
 add_executable(edgefs ${FS_SRCS})
 target_link_libraries(edgefs centerrpc edgerpc ${LIBS})
+
+add_executable(centerserver ${CENTER_SERVER_SRCS})
+target_link_libraries(centerserver centerrpc ${LIBS})
