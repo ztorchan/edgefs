@@ -139,6 +139,16 @@ int EdgeFS::read(const char *path, char *buf, std::size_t size, off_t offset, st
         new_pr->pr_chunck_size = options_.chunck_size;
         new_pr->pr_start_chunck = start_chunck;
         new_pr->pr_chunck_num = end_chunck - start_chunck + 1;
+        // backward pre pull strategy
+        if(new_pr->pr_start_chunck >= options_.backward_pre_pull_chunck_num) {
+          new_pr->pr_chunck_num += options_.backward_pre_pull_chunck_num;
+          new_pr->pr_start_chunck -= options_.backward_pre_pull_chunck_num;
+        } else {
+          new_pr->pr_chunck_num += new_pr->pr_start_chunck;
+          new_pr->pr_start_chunck = 0;
+        }
+        // forward pre pull strategy
+        new_pr->pr_chunck_num += options_.forward_pre_pull_chunck_num;
       }
       req_list_.push_back(new_pr);
       req_cv_.notify_all();
@@ -303,7 +313,7 @@ int EdgeFS::read_from_chunck(const char *path, subinode* subi, char *buf, std::s
   // contain last block in this chunck
   bool have_last_block_in_file = (subi->subi_no == (subi->subi_inode->i_chunck_bitmap->size() - 1));
   uint64_t last_block_in_file_size = subi->subi_inode->i_len % subi->subi_inode->i_block_size;
-  uint64_t last_block_in_chunck = subi->subi_block_bitmap->cur_set() - 1;
+  uint64_t last_block_in_chunck = subi->subi_block_bitmap->size() - 1;
 
   LOG(INFO) << "Read chunck " << subi->subi_no << " blocks " << start_block_no << ":" << start_block_offset
             << " to " << end_block_no << ":" << end_block_offset;
@@ -538,9 +548,9 @@ void EdgeFS::RPC() {
     exit(-1);
   }
   
-  butil::EndPoint point = butil::EndPoint(butil::IP_ANY, options_.rpc_port);
+  std::string center_ip_port = options_.center_address + ":" + std::to_string(options_.center_port);
   brpc::ServerOptions options;
-  if(edge_server.Start(point, &options) != 0) {
+  if(edge_server.Start(center_ip_port.c_str(), &options) != 0) {
     LOG(ERROR) << "Fail to start EdgeRPC";
     exit(-1);
   } else {
@@ -604,7 +614,6 @@ void EdgeFS::GC_AND_PULL() {
           // can not find target file, commit the pull request
           need_pull = true;
           target_dentry = nullptr;
-          split_extents.emplace_back(cur_pr->pr_start_chunck, cur_pr->pr_chunck_num);
           break;
         }
         target_dentry = it->second;
@@ -632,6 +641,10 @@ void EdgeFS::GC_AND_PULL() {
           // file is alive, check each chunck
           LOG(INFO) << "File is alive, check each chunck";
           std::shared_lock<std::shared_mutex> tmp_target_den_lck(target_dentry->d_mtx);
+          if(cur_pr->pr_start_chunck + cur_pr->pr_chunck_num - 1 > target_inode->i_chunck_bitmap->size() - 1) {
+            // request end chunck no exceeds the greatest chunck no in the file
+            cur_pr->pr_chunck_num = target_inode->i_chunck_bitmap->size() - cur_pr->pr_start_chunck;
+          }
           uint64_t last_lack_chunck = UINT64_MAX;
           for(uint64_t chunck_no = cur_pr->pr_start_chunck; chunck_no < cur_pr->pr_start_chunck + cur_pr->pr_chunck_num; chunck_no++) {
             if(target_inode->i_chunck_bitmap->Get(chunck_no)) {
@@ -721,6 +734,11 @@ void EdgeFS::GC_AND_PULL() {
               }
               target_dentry->d_childs[d_names[i]] = new_dentry;
               target_dentry = new_dentry;
+              // check if pull request exceed file size
+              if(cur_pr->pr_start_chunck + cur_pr->pr_chunck_num - 1 > target_dentry->d_inode->i_chunck_bitmap->size() - 1) {
+                cur_pr->pr_chunck_num = target_dentry->d_inode->i_chunck_bitmap->size() - cur_pr->pr_start_chunck;
+              }
+              split_extents.emplace_back(cur_pr->pr_start_chunck, cur_pr->pr_chunck_num);
               // release unique lock and acquire shared lock
               tmp_unique_lck.unlock();
               path_lcks.back()->lock();

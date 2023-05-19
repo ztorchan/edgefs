@@ -83,6 +83,18 @@ public:
       exit(-1);
     }
 
+    // extra forward chuncks nums when pull
+    if(doc.HasMember("forward_pre_pull_chunck_num")) {
+      assert(doc["forward_pre_pull_chunck_num"].IsUint64());
+      forward_pre_pull_chunck_num = doc["forward_pre_pull_chunck_num"].GetUint64();
+    }
+
+    // extra backward chuncks nums when pull
+    if(doc.HasMember("backward_pre_pull_chunck_num")) {
+      assert(doc["backward_pre_pull_chunck_num"].IsUint64());
+      backward_pre_pull_chunck_num = doc["backward_pre_pull_chunck_num"].GetUint64();
+    }
+
     // max size of total block cache
     if(doc.HasMember("max_cache_size")) {
       assert(doc["max_cache_size"].IsUint());
@@ -151,6 +163,12 @@ public:
 
   // File cache block size (bytes)
   uint64_t block_size = 8 * 1024 * 1024;
+
+  // Forward prepull chuncks num
+  uint64_t forward_pre_pull_chunck_num = 4;
+
+  // Backward prepull chuncks num
+  uint64_t backward_pre_pull_chunck_num = 2;
 
   // Max size of total block cache
   uint32_t max_cache_size = 1024 * 1024 * 1024;
