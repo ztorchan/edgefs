@@ -1,9 +1,9 @@
 {
-  "root" : "/edge",
-  "data_root" : "/edgedata",
+  "root" : "/home/ubuntu/edge",
+  "data_root" : "/home/ubuntu/edgedata",
   "center_address" : "127.0.0.1",
   "center_port" : 2333,
-  "rpc_port" : 2333,
+  "rpc_port" : 2334,
   "chunck_size" : 67108864,
   "block_size" : 4194304,
   "forward_pre_pull_chunck_num": 4,

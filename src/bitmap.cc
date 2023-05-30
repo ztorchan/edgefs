@@ -1,3 +1,4 @@
+#include <cstring>
 #include "edgefs/bitmap.h"
 
 namespace edgefs
@@ -9,6 +10,7 @@ BitMap::BitMap(uint64_t size) : size_(size), cur_set_(0) {
     u8_size++;
   }
   bits_ = new uint8_t[u8_size];
+  memset(bits_, 0, u8_size);
 }
 
 void BitMap::Set(uint64_t loc) {

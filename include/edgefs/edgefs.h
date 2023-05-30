@@ -1,6 +1,8 @@
 #ifndef _EDGEFS_EDGEFS_H
 #define _EDGEFS_EDGEFS_H
 
+#define FUSE_USE_VERSION 39
+
 #include <vector>
 #include <list>
 #include <map>
@@ -16,7 +18,8 @@
 #include <ctime>
 
 #include <stdlib.h>
-#include <fuse.h>
+#include <fuse3/fuse.h>
+#include <brpc/channel.h>
 
 #include "edgefs/mm.h"
 #include "edgefs/edgerpc.h"
@@ -30,6 +33,11 @@ namespace edgefs
 class BitMap;
 
 /* Some State and Type enum */
+enum class FileType {
+  REGULAR,
+  DIRECTORY,
+};
+
 enum class FileState {
   ALIVE,
   INVALID
@@ -58,12 +66,13 @@ struct inode;
 struct subinode;
 
 struct dentry {
-  std::string     d_name;
-  inode*   d_inode;        // nullptr means directory
-  dentry*  d_parent;
-  uint64_t        d_ref;
-  std::shared_mutex      d_mtx;
-  std::map<std::string, struct dentry*> d_childs;
+  std::string d_name;
+  FileType    d_type;
+  inode*      d_inode;        // nullptr if directory
+  dentry*     d_parent;
+  uint64_t    d_ref;
+  std::shared_mutex   d_mtx;
+  std::map<std::string, dentry*>* d_childs; // nullptr if regular file
 };
 
 struct inode {
@@ -120,25 +129,15 @@ struct gc_request : public request {
 class EdgeFS {
 public:
   static void Init(std::string config_path);
-  static int getattr(const char *path, struct stat *st);
-  static int mknod(const char *path, mode_t mode, dev_t);
-  static int mkdir(const char *path, mode_t mode);
-  static int rmdir(const char *path);
-  static int rename(const char *path1, const char *path2, unsigned int flags);
+  static int getattr(const char *path, struct stat *st, struct fuse_file_info *fi);
   static int read(const char *path, char *buf, std::size_t size, off_t off, struct fuse_file_info *);
-  static int write(const char *path, const char *data, std::size_t size, off_t off, struct fuse_file_info *);
-  // static int statfs(const char *, struct statvfs *);
-  static int readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info * fi);
-  static int open(const char *path, struct fuse_file_info *fi);
-  static int unlink(const char *path);
-  static int releasedir(const char *path, struct fuse_file_info *fi);
-
-  static void split_path(const char *path, std::vector<std::string>& d_names);
+  static int readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset, struct fuse_file_info * fi, enum fuse_readdir_flags flags);
 
 private:
-  static std::string get_path_from_inode(inode* in);
+  static void split_path(const char *path, std::vector<std::string>& d_names);
+  static std::string get_path_from_dentry(dentry* den);
   static int read_from_chunck(const char *path, subinode* subi, char *buf, std::size_t size, off_t offset);
-  static bool check_chuncks_exist(inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>> lack_extent);
+  static bool check_chuncks_exist(inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>>& lack_extent);
   static void gc_extent(inode* in, uint64_t start_chunck_no, uint64_t chunck_num);
   static void gc_whole_file(inode* in);
   static void dfs_scan(dentry* cur_den);
@@ -159,6 +158,7 @@ private:
 
   static Option options_;
   static MManger* mm_;
+  static brpc::Channel center_chan_;
 
   friend class EdgeServiceImpl;
 };

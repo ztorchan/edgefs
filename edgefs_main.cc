@@ -1,9 +1,8 @@
-#define FUSE_USE_VERSION 29
+#define FUSE_USE_VERSION 39
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fuse.h>
 
 #include <iostream>
 #include <glog/logging.h>

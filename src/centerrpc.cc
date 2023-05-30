@@ -1,9 +1,11 @@
 #include <cstdlib>
 #include <cstdio>
 #include <sys/stat.h>
+#include <dirent.h>
 #include <unistd.h>
 #include <string>
 
+#include <spdlog/spdlog.h>
 #include <brpc/channel.h>
 #include <butil/logging.h>
 
@@ -12,26 +14,24 @@
 namespace edgefs
 {
 
-void CenterServiceImpl::PULL(::google::protobuf::RpcController* controller,
-                        const ::edgefs::PullRequest* request,
-                        ::edgefs::PullReply* response,
-                        ::google::protobuf::Closure* done) {
+void CenterServiceImpl::Pull(::google::protobuf::RpcController* controller,
+                             const ::edgefs::PullRequest* request,
+                             ::edgefs::PullReply* response,
+                             ::google::protobuf::Closure* done) {
   brpc::ClosureGuard done_guard(done);
   brpc::Controller* ctl = static_cast<brpc::Controller*>(controller);
+  std::string real_path = basic_path_ + request->pr_path();
   response->set_ok(false);
 
-  LOG(INFO) << "Pull file: " << request->pr_path() 
-            << ", from chunck " << request->start_chunck() 
-            << " to " << (request->start_chunck() + request->chuncks_num() - 1)
-            << " with size " << request->chunck_size();
+  spdlog::info("[pull] path: {}, startchunck: {}, chuncknum: {}, chuncksize: {}", real_path, request->start_chunck(), request->chuncks_num(), request->chunck_size());
 
   struct stat st;
-  if(stat(request->pr_path().c_str(), &st) != 0 || st.st_mtim.tv_sec >= request->pr_time()) {
-    LOG(INFO) << "Stat failed";
+  if(stat(real_path.c_str(), &st) != 0 || st.st_mtim.tv_sec >= request->pr_time()) {
+    spdlog::info("[pull] pull failed");
     return;
   }
 
-  FILE* f = fopen(request->pr_path().c_str(), "rb");
+  FILE* f = fopen(real_path.c_str(), "rb");
   char* buf = new char[request->chunck_size()];
   if(f == NULL) {
     LOG(INFO) << "Open file failed";
@@ -52,8 +52,9 @@ void CenterServiceImpl::PULL(::google::protobuf::RpcController* controller,
       if((chunck_no != end_chunck_no && read_size != request->chunck_size()) 
          || (chunck_no == end_chunck_no && read_size != st.st_size % request->chunck_size())) {
         // read error
-        LOG(INFO) << "Read chunck " << chunck_no << " failed";
+        spdlog::info("[pull] failed to read chunck {}", chunck_no);
       } else {
+        spdlog::info("[pull] successfully read chunck {} {} bytes", chunck_no, read_size);
         LOG(INFO) << "Read chunck " << chunck_no << " " << read_size << " bytes";
         response->set_ok(true);
         PullReply_Chunck* new_chunck = response->add_chuncks();
@@ -72,20 +73,64 @@ void CenterServiceImpl::Stat(::google::protobuf::RpcController* controller,
                              ::google::protobuf::Closure* done) {
   brpc::ClosureGuard done_guard(done);
   brpc::Controller* ctl = static_cast<brpc::Controller*>(controller);
+  std::string real_path = basic_path_ + request->path();
 
-  LOG(INFO) << "Stat file: " << request->pr_path();
+  spdlog::info("[stat] path: {}", real_path);
   struct stat st;
-  if(stat(request->pr_path().c_str(), &st) == 0) {
-    LOG(INFO) << "Stat successfully";
+  if(stat(real_path.c_str(), &st) == 0) {
+    spdlog::info("[stat] stat successfully");
     response->set_ok(true);
-    response->set_len(st.st_size);
-    response->set_mtime(st.st_mtim.tv_sec);
+    response->mutable_st()->set_len(st.st_size);
+    response->mutable_st()->set_atime(st.st_atime);
+    response->mutable_st()->set_ctime(st.st_ctime);
+    response->mutable_st()->set_mtime(st.st_mtime);
+    response->mutable_st()->set_mode(st.st_mode);
+    response->mutable_st()->set_nlink(st.st_nlink);
   } else {
-    LOG(INFO) << "Stat failed";
+    spdlog::info("[stat] failed to stat");
     response->set_ok(false);
   }
 
   return ;
+}
+
+void CenterServiceImpl::Readdir(::google::protobuf::RpcController* controller,
+                                const ::edgefs::ReaddirRequest* request,
+                                ::edgefs::ReaddirReply* response,
+                                ::google::protobuf::Closure* done) {
+  brpc::ClosureGuard done_guard(done);
+  brpc::Controller* ctl = static_cast<brpc::Controller*>(controller);
+  std::string real_path = basic_path_ + request->path();
+
+  spdlog::info("[readdir] path: {}", real_path.c_str());
+
+  response->set_ok(false);
+  DIR* dir = opendir(real_path.c_str());
+  if(dir == NULL) {
+    spdlog::info("[readdir] failed to open directory");
+    return ;
+  }
+  struct dirent* den;
+  while((den = readdir(dir)) != NULL) {
+    struct stat st;
+    std::string den_path = real_path + "/" + den->d_name;
+    spdlog::info("[readdir] stat path {}", den_path.c_str());
+    if(stat(den_path.c_str(), &st) != 0) {
+      spdlog::info("[readdir] failed to stat path {}", den_path.c_str());
+      continue;
+    }
+    auto new_st_with_name = response->add_sts_with_name();
+    new_st_with_name->set_name(den->d_name);
+    new_st_with_name->mutable_st()->set_atime(st.st_atime);
+    new_st_with_name->mutable_st()->set_ctime(st.st_ctime);
+    new_st_with_name->mutable_st()->set_len(st.st_size);
+    new_st_with_name->mutable_st()->set_mode(st.st_mode);
+    new_st_with_name->mutable_st()->set_mtime(st.st_mtime);
+    new_st_with_name->mutable_st()->set_nlink(st.st_nlink);
+    response->set_ok(true);
+  }
+
+  return;
 }
 
 } // namespace edgefs

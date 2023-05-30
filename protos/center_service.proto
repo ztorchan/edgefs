@@ -4,6 +4,15 @@ package edgefs;
 
 option cc_generic_services = true;
 
+message statbuf {
+  uint32 mode = 2;
+  uint64 nlink = 3;
+  uint64 len = 4;
+  int64  atime = 5;
+  int64  mtime = 6;
+  int64  ctime = 7;
+}
+
 message PullRequest {
   string pr_path = 1;
   int64  pr_time = 2;
@@ -22,16 +31,29 @@ message PullReply {
 }
 
 message StatRequest {
-  string pr_path = 1;
+  string path = 1;
 }
 
 message StatReply {
-  bool   ok = 1;
-  uint64 len = 2;
-  int64  mtime = 3;
+  bool    ok = 1;
+  statbuf st = 2;
+}
+
+message ReaddirRequest {
+  string path = 1;
+}
+
+message ReaddirReply {
+  message statbuf_with_name {
+    string name = 1;
+    statbuf st = 2;
+  }
+  bool ok = 1;
+  repeated statbuf_with_name sts_with_name  = 2;
 }
 
 service CenterService {
-  rpc PULL (PullRequest) returns (PullReply);
+  rpc Pull (PullRequest) returns (PullReply);
   rpc Stat (StatRequest) returns (StatReply);
+  rpc Readdir (ReaddirRequest) returns (ReaddirReply);
 }

@@ -48,7 +48,7 @@ struct TableStruct_center_5fservice_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -65,23 +65,231 @@ extern PullReply_ChunckDefaultTypeInternal _PullReply_Chunck_default_instance_;
 class PullRequest;
 class PullRequestDefaultTypeInternal;
 extern PullRequestDefaultTypeInternal _PullRequest_default_instance_;
+class ReaddirReply;
+class ReaddirReplyDefaultTypeInternal;
+extern ReaddirReplyDefaultTypeInternal _ReaddirReply_default_instance_;
+class ReaddirReply_statbuf_with_name;
+class ReaddirReply_statbuf_with_nameDefaultTypeInternal;
+extern ReaddirReply_statbuf_with_nameDefaultTypeInternal _ReaddirReply_statbuf_with_name_default_instance_;
+class ReaddirRequest;
+class ReaddirRequestDefaultTypeInternal;
+extern ReaddirRequestDefaultTypeInternal _ReaddirRequest_default_instance_;
 class StatReply;
 class StatReplyDefaultTypeInternal;
 extern StatReplyDefaultTypeInternal _StatReply_default_instance_;
 class StatRequest;
 class StatRequestDefaultTypeInternal;
 extern StatRequestDefaultTypeInternal _StatRequest_default_instance_;
+class statbuf;
+class statbufDefaultTypeInternal;
+extern statbufDefaultTypeInternal _statbuf_default_instance_;
 }  // namespace edgefs
 PROTOBUF_NAMESPACE_OPEN
 template<> ::edgefs::PullReply* Arena::CreateMaybeMessage<::edgefs::PullReply>(Arena*);
 template<> ::edgefs::PullReply_Chunck* Arena::CreateMaybeMessage<::edgefs::PullReply_Chunck>(Arena*);
 template<> ::edgefs::PullRequest* Arena::CreateMaybeMessage<::edgefs::PullRequest>(Arena*);
+template<> ::edgefs::ReaddirReply* Arena::CreateMaybeMessage<::edgefs::ReaddirReply>(Arena*);
+template<> ::edgefs::ReaddirReply_statbuf_with_name* Arena::CreateMaybeMessage<::edgefs::ReaddirReply_statbuf_with_name>(Arena*);
+template<> ::edgefs::ReaddirRequest* Arena::CreateMaybeMessage<::edgefs::ReaddirRequest>(Arena*);
 template<> ::edgefs::StatReply* Arena::CreateMaybeMessage<::edgefs::StatReply>(Arena*);
 template<> ::edgefs::StatRequest* Arena::CreateMaybeMessage<::edgefs::StatRequest>(Arena*);
+template<> ::edgefs::statbuf* Arena::CreateMaybeMessage<::edgefs::statbuf>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace edgefs {
 
 // ===================================================================
+
+class statbuf PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:edgefs.statbuf) */ {
+ public:
+  inline statbuf() : statbuf(nullptr) {};
+  virtual ~statbuf();
+
+  statbuf(const statbuf& from);
+  statbuf(statbuf&& from) noexcept
+    : statbuf() {
+    *this = ::std::move(from);
+  }
+
+  inline statbuf& operator=(const statbuf& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline statbuf& operator=(statbuf&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const statbuf& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const statbuf* internal_default_instance() {
+    return reinterpret_cast<const statbuf*>(
+               &_statbuf_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(statbuf& a, statbuf& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(statbuf* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(statbuf* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline statbuf* New() const final {
+    return CreateMaybeMessage<statbuf>(nullptr);
+  }
+
+  statbuf* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<statbuf>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const statbuf& from);
+  void MergeFrom(const statbuf& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(statbuf* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "edgefs.statbuf";
+  }
+  protected:
+  explicit statbuf(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_center_5fservice_2eproto);
+    return ::descriptor_table_center_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNlinkFieldNumber = 3,
+    kLenFieldNumber = 4,
+    kAtimeFieldNumber = 5,
+    kMtimeFieldNumber = 6,
+    kCtimeFieldNumber = 7,
+    kModeFieldNumber = 2,
+  };
+  // uint64 nlink = 3;
+  void clear_nlink();
+  ::PROTOBUF_NAMESPACE_ID::uint64 nlink() const;
+  void set_nlink(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_nlink() const;
+  void _internal_set_nlink(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 len = 4;
+  void clear_len();
+  ::PROTOBUF_NAMESPACE_ID::uint64 len() const;
+  void set_len(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_len() const;
+  void _internal_set_len(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // int64 atime = 5;
+  void clear_atime();
+  ::PROTOBUF_NAMESPACE_ID::int64 atime() const;
+  void set_atime(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_atime() const;
+  void _internal_set_atime(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // int64 mtime = 6;
+  void clear_mtime();
+  ::PROTOBUF_NAMESPACE_ID::int64 mtime() const;
+  void set_mtime(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_mtime() const;
+  void _internal_set_mtime(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // int64 ctime = 7;
+  void clear_ctime();
+  ::PROTOBUF_NAMESPACE_ID::int64 ctime() const;
+  void set_ctime(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_ctime() const;
+  void _internal_set_ctime(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // uint32 mode = 2;
+  void clear_mode();
+  ::PROTOBUF_NAMESPACE_ID::uint32 mode() const;
+  void set_mode(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_mode() const;
+  void _internal_set_mode(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:edgefs.statbuf)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 nlink_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 len_;
+  ::PROTOBUF_NAMESPACE_ID::int64 atime_;
+  ::PROTOBUF_NAMESPACE_ID::int64 mtime_;
+  ::PROTOBUF_NAMESPACE_ID::int64 ctime_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 mode_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_center_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
 
 class PullRequest PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:edgefs.PullRequest) */ {
@@ -125,7 +333,7 @@ class PullRequest PROTOBUF_FINAL :
                &_PullRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(PullRequest& a, PullRequest& b) {
     a.Swap(&b);
@@ -322,7 +530,7 @@ class PullReply_Chunck PROTOBUF_FINAL :
                &_PullReply_Chunck_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(PullReply_Chunck& a, PullReply_Chunck& b) {
     a.Swap(&b);
@@ -486,7 +694,7 @@ class PullReply PROTOBUF_FINAL :
                &_PullReply_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(PullReply& a, PullReply& b) {
     a.Swap(&b);
@@ -645,7 +853,7 @@ class StatRequest PROTOBUF_FINAL :
                &_StatRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(StatRequest& a, StatRequest& b) {
     a.Swap(&b);
@@ -716,31 +924,31 @@ class StatRequest PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPrPathFieldNumber = 1,
+    kPathFieldNumber = 1,
   };
-  // string pr_path = 1;
-  void clear_pr_path();
-  const std::string& pr_path() const;
-  void set_pr_path(const std::string& value);
-  void set_pr_path(std::string&& value);
-  void set_pr_path(const char* value);
-  void set_pr_path(const char* value, size_t size);
-  std::string* mutable_pr_path();
-  std::string* release_pr_path();
-  void set_allocated_pr_path(std::string* pr_path);
+  // string path = 1;
+  void clear_path();
+  const std::string& path() const;
+  void set_path(const std::string& value);
+  void set_path(std::string&& value);
+  void set_path(const char* value);
+  void set_path(const char* value, size_t size);
+  std::string* mutable_path();
+  std::string* release_path();
+  void set_allocated_path(std::string* path);
   GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
   "    string fields are deprecated and will be removed in a"
   "    future release.")
-  std::string* unsafe_arena_release_pr_path();
+  std::string* unsafe_arena_release_path();
   GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
   "    string fields are deprecated and will be removed in a"
   "    future release.")
-  void unsafe_arena_set_allocated_pr_path(
-      std::string* pr_path);
+  void unsafe_arena_set_allocated_path(
+      std::string* path);
   private:
-  const std::string& _internal_pr_path() const;
-  void _internal_set_pr_path(const std::string& value);
-  std::string* _internal_mutable_pr_path();
+  const std::string& _internal_path() const;
+  void _internal_set_path(const std::string& value);
+  std::string* _internal_mutable_path();
   public:
 
   // @@protoc_insertion_point(class_scope:edgefs.StatRequest)
@@ -750,7 +958,7 @@ class StatRequest PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr pr_path_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr path_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_center_5fservice_2eproto;
 };
@@ -798,7 +1006,7 @@ class StatReply PROTOBUF_FINAL :
                &_StatReply_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(StatReply& a, StatReply& b) {
     a.Swap(&b);
@@ -869,27 +1077,26 @@ class StatReply PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kLenFieldNumber = 2,
-    kMtimeFieldNumber = 3,
+    kStFieldNumber = 2,
     kOkFieldNumber = 1,
   };
-  // uint64 len = 2;
-  void clear_len();
-  ::PROTOBUF_NAMESPACE_ID::uint64 len() const;
-  void set_len(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  // .edgefs.statbuf st = 2;
+  bool has_st() const;
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_len() const;
-  void _internal_set_len(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  bool _internal_has_st() const;
   public:
-
-  // int64 mtime = 3;
-  void clear_mtime();
-  ::PROTOBUF_NAMESPACE_ID::int64 mtime() const;
-  void set_mtime(::PROTOBUF_NAMESPACE_ID::int64 value);
+  void clear_st();
+  const ::edgefs::statbuf& st() const;
+  ::edgefs::statbuf* release_st();
+  ::edgefs::statbuf* mutable_st();
+  void set_allocated_st(::edgefs::statbuf* st);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int64 _internal_mtime() const;
-  void _internal_set_mtime(::PROTOBUF_NAMESPACE_ID::int64 value);
+  const ::edgefs::statbuf& _internal_st() const;
+  ::edgefs::statbuf* _internal_mutable_st();
   public:
+  void unsafe_arena_set_allocated_st(
+      ::edgefs::statbuf* st);
+  ::edgefs::statbuf* unsafe_arena_release_st();
 
   // bool ok = 1;
   void clear_ok();
@@ -907,8 +1114,492 @@ class StatReply PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 len_;
-  ::PROTOBUF_NAMESPACE_ID::int64 mtime_;
+  ::edgefs::statbuf* st_;
+  bool ok_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_center_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ReaddirRequest PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:edgefs.ReaddirRequest) */ {
+ public:
+  inline ReaddirRequest() : ReaddirRequest(nullptr) {};
+  virtual ~ReaddirRequest();
+
+  ReaddirRequest(const ReaddirRequest& from);
+  ReaddirRequest(ReaddirRequest&& from) noexcept
+    : ReaddirRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ReaddirRequest& operator=(const ReaddirRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ReaddirRequest& operator=(ReaddirRequest&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ReaddirRequest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ReaddirRequest* internal_default_instance() {
+    return reinterpret_cast<const ReaddirRequest*>(
+               &_ReaddirRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(ReaddirRequest& a, ReaddirRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ReaddirRequest* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ReaddirRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ReaddirRequest* New() const final {
+    return CreateMaybeMessage<ReaddirRequest>(nullptr);
+  }
+
+  ReaddirRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ReaddirRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ReaddirRequest& from);
+  void MergeFrom(const ReaddirRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ReaddirRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "edgefs.ReaddirRequest";
+  }
+  protected:
+  explicit ReaddirRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_center_5fservice_2eproto);
+    return ::descriptor_table_center_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPathFieldNumber = 1,
+  };
+  // string path = 1;
+  void clear_path();
+  const std::string& path() const;
+  void set_path(const std::string& value);
+  void set_path(std::string&& value);
+  void set_path(const char* value);
+  void set_path(const char* value, size_t size);
+  std::string* mutable_path();
+  std::string* release_path();
+  void set_allocated_path(std::string* path);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_path();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_path(
+      std::string* path);
+  private:
+  const std::string& _internal_path() const;
+  void _internal_set_path(const std::string& value);
+  std::string* _internal_mutable_path();
+  public:
+
+  // @@protoc_insertion_point(class_scope:edgefs.ReaddirRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr path_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_center_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ReaddirReply_statbuf_with_name PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:edgefs.ReaddirReply.statbuf_with_name) */ {
+ public:
+  inline ReaddirReply_statbuf_with_name() : ReaddirReply_statbuf_with_name(nullptr) {};
+  virtual ~ReaddirReply_statbuf_with_name();
+
+  ReaddirReply_statbuf_with_name(const ReaddirReply_statbuf_with_name& from);
+  ReaddirReply_statbuf_with_name(ReaddirReply_statbuf_with_name&& from) noexcept
+    : ReaddirReply_statbuf_with_name() {
+    *this = ::std::move(from);
+  }
+
+  inline ReaddirReply_statbuf_with_name& operator=(const ReaddirReply_statbuf_with_name& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ReaddirReply_statbuf_with_name& operator=(ReaddirReply_statbuf_with_name&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ReaddirReply_statbuf_with_name& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ReaddirReply_statbuf_with_name* internal_default_instance() {
+    return reinterpret_cast<const ReaddirReply_statbuf_with_name*>(
+               &_ReaddirReply_statbuf_with_name_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(ReaddirReply_statbuf_with_name& a, ReaddirReply_statbuf_with_name& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ReaddirReply_statbuf_with_name* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ReaddirReply_statbuf_with_name* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ReaddirReply_statbuf_with_name* New() const final {
+    return CreateMaybeMessage<ReaddirReply_statbuf_with_name>(nullptr);
+  }
+
+  ReaddirReply_statbuf_with_name* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ReaddirReply_statbuf_with_name>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ReaddirReply_statbuf_with_name& from);
+  void MergeFrom(const ReaddirReply_statbuf_with_name& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ReaddirReply_statbuf_with_name* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "edgefs.ReaddirReply.statbuf_with_name";
+  }
+  protected:
+  explicit ReaddirReply_statbuf_with_name(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_center_5fservice_2eproto);
+    return ::descriptor_table_center_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 1,
+    kStFieldNumber = 2,
+  };
+  // string name = 1;
+  void clear_name();
+  const std::string& name() const;
+  void set_name(const std::string& value);
+  void set_name(std::string&& value);
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  std::string* mutable_name();
+  std::string* release_name();
+  void set_allocated_name(std::string* name);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_name();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_name(
+      std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // .edgefs.statbuf st = 2;
+  bool has_st() const;
+  private:
+  bool _internal_has_st() const;
+  public:
+  void clear_st();
+  const ::edgefs::statbuf& st() const;
+  ::edgefs::statbuf* release_st();
+  ::edgefs::statbuf* mutable_st();
+  void set_allocated_st(::edgefs::statbuf* st);
+  private:
+  const ::edgefs::statbuf& _internal_st() const;
+  ::edgefs::statbuf* _internal_mutable_st();
+  public:
+  void unsafe_arena_set_allocated_st(
+      ::edgefs::statbuf* st);
+  ::edgefs::statbuf* unsafe_arena_release_st();
+
+  // @@protoc_insertion_point(class_scope:edgefs.ReaddirReply.statbuf_with_name)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+  ::edgefs::statbuf* st_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_center_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ReaddirReply PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:edgefs.ReaddirReply) */ {
+ public:
+  inline ReaddirReply() : ReaddirReply(nullptr) {};
+  virtual ~ReaddirReply();
+
+  ReaddirReply(const ReaddirReply& from);
+  ReaddirReply(ReaddirReply&& from) noexcept
+    : ReaddirReply() {
+    *this = ::std::move(from);
+  }
+
+  inline ReaddirReply& operator=(const ReaddirReply& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ReaddirReply& operator=(ReaddirReply&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ReaddirReply& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ReaddirReply* internal_default_instance() {
+    return reinterpret_cast<const ReaddirReply*>(
+               &_ReaddirReply_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  friend void swap(ReaddirReply& a, ReaddirReply& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ReaddirReply* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ReaddirReply* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ReaddirReply* New() const final {
+    return CreateMaybeMessage<ReaddirReply>(nullptr);
+  }
+
+  ReaddirReply* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ReaddirReply>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ReaddirReply& from);
+  void MergeFrom(const ReaddirReply& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ReaddirReply* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "edgefs.ReaddirReply";
+  }
+  protected:
+  explicit ReaddirReply(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_center_5fservice_2eproto);
+    return ::descriptor_table_center_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  typedef ReaddirReply_statbuf_with_name statbuf_with_name;
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kStsWithNameFieldNumber = 2,
+    kOkFieldNumber = 1,
+  };
+  // repeated .edgefs.ReaddirReply.statbuf_with_name sts_with_name = 2;
+  int sts_with_name_size() const;
+  private:
+  int _internal_sts_with_name_size() const;
+  public:
+  void clear_sts_with_name();
+  ::edgefs::ReaddirReply_statbuf_with_name* mutable_sts_with_name(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::edgefs::ReaddirReply_statbuf_with_name >*
+      mutable_sts_with_name();
+  private:
+  const ::edgefs::ReaddirReply_statbuf_with_name& _internal_sts_with_name(int index) const;
+  ::edgefs::ReaddirReply_statbuf_with_name* _internal_add_sts_with_name();
+  public:
+  const ::edgefs::ReaddirReply_statbuf_with_name& sts_with_name(int index) const;
+  ::edgefs::ReaddirReply_statbuf_with_name* add_sts_with_name();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::edgefs::ReaddirReply_statbuf_with_name >&
+      sts_with_name() const;
+
+  // bool ok = 1;
+  void clear_ok();
+  bool ok() const;
+  void set_ok(bool value);
+  private:
+  bool _internal_ok() const;
+  void _internal_set_ok(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:edgefs.ReaddirReply)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::edgefs::ReaddirReply_statbuf_with_name > sts_with_name_;
   bool ok_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_center_5fservice_2eproto;
@@ -928,13 +1619,17 @@ class CenterService : public ::PROTOBUF_NAMESPACE_ID::Service {
 
   static const ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor* descriptor();
 
-  virtual void PULL(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+  virtual void Pull(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::edgefs::PullRequest* request,
                        ::edgefs::PullReply* response,
                        ::google::protobuf::Closure* done);
   virtual void Stat(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::edgefs::StatRequest* request,
                        ::edgefs::StatReply* response,
+                       ::google::protobuf::Closure* done);
+  virtual void Readdir(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::edgefs::ReaddirRequest* request,
+                       ::edgefs::ReaddirReply* response,
                        ::google::protobuf::Closure* done);
 
   // implements Service ----------------------------------------------
@@ -965,13 +1660,17 @@ class CenterService_Stub : public CenterService {
 
   // implements CenterService ------------------------------------------
 
-  void PULL(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+  void Pull(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::edgefs::PullRequest* request,
                        ::edgefs::PullReply* response,
                        ::google::protobuf::Closure* done);
   void Stat(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                        const ::edgefs::StatRequest* request,
                        ::edgefs::StatReply* response,
+                       ::google::protobuf::Closure* done);
+  void Readdir(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                       const ::edgefs::ReaddirRequest* request,
+                       ::edgefs::ReaddirReply* response,
                        ::google::protobuf::Closure* done);
  private:
   ::PROTOBUF_NAMESPACE_ID::RpcChannel* channel_;
@@ -989,6 +1688,130 @@ class CenterService_Stub : public CenterService {
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// statbuf
+
+// uint32 mode = 2;
+inline void statbuf::clear_mode() {
+  mode_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 statbuf::_internal_mode() const {
+  return mode_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 statbuf::mode() const {
+  // @@protoc_insertion_point(field_get:edgefs.statbuf.mode)
+  return _internal_mode();
+}
+inline void statbuf::_internal_set_mode(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  mode_ = value;
+}
+inline void statbuf::set_mode(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_mode(value);
+  // @@protoc_insertion_point(field_set:edgefs.statbuf.mode)
+}
+
+// uint64 nlink = 3;
+inline void statbuf::clear_nlink() {
+  nlink_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 statbuf::_internal_nlink() const {
+  return nlink_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 statbuf::nlink() const {
+  // @@protoc_insertion_point(field_get:edgefs.statbuf.nlink)
+  return _internal_nlink();
+}
+inline void statbuf::_internal_set_nlink(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  nlink_ = value;
+}
+inline void statbuf::set_nlink(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_nlink(value);
+  // @@protoc_insertion_point(field_set:edgefs.statbuf.nlink)
+}
+
+// uint64 len = 4;
+inline void statbuf::clear_len() {
+  len_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 statbuf::_internal_len() const {
+  return len_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 statbuf::len() const {
+  // @@protoc_insertion_point(field_get:edgefs.statbuf.len)
+  return _internal_len();
+}
+inline void statbuf::_internal_set_len(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  len_ = value;
+}
+inline void statbuf::set_len(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_len(value);
+  // @@protoc_insertion_point(field_set:edgefs.statbuf.len)
+}
+
+// int64 atime = 5;
+inline void statbuf::clear_atime() {
+  atime_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 statbuf::_internal_atime() const {
+  return atime_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 statbuf::atime() const {
+  // @@protoc_insertion_point(field_get:edgefs.statbuf.atime)
+  return _internal_atime();
+}
+inline void statbuf::_internal_set_atime(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  atime_ = value;
+}
+inline void statbuf::set_atime(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_atime(value);
+  // @@protoc_insertion_point(field_set:edgefs.statbuf.atime)
+}
+
+// int64 mtime = 6;
+inline void statbuf::clear_mtime() {
+  mtime_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 statbuf::_internal_mtime() const {
+  return mtime_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 statbuf::mtime() const {
+  // @@protoc_insertion_point(field_get:edgefs.statbuf.mtime)
+  return _internal_mtime();
+}
+inline void statbuf::_internal_set_mtime(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  mtime_ = value;
+}
+inline void statbuf::set_mtime(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_mtime(value);
+  // @@protoc_insertion_point(field_set:edgefs.statbuf.mtime)
+}
+
+// int64 ctime = 7;
+inline void statbuf::clear_ctime() {
+  ctime_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 statbuf::_internal_ctime() const {
+  return ctime_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 statbuf::ctime() const {
+  // @@protoc_insertion_point(field_get:edgefs.statbuf.ctime)
+  return _internal_ctime();
+}
+inline void statbuf::_internal_set_ctime(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  ctime_ = value;
+}
+inline void statbuf::set_ctime(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_ctime(value);
+  // @@protoc_insertion_point(field_set:edgefs.statbuf.ctime)
+}
+
+// -------------------------------------------------------------------
+
 // PullRequest
 
 // string pr_path = 1;
@@ -1324,85 +2147,85 @@ PullReply::chuncks() const {
 
 // StatRequest
 
-// string pr_path = 1;
-inline void StatRequest::clear_pr_path() {
-  pr_path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+// string path = 1;
+inline void StatRequest::clear_path() {
+  path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline const std::string& StatRequest::pr_path() const {
-  // @@protoc_insertion_point(field_get:edgefs.StatRequest.pr_path)
-  return _internal_pr_path();
+inline const std::string& StatRequest::path() const {
+  // @@protoc_insertion_point(field_get:edgefs.StatRequest.path)
+  return _internal_path();
 }
-inline void StatRequest::set_pr_path(const std::string& value) {
-  _internal_set_pr_path(value);
-  // @@protoc_insertion_point(field_set:edgefs.StatRequest.pr_path)
+inline void StatRequest::set_path(const std::string& value) {
+  _internal_set_path(value);
+  // @@protoc_insertion_point(field_set:edgefs.StatRequest.path)
 }
-inline std::string* StatRequest::mutable_pr_path() {
-  // @@protoc_insertion_point(field_mutable:edgefs.StatRequest.pr_path)
-  return _internal_mutable_pr_path();
+inline std::string* StatRequest::mutable_path() {
+  // @@protoc_insertion_point(field_mutable:edgefs.StatRequest.path)
+  return _internal_mutable_path();
 }
-inline const std::string& StatRequest::_internal_pr_path() const {
-  return pr_path_.Get();
+inline const std::string& StatRequest::_internal_path() const {
+  return path_.Get();
 }
-inline void StatRequest::_internal_set_pr_path(const std::string& value) {
+inline void StatRequest::_internal_set_path(const std::string& value) {
   
-  pr_path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
 }
-inline void StatRequest::set_pr_path(std::string&& value) {
+inline void StatRequest::set_path(std::string&& value) {
   
-  pr_path_.Set(
+  path_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:edgefs.StatRequest.pr_path)
+  // @@protoc_insertion_point(field_set_rvalue:edgefs.StatRequest.path)
 }
-inline void StatRequest::set_pr_path(const char* value) {
+inline void StatRequest::set_path(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  pr_path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:edgefs.StatRequest.pr_path)
+  // @@protoc_insertion_point(field_set_char:edgefs.StatRequest.path)
 }
-inline void StatRequest::set_pr_path(const char* value,
+inline void StatRequest::set_path(const char* value,
     size_t size) {
   
-  pr_path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:edgefs.StatRequest.pr_path)
+  // @@protoc_insertion_point(field_set_pointer:edgefs.StatRequest.path)
 }
-inline std::string* StatRequest::_internal_mutable_pr_path() {
+inline std::string* StatRequest::_internal_mutable_path() {
   
-  return pr_path_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  return path_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline std::string* StatRequest::release_pr_path() {
-  // @@protoc_insertion_point(field_release:edgefs.StatRequest.pr_path)
-  return pr_path_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+inline std::string* StatRequest::release_path() {
+  // @@protoc_insertion_point(field_release:edgefs.StatRequest.path)
+  return path_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline void StatRequest::set_allocated_pr_path(std::string* pr_path) {
-  if (pr_path != nullptr) {
+inline void StatRequest::set_allocated_path(std::string* path) {
+  if (path != nullptr) {
     
   } else {
     
   }
-  pr_path_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), pr_path,
+  path_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), path,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:edgefs.StatRequest.pr_path)
+  // @@protoc_insertion_point(field_set_allocated:edgefs.StatRequest.path)
 }
-inline std::string* StatRequest::unsafe_arena_release_pr_path() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:edgefs.StatRequest.pr_path)
+inline std::string* StatRequest::unsafe_arena_release_path() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:edgefs.StatRequest.path)
   GOOGLE_DCHECK(GetArena() != nullptr);
   
-  return pr_path_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  return path_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       GetArena());
 }
-inline void StatRequest::unsafe_arena_set_allocated_pr_path(
-    std::string* pr_path) {
+inline void StatRequest::unsafe_arena_set_allocated_path(
+    std::string* path) {
   GOOGLE_DCHECK(GetArena() != nullptr);
-  if (pr_path != nullptr) {
+  if (path != nullptr) {
     
   } else {
     
   }
-  pr_path_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      pr_path, GetArena());
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:edgefs.StatRequest.pr_path)
+  path_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      path, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:edgefs.StatRequest.path)
 }
 
 // -------------------------------------------------------------------
@@ -1429,49 +2252,412 @@ inline void StatReply::set_ok(bool value) {
   // @@protoc_insertion_point(field_set:edgefs.StatReply.ok)
 }
 
-// uint64 len = 2;
-inline void StatReply::clear_len() {
-  len_ = PROTOBUF_ULONGLONG(0);
+// .edgefs.statbuf st = 2;
+inline bool StatReply::_internal_has_st() const {
+  return this != internal_default_instance() && st_ != nullptr;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 StatReply::_internal_len() const {
-  return len_;
+inline bool StatReply::has_st() const {
+  return _internal_has_st();
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 StatReply::len() const {
-  // @@protoc_insertion_point(field_get:edgefs.StatReply.len)
-  return _internal_len();
+inline void StatReply::clear_st() {
+  if (GetArena() == nullptr && st_ != nullptr) {
+    delete st_;
+  }
+  st_ = nullptr;
 }
-inline void StatReply::_internal_set_len(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline const ::edgefs::statbuf& StatReply::_internal_st() const {
+  const ::edgefs::statbuf* p = st_;
+  return p != nullptr ? *p : *reinterpret_cast<const ::edgefs::statbuf*>(
+      &::edgefs::_statbuf_default_instance_);
+}
+inline const ::edgefs::statbuf& StatReply::st() const {
+  // @@protoc_insertion_point(field_get:edgefs.StatReply.st)
+  return _internal_st();
+}
+inline void StatReply::unsafe_arena_set_allocated_st(
+    ::edgefs::statbuf* st) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(st_);
+  }
+  st_ = st;
+  if (st) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:edgefs.StatReply.st)
+}
+inline ::edgefs::statbuf* StatReply::release_st() {
+  auto temp = unsafe_arena_release_st();
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::edgefs::statbuf* StatReply::unsafe_arena_release_st() {
+  // @@protoc_insertion_point(field_release:edgefs.StatReply.st)
   
-  len_ = value;
+  ::edgefs::statbuf* temp = st_;
+  st_ = nullptr;
+  return temp;
 }
-inline void StatReply::set_len(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_len(value);
-  // @@protoc_insertion_point(field_set:edgefs.StatReply.len)
+inline ::edgefs::statbuf* StatReply::_internal_mutable_st() {
+  
+  if (st_ == nullptr) {
+    auto* p = CreateMaybeMessage<::edgefs::statbuf>(GetArena());
+    st_ = p;
+  }
+  return st_;
+}
+inline ::edgefs::statbuf* StatReply::mutable_st() {
+  // @@protoc_insertion_point(field_mutable:edgefs.StatReply.st)
+  return _internal_mutable_st();
+}
+inline void StatReply::set_allocated_st(::edgefs::statbuf* st) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete st_;
+  }
+  if (st) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(st);
+    if (message_arena != submessage_arena) {
+      st = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, st, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  st_ = st;
+  // @@protoc_insertion_point(field_set_allocated:edgefs.StatReply.st)
 }
 
-// int64 mtime = 3;
-inline void StatReply::clear_mtime() {
-  mtime_ = PROTOBUF_LONGLONG(0);
+// -------------------------------------------------------------------
+
+// ReaddirRequest
+
+// string path = 1;
+inline void ReaddirRequest::clear_path() {
+  path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
-inline ::PROTOBUF_NAMESPACE_ID::int64 StatReply::_internal_mtime() const {
-  return mtime_;
+inline const std::string& ReaddirRequest::path() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReaddirRequest.path)
+  return _internal_path();
 }
-inline ::PROTOBUF_NAMESPACE_ID::int64 StatReply::mtime() const {
-  // @@protoc_insertion_point(field_get:edgefs.StatReply.mtime)
-  return _internal_mtime();
+inline void ReaddirRequest::set_path(const std::string& value) {
+  _internal_set_path(value);
+  // @@protoc_insertion_point(field_set:edgefs.ReaddirRequest.path)
 }
-inline void StatReply::_internal_set_mtime(::PROTOBUF_NAMESPACE_ID::int64 value) {
+inline std::string* ReaddirRequest::mutable_path() {
+  // @@protoc_insertion_point(field_mutable:edgefs.ReaddirRequest.path)
+  return _internal_mutable_path();
+}
+inline const std::string& ReaddirRequest::_internal_path() const {
+  return path_.Get();
+}
+inline void ReaddirRequest::_internal_set_path(const std::string& value) {
   
-  mtime_ = value;
+  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
 }
-inline void StatReply::set_mtime(::PROTOBUF_NAMESPACE_ID::int64 value) {
-  _internal_set_mtime(value);
-  // @@protoc_insertion_point(field_set:edgefs.StatReply.mtime)
+inline void ReaddirRequest::set_path(std::string&& value) {
+  
+  path_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:edgefs.ReaddirRequest.path)
+}
+inline void ReaddirRequest::set_path(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:edgefs.ReaddirRequest.path)
+}
+inline void ReaddirRequest::set_path(const char* value,
+    size_t size) {
+  
+  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:edgefs.ReaddirRequest.path)
+}
+inline std::string* ReaddirRequest::_internal_mutable_path() {
+  
+  return path_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* ReaddirRequest::release_path() {
+  // @@protoc_insertion_point(field_release:edgefs.ReaddirRequest.path)
+  return path_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void ReaddirRequest::set_allocated_path(std::string* path) {
+  if (path != nullptr) {
+    
+  } else {
+    
+  }
+  path_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), path,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:edgefs.ReaddirRequest.path)
+}
+inline std::string* ReaddirRequest::unsafe_arena_release_path() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:edgefs.ReaddirRequest.path)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return path_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void ReaddirRequest::unsafe_arena_set_allocated_path(
+    std::string* path) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (path != nullptr) {
+    
+  } else {
+    
+  }
+  path_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      path, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:edgefs.ReaddirRequest.path)
+}
+
+// -------------------------------------------------------------------
+
+// ReaddirReply_statbuf_with_name
+
+// string name = 1;
+inline void ReaddirReply_statbuf_with_name::clear_name() {
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& ReaddirReply_statbuf_with_name::name() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReaddirReply.statbuf_with_name.name)
+  return _internal_name();
+}
+inline void ReaddirReply_statbuf_with_name::set_name(const std::string& value) {
+  _internal_set_name(value);
+  // @@protoc_insertion_point(field_set:edgefs.ReaddirReply.statbuf_with_name.name)
+}
+inline std::string* ReaddirReply_statbuf_with_name::mutable_name() {
+  // @@protoc_insertion_point(field_mutable:edgefs.ReaddirReply.statbuf_with_name.name)
+  return _internal_mutable_name();
+}
+inline const std::string& ReaddirReply_statbuf_with_name::_internal_name() const {
+  return name_.Get();
+}
+inline void ReaddirReply_statbuf_with_name::_internal_set_name(const std::string& value) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void ReaddirReply_statbuf_with_name::set_name(std::string&& value) {
+  
+  name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:edgefs.ReaddirReply.statbuf_with_name.name)
+}
+inline void ReaddirReply_statbuf_with_name::set_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:edgefs.ReaddirReply.statbuf_with_name.name)
+}
+inline void ReaddirReply_statbuf_with_name::set_name(const char* value,
+    size_t size) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:edgefs.ReaddirReply.statbuf_with_name.name)
+}
+inline std::string* ReaddirReply_statbuf_with_name::_internal_mutable_name() {
+  
+  return name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* ReaddirReply_statbuf_with_name::release_name() {
+  // @@protoc_insertion_point(field_release:edgefs.ReaddirReply.statbuf_with_name.name)
+  return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void ReaddirReply_statbuf_with_name::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:edgefs.ReaddirReply.statbuf_with_name.name)
+}
+inline std::string* ReaddirReply_statbuf_with_name::unsafe_arena_release_name() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:edgefs.ReaddirReply.statbuf_with_name.name)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return name_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void ReaddirReply_statbuf_with_name::unsafe_arena_set_allocated_name(
+    std::string* name) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      name, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:edgefs.ReaddirReply.statbuf_with_name.name)
+}
+
+// .edgefs.statbuf st = 2;
+inline bool ReaddirReply_statbuf_with_name::_internal_has_st() const {
+  return this != internal_default_instance() && st_ != nullptr;
+}
+inline bool ReaddirReply_statbuf_with_name::has_st() const {
+  return _internal_has_st();
+}
+inline void ReaddirReply_statbuf_with_name::clear_st() {
+  if (GetArena() == nullptr && st_ != nullptr) {
+    delete st_;
+  }
+  st_ = nullptr;
+}
+inline const ::edgefs::statbuf& ReaddirReply_statbuf_with_name::_internal_st() const {
+  const ::edgefs::statbuf* p = st_;
+  return p != nullptr ? *p : *reinterpret_cast<const ::edgefs::statbuf*>(
+      &::edgefs::_statbuf_default_instance_);
+}
+inline const ::edgefs::statbuf& ReaddirReply_statbuf_with_name::st() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReaddirReply.statbuf_with_name.st)
+  return _internal_st();
+}
+inline void ReaddirReply_statbuf_with_name::unsafe_arena_set_allocated_st(
+    ::edgefs::statbuf* st) {
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(st_);
+  }
+  st_ = st;
+  if (st) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:edgefs.ReaddirReply.statbuf_with_name.st)
+}
+inline ::edgefs::statbuf* ReaddirReply_statbuf_with_name::release_st() {
+  auto temp = unsafe_arena_release_st();
+  if (GetArena() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::edgefs::statbuf* ReaddirReply_statbuf_with_name::unsafe_arena_release_st() {
+  // @@protoc_insertion_point(field_release:edgefs.ReaddirReply.statbuf_with_name.st)
+  
+  ::edgefs::statbuf* temp = st_;
+  st_ = nullptr;
+  return temp;
+}
+inline ::edgefs::statbuf* ReaddirReply_statbuf_with_name::_internal_mutable_st() {
+  
+  if (st_ == nullptr) {
+    auto* p = CreateMaybeMessage<::edgefs::statbuf>(GetArena());
+    st_ = p;
+  }
+  return st_;
+}
+inline ::edgefs::statbuf* ReaddirReply_statbuf_with_name::mutable_st() {
+  // @@protoc_insertion_point(field_mutable:edgefs.ReaddirReply.statbuf_with_name.st)
+  return _internal_mutable_st();
+}
+inline void ReaddirReply_statbuf_with_name::set_allocated_st(::edgefs::statbuf* st) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArena();
+  if (message_arena == nullptr) {
+    delete st_;
+  }
+  if (st) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+      ::PROTOBUF_NAMESPACE_ID::Arena::GetArena(st);
+    if (message_arena != submessage_arena) {
+      st = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, st, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  st_ = st;
+  // @@protoc_insertion_point(field_set_allocated:edgefs.ReaddirReply.statbuf_with_name.st)
+}
+
+// -------------------------------------------------------------------
+
+// ReaddirReply
+
+// bool ok = 1;
+inline void ReaddirReply::clear_ok() {
+  ok_ = false;
+}
+inline bool ReaddirReply::_internal_ok() const {
+  return ok_;
+}
+inline bool ReaddirReply::ok() const {
+  // @@protoc_insertion_point(field_get:edgefs.ReaddirReply.ok)
+  return _internal_ok();
+}
+inline void ReaddirReply::_internal_set_ok(bool value) {
+  
+  ok_ = value;
+}
+inline void ReaddirReply::set_ok(bool value) {
+  _internal_set_ok(value);
+  // @@protoc_insertion_point(field_set:edgefs.ReaddirReply.ok)
+}
+
+// repeated .edgefs.ReaddirReply.statbuf_with_name sts_with_name = 2;
+inline int ReaddirReply::_internal_sts_with_name_size() const {
+  return sts_with_name_.size();
+}
+inline int ReaddirReply::sts_with_name_size() const {
+  return _internal_sts_with_name_size();
+}
+inline void ReaddirReply::clear_sts_with_name() {
+  sts_with_name_.Clear();
+}
+inline ::edgefs::ReaddirReply_statbuf_with_name* ReaddirReply::mutable_sts_with_name(int index) {
+  // @@protoc_insertion_point(field_mutable:edgefs.ReaddirReply.sts_with_name)
+  return sts_with_name_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::edgefs::ReaddirReply_statbuf_with_name >*
+ReaddirReply::mutable_sts_with_name() {
+  // @@protoc_insertion_point(field_mutable_list:edgefs.ReaddirReply.sts_with_name)
+  return &sts_with_name_;
+}
+inline const ::edgefs::ReaddirReply_statbuf_with_name& ReaddirReply::_internal_sts_with_name(int index) const {
+  return sts_with_name_.Get(index);
+}
+inline const ::edgefs::ReaddirReply_statbuf_with_name& ReaddirReply::sts_with_name(int index) const {
+  // @@protoc_insertion_point(field_get:edgefs.ReaddirReply.sts_with_name)
+  return _internal_sts_with_name(index);
+}
+inline ::edgefs::ReaddirReply_statbuf_with_name* ReaddirReply::_internal_add_sts_with_name() {
+  return sts_with_name_.Add();
+}
+inline ::edgefs::ReaddirReply_statbuf_with_name* ReaddirReply::add_sts_with_name() {
+  // @@protoc_insertion_point(field_add:edgefs.ReaddirReply.sts_with_name)
+  return _internal_add_sts_with_name();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::edgefs::ReaddirReply_statbuf_with_name >&
+ReaddirReply::sts_with_name() const {
+  // @@protoc_insertion_point(field_list:edgefs.ReaddirReply.sts_with_name)
+  return sts_with_name_;
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

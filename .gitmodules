@@ -1,3 +1,6 @@
 [submodule "third-party/rapidjson"]
 	path = third-party/rapidjson
 	url = https://github.com/Tencent/rapidjson.git
+[submodule "third-party/spdlog"]
+	path = third-party/spdlog
+	url = https://github.com/gabime/spdlog.git
