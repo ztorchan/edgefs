@@ -80,3 +80,6 @@ target_link_libraries(edgefs centerrpc edgerpc ${LIBS})
 
 add_executable(centerserver ${CENTER_SERVER_SRCS})
 target_link_libraries(centerserver centerrpc ${LIBS})
+
+# add_executable(test test.cc)
+# target_link_libraries(test ${LIBS})

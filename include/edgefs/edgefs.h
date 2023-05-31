@@ -61,38 +61,38 @@ enum class GCReason {
 /**/
 
 /* File system normal struct */
-struct dentry;
-struct inode;
-struct subinode;
+struct edgefs_dentry;
+struct edgefs_inode;
+struct edgefs_subinode;
 
-struct dentry {
-  std::string d_name;
-  FileType    d_type;
-  inode*      d_inode;        // nullptr if directory
-  dentry*     d_parent;
+struct edgefs_dentry {
+  std::string         d_name;
+  FileType            d_type;
+  edgefs_inode*       d_inode;        // nullptr if directory
+  edgefs_dentry*      d_parent;
   uint64_t    d_ref;
   std::shared_mutex   d_mtx;
-  std::map<std::string, dentry*>* d_childs; // nullptr if regular file
+  std::map<std::string, edgefs_dentry*>* d_childs; // nullptr if regular file
 };
 
-struct inode {
-  uint64_t    i_len;           // file length
-  uint64_t    i_chunck_size;   // Disk chunck: 64 MB default (64 * 1024 * 1024)
-  uint64_t    i_block_size;    // Memory block: 2 MB default (2 * 1024 * 1024)
-  FileState   i_state;         // file state
-  time_t      i_mtime;         // last modify time
-  time_t      i_atime;         // last access time
-  mode_t      i_mode;          // inode mode
+struct edgefs_inode {
+  uint64_t        i_len;           // file length
+  uint64_t        i_chunck_size;   // Disk chunck: 64 MB default (64 * 1024 * 1024)
+  uint64_t        i_block_size;    // Memory block: 2 MB default (2 * 1024 * 1024)
+  FileState       i_state;         // file state
+  time_t          i_mtime;         // last modify time
+  time_t          i_atime;         // last access time
+  mode_t          i_mode;          // inode mode
   
-  dentry*     i_dentry;
+  edgefs_dentry*  i_dentry;
 
-  BitMap*     i_chunck_bitmap; // if chunck exist 
-  std::map<uint64_t, subinode*> i_subinodes;  // chunck file inode
+  BitMap*         i_chunck_bitmap; // if chunck exist 
+  std::map<uint64_t, edgefs_subinode*> i_subinodes;  // chunck file inode
 };
 
-struct subinode {
+struct edgefs_subinode {
   uint64_t              subi_no;                // chunck no
-  inode*                subi_inode;             // parent inode
+  edgefs_inode*         subi_inode;             // parent inode
   time_t                subi_ctime;             // last modify time
   time_t                subi_atime;             // last access time
   uint64_t              subi_acounter;          // total access times
@@ -135,12 +135,12 @@ public:
 
 private:
   static void split_path(const char *path, std::vector<std::string>& d_names);
-  static std::string get_path_from_dentry(dentry* den);
-  static int read_from_chunck(const char *path, subinode* subi, char *buf, std::size_t size, off_t offset);
-  static bool check_chuncks_exist(inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>>& lack_extent);
-  static void gc_extent(inode* in, uint64_t start_chunck_no, uint64_t chunck_num);
-  static void gc_whole_file(inode* in);
-  static void dfs_scan(dentry* cur_den);
+  static std::string get_path_from_dentry(edgefs_dentry* den);
+  static int read_from_chunck(const char *path, edgefs_subinode* subi, char *buf, std::size_t size, off_t offset);
+  static bool check_chuncks_exist(edgefs_inode* in, uint64_t start_chunck_no, uint64_t end_chunck_no, _OUT std::vector<std::pair<uint64_t, uint64_t>>& lack_extent);
+  static void gc_extent(edgefs_inode* in, uint64_t start_chunck_no, uint64_t chunck_num);
+  static void gc_whole_file(edgefs_inode* in);
+  static void dfs_scan(edgefs_dentry* cur_den);
   static void RPC();
   static void GC_AND_PULL();
   static void SCAN();
@@ -150,7 +150,7 @@ private:
   static std::thread* gc_and_pull_thread_;
   static std::thread* scan_thread_;
 
-  static dentry* root_dentry_;     // fs root dentry
+  static edgefs_dentry* root_dentry_;     // fs root dentry
 
   static std::list<request*> req_list_;
   static std::mutex req_mtx_;
@@ -161,6 +161,7 @@ private:
   static brpc::Channel center_chan_;
 
   friend class EdgeServiceImpl;
+  friend class EdgeChunckStreamReceiver;
 };
 
 } // namespace edgefs

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <butil/iobuf.h>
 
 // void T() {
 //   for(int i = 0; i < 100000; i++) {
@@ -40,11 +41,16 @@
 // }
 
 int main() {
-  char* new_chars = new char[20];
-  memset(new_chars, 0, 20);
-  new_chars[0] = 5;
-  new_chars[1] = 5;
-  std::string s(new_chars, 6);
-  std::cout << s.size() << std::endl;
-  return 0;
+  butil::IOBuf iobuf;
+  uint64_t a = 64;
+  std::string a_path = "/home/ubuntu/aaa";
+  iobuf.append(&a, sizeof(uint64_t));
+  iobuf.append(a_path);
+
+  uint64_t b = UINT64_MAX;
+  iobuf.cutn(&b, sizeof(uint64_t));
+  std::string b_path = iobuf.to_string();
+
+  std::cout << b << std::endl;
+  std::cout << b_path << std::endl;
 }

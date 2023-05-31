@@ -3,11 +3,31 @@
 
 #include <string>
 
-#include "edgefs/edgefs.h"
 #include "edgefs/rpc/edge_service.pb.h"
 
 namespace edgefs
 {
+
+struct edgefs_inode;
+
+class EdgeChunckStreamReceiver : public brpc::StreamInputHandler {
+public:
+  EdgeChunckStreamReceiver(std::string fpath, edgefs_inode* fi)
+  : fpath_(fpath)
+  , fi_(fi)
+  , finish_(false) {}
+  
+  int on_received_messages(brpc::StreamId id, 
+                           butil::IOBuf *const messages[], 
+                           size_t size) override;
+  void on_idle_timeout(brpc::StreamId id) override;
+  void on_closed(brpc::StreamId id) override;
+  bool is_finish() { return finish_; }
+private:
+  const std::string fpath_;
+  edgefs_inode* fi_;
+  bool finish_;
+};
 
 class EdgeServiceImpl : public EdgeService {
 public:

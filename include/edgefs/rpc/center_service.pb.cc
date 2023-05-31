@@ -34,6 +34,14 @@ class PullReplyDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PullReply> _instance;
 } _PullReply_default_instance_;
+class StreamPullRequestDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StreamPullRequest> _instance;
+} _StreamPullRequest_default_instance_;
+class StreamPullReplyDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StreamPullReply> _instance;
+} _StreamPullReply_default_instance_;
 class StatRequestDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<StatRequest> _instance;
@@ -171,6 +179,34 @@ static void InitDefaultsscc_info_StatRequest_center_5fservice_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StatRequest_center_5fservice_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StatRequest_center_5fservice_2eproto}, {}};
 
+static void InitDefaultsscc_info_StreamPullReply_center_5fservice_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::edgefs::_StreamPullReply_default_instance_;
+    new (ptr) ::edgefs::StreamPullReply();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::edgefs::StreamPullReply::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StreamPullReply_center_5fservice_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StreamPullReply_center_5fservice_2eproto}, {}};
+
+static void InitDefaultsscc_info_StreamPullRequest_center_5fservice_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::edgefs::_StreamPullRequest_default_instance_;
+    new (ptr) ::edgefs::StreamPullRequest();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::edgefs::StreamPullRequest::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_StreamPullRequest_center_5fservice_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_StreamPullRequest_center_5fservice_2eproto}, {}};
+
 static void InitDefaultsscc_info_statbuf_center_5fservice_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -185,7 +221,7 @@ static void InitDefaultsscc_info_statbuf_center_5fservice_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_statbuf_center_5fservice_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_statbuf_center_5fservice_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_center_5fservice_2eproto[9];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_center_5fservice_2eproto[11];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_center_5fservice_2eproto = nullptr;
 static const ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor* file_level_service_descriptors_center_5fservice_2eproto[1];
 
@@ -226,6 +262,20 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_center_5fservice_2eproto::offs
   PROTOBUF_FIELD_OFFSET(::edgefs::PullReply, ok_),
   PROTOBUF_FIELD_OFFSET(::edgefs::PullReply, chuncks_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::edgefs::StreamPullRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::edgefs::StreamPullRequest, pr_path_),
+  PROTOBUF_FIELD_OFFSET(::edgefs::StreamPullRequest, pr_time_),
+  PROTOBUF_FIELD_OFFSET(::edgefs::StreamPullRequest, chunck_size_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::edgefs::StreamPullReply, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::edgefs::StreamPullReply, ok_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::edgefs::StatRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -264,11 +314,13 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 11, -1, sizeof(::edgefs::PullRequest)},
   { 21, -1, sizeof(::edgefs::PullReply_Chunck)},
   { 28, -1, sizeof(::edgefs::PullReply)},
-  { 35, -1, sizeof(::edgefs::StatRequest)},
-  { 41, -1, sizeof(::edgefs::StatReply)},
-  { 48, -1, sizeof(::edgefs::ReaddirRequest)},
-  { 54, -1, sizeof(::edgefs::ReaddirReply_statbuf_with_name)},
-  { 61, -1, sizeof(::edgefs::ReaddirReply)},
+  { 35, -1, sizeof(::edgefs::StreamPullRequest)},
+  { 43, -1, sizeof(::edgefs::StreamPullReply)},
+  { 49, -1, sizeof(::edgefs::StatRequest)},
+  { 55, -1, sizeof(::edgefs::StatReply)},
+  { 62, -1, sizeof(::edgefs::ReaddirRequest)},
+  { 68, -1, sizeof(::edgefs::ReaddirReply_statbuf_with_name)},
+  { 75, -1, sizeof(::edgefs::ReaddirReply)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -276,6 +328,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::edgefs::_PullRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::edgefs::_PullReply_Chunck_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::edgefs::_PullReply_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::edgefs::_StreamPullRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::edgefs::_StreamPullReply_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::edgefs::_StatRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::edgefs::_StatReply_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::edgefs::_ReaddirRequest_default_instance_),
@@ -292,23 +346,27 @@ const char descriptor_table_protodef_center_5fservice_2eproto[] PROTOBUF_SECTION
   "\n\014start_chunck\030\004 \001(\004\022\023\n\013chuncks_num\030\005 \001("
   "\004\"m\n\tPullReply\022\n\n\002ok\030\001 \001(\010\022)\n\007chuncks\030\002 "
   "\003(\0132\030.edgefs.PullReply.Chunck\032)\n\006Chunck\022"
-  "\021\n\tchunck_no\030\001 \001(\004\022\014\n\004data\030\002 \001(\t\"\033\n\013Stat"
-  "Request\022\014\n\004path\030\001 \001(\t\"4\n\tStatReply\022\n\n\002ok"
-  "\030\001 \001(\010\022\033\n\002st\030\002 \001(\0132\017.edgefs.statbuf\"\036\n\016R"
-  "eaddirRequest\022\014\n\004path\030\001 \001(\t\"\231\001\n\014ReaddirR"
-  "eply\022\n\n\002ok\030\001 \001(\010\022=\n\rsts_with_name\030\002 \003(\0132"
-  "&.edgefs.ReaddirReply.statbuf_with_name\032"
-  ">\n\021statbuf_with_name\022\014\n\004name\030\001 \001(\t\022\033\n\002st"
-  "\030\002 \001(\0132\017.edgefs.statbuf2\250\001\n\rCenterServic"
-  "e\022.\n\004Pull\022\023.edgefs.PullRequest\032\021.edgefs."
-  "PullReply\022.\n\004Stat\022\023.edgefs.StatRequest\032\021"
-  ".edgefs.StatReply\0227\n\007Readdir\022\026.edgefs.Re"
-  "addirRequest\032\024.edgefs.ReaddirReplyB\003\200\001\001b"
-  "\006proto3"
+  "\021\n\tchunck_no\030\001 \001(\004\022\014\n\004data\030\002 \001(\t\"J\n\021Stre"
+  "amPullRequest\022\017\n\007pr_path\030\001 \001(\t\022\017\n\007pr_tim"
+  "e\030\002 \001(\003\022\023\n\013chunck_size\030\003 \001(\004\"\035\n\017StreamPu"
+  "llReply\022\n\n\002ok\030\001 \001(\010\"\033\n\013StatRequest\022\014\n\004pa"
+  "th\030\001 \001(\t\"4\n\tStatReply\022\n\n\002ok\030\001 \001(\010\022\033\n\002st\030"
+  "\002 \001(\0132\017.edgefs.statbuf\"\036\n\016ReaddirRequest"
+  "\022\014\n\004path\030\001 \001(\t\"\231\001\n\014ReaddirReply\022\n\n\002ok\030\001 "
+  "\001(\010\022=\n\rsts_with_name\030\002 \003(\0132&.edgefs.Read"
+  "dirReply.statbuf_with_name\032>\n\021statbuf_wi"
+  "th_name\022\014\n\004name\030\001 \001(\t\022\033\n\002st\030\002 \001(\0132\017.edge"
+  "fs.statbuf2\352\001\n\rCenterService\022.\n\004Pull\022\023.e"
+  "dgefs.PullRequest\032\021.edgefs.PullReply\022@\n\n"
+  "StreamPull\022\031.edgefs.StreamPullRequest\032\027."
+  "edgefs.StreamPullReply\022.\n\004Stat\022\023.edgefs."
+  "StatRequest\032\021.edgefs.StatReply\0227\n\007Readdi"
+  "r\022\026.edgefs.ReaddirRequest\032\024.edgefs.Readd"
+  "irReplyB\003\200\001\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_center_5fservice_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_center_5fservice_2eproto_sccs[9] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_center_5fservice_2eproto_sccs[11] = {
   &scc_info_PullReply_center_5fservice_2eproto.base,
   &scc_info_PullReply_Chunck_center_5fservice_2eproto.base,
   &scc_info_PullRequest_center_5fservice_2eproto.base,
@@ -317,14 +375,16 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_cen
   &scc_info_ReaddirRequest_center_5fservice_2eproto.base,
   &scc_info_StatReply_center_5fservice_2eproto.base,
   &scc_info_StatRequest_center_5fservice_2eproto.base,
+  &scc_info_StreamPullReply_center_5fservice_2eproto.base,
+  &scc_info_StreamPullRequest_center_5fservice_2eproto.base,
   &scc_info_statbuf_center_5fservice_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_center_5fservice_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_center_5fservice_2eproto = {
-  false, false, descriptor_table_protodef_center_5fservice_2eproto, "center_service.proto", 807,
-  &descriptor_table_center_5fservice_2eproto_once, descriptor_table_center_5fservice_2eproto_sccs, descriptor_table_center_5fservice_2eproto_deps, 9, 0,
+  false, false, descriptor_table_protodef_center_5fservice_2eproto, "center_service.proto", 980,
+  &descriptor_table_center_5fservice_2eproto_once, descriptor_table_center_5fservice_2eproto_sccs, descriptor_table_center_5fservice_2eproto_deps, 11, 0,
   schemas, file_default_instances, TableStruct_center_5fservice_2eproto::offsets,
-  file_level_metadata_center_5fservice_2eproto, 9, file_level_enum_descriptors_center_5fservice_2eproto, file_level_service_descriptors_center_5fservice_2eproto,
+  file_level_metadata_center_5fservice_2eproto, 11, file_level_enum_descriptors_center_5fservice_2eproto, file_level_service_descriptors_center_5fservice_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -1430,6 +1490,471 @@ void PullReply::InternalSwap(PullReply* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata PullReply::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void StreamPullRequest::InitAsDefaultInstance() {
+}
+class StreamPullRequest::_Internal {
+ public:
+};
+
+StreamPullRequest::StreamPullRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:edgefs.StreamPullRequest)
+}
+StreamPullRequest::StreamPullRequest(const StreamPullRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  pr_path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_pr_path().empty()) {
+    pr_path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_pr_path(),
+      GetArena());
+  }
+  ::memcpy(&pr_time_, &from.pr_time_,
+    static_cast<size_t>(reinterpret_cast<char*>(&chunck_size_) -
+    reinterpret_cast<char*>(&pr_time_)) + sizeof(chunck_size_));
+  // @@protoc_insertion_point(copy_constructor:edgefs.StreamPullRequest)
+}
+
+void StreamPullRequest::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_StreamPullRequest_center_5fservice_2eproto.base);
+  pr_path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&pr_time_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&chunck_size_) -
+      reinterpret_cast<char*>(&pr_time_)) + sizeof(chunck_size_));
+}
+
+StreamPullRequest::~StreamPullRequest() {
+  // @@protoc_insertion_point(destructor:edgefs.StreamPullRequest)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void StreamPullRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  pr_path_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void StreamPullRequest::ArenaDtor(void* object) {
+  StreamPullRequest* _this = reinterpret_cast< StreamPullRequest* >(object);
+  (void)_this;
+}
+void StreamPullRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void StreamPullRequest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const StreamPullRequest& StreamPullRequest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_StreamPullRequest_center_5fservice_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void StreamPullRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:edgefs.StreamPullRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  pr_path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::memset(&pr_time_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&chunck_size_) -
+      reinterpret_cast<char*>(&pr_time_)) + sizeof(chunck_size_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* StreamPullRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // string pr_path = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          auto str = _internal_mutable_pr_path();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "edgefs.StreamPullRequest.pr_path"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int64 pr_time = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          pr_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 chunck_size = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          chunck_size_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* StreamPullRequest::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:edgefs.StreamPullRequest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string pr_path = 1;
+  if (this->pr_path().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_pr_path().data(), static_cast<int>(this->_internal_pr_path().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "edgefs.StreamPullRequest.pr_path");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_pr_path(), target);
+  }
+
+  // int64 pr_time = 2;
+  if (this->pr_time() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(2, this->_internal_pr_time(), target);
+  }
+
+  // uint64 chunck_size = 3;
+  if (this->chunck_size() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_chunck_size(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:edgefs.StreamPullRequest)
+  return target;
+}
+
+size_t StreamPullRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:edgefs.StreamPullRequest)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string pr_path = 1;
+  if (this->pr_path().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_pr_path());
+  }
+
+  // int64 pr_time = 2;
+  if (this->pr_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_pr_time());
+  }
+
+  // uint64 chunck_size = 3;
+  if (this->chunck_size() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_chunck_size());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void StreamPullRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:edgefs.StreamPullRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const StreamPullRequest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<StreamPullRequest>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.StreamPullRequest)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.StreamPullRequest)
+    MergeFrom(*source);
+  }
+}
+
+void StreamPullRequest::MergeFrom(const StreamPullRequest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.StreamPullRequest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.pr_path().size() > 0) {
+    _internal_set_pr_path(from._internal_pr_path());
+  }
+  if (from.pr_time() != 0) {
+    _internal_set_pr_time(from._internal_pr_time());
+  }
+  if (from.chunck_size() != 0) {
+    _internal_set_chunck_size(from._internal_chunck_size());
+  }
+}
+
+void StreamPullRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:edgefs.StreamPullRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void StreamPullRequest::CopyFrom(const StreamPullRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.StreamPullRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool StreamPullRequest::IsInitialized() const {
+  return true;
+}
+
+void StreamPullRequest::InternalSwap(StreamPullRequest* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  pr_path_.Swap(&other->pr_path_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(StreamPullRequest, chunck_size_)
+      + sizeof(StreamPullRequest::chunck_size_)
+      - PROTOBUF_FIELD_OFFSET(StreamPullRequest, pr_time_)>(
+          reinterpret_cast<char*>(&pr_time_),
+          reinterpret_cast<char*>(&other->pr_time_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata StreamPullRequest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void StreamPullReply::InitAsDefaultInstance() {
+}
+class StreamPullReply::_Internal {
+ public:
+};
+
+StreamPullReply::StreamPullReply(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:edgefs.StreamPullReply)
+}
+StreamPullReply::StreamPullReply(const StreamPullReply& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ok_ = from.ok_;
+  // @@protoc_insertion_point(copy_constructor:edgefs.StreamPullReply)
+}
+
+void StreamPullReply::SharedCtor() {
+  ok_ = false;
+}
+
+StreamPullReply::~StreamPullReply() {
+  // @@protoc_insertion_point(destructor:edgefs.StreamPullReply)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void StreamPullReply::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
+}
+
+void StreamPullReply::ArenaDtor(void* object) {
+  StreamPullReply* _this = reinterpret_cast< StreamPullReply* >(object);
+  (void)_this;
+}
+void StreamPullReply::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void StreamPullReply::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const StreamPullReply& StreamPullReply::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_StreamPullReply_center_5fservice_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void StreamPullReply::Clear() {
+// @@protoc_insertion_point(message_clear_start:edgefs.StreamPullReply)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ok_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* StreamPullReply::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // bool ok = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ok_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* StreamPullReply::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:edgefs.StreamPullReply)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool ok = 1;
+  if (this->ok() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(1, this->_internal_ok(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:edgefs.StreamPullReply)
+  return target;
+}
+
+size_t StreamPullReply::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:edgefs.StreamPullReply)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bool ok = 1;
+  if (this->ok() != 0) {
+    total_size += 1 + 1;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void StreamPullReply::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:edgefs.StreamPullReply)
+  GOOGLE_DCHECK_NE(&from, this);
+  const StreamPullReply* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<StreamPullReply>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:edgefs.StreamPullReply)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:edgefs.StreamPullReply)
+    MergeFrom(*source);
+  }
+}
+
+void StreamPullReply::MergeFrom(const StreamPullReply& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:edgefs.StreamPullReply)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.ok() != 0) {
+    _internal_set_ok(from._internal_ok());
+  }
+}
+
+void StreamPullReply::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:edgefs.StreamPullReply)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void StreamPullReply::CopyFrom(const StreamPullReply& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:edgefs.StreamPullReply)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool StreamPullReply::IsInitialized() const {
+  return true;
+}
+
+void StreamPullReply::InternalSwap(StreamPullReply* other) {
+  using std::swap;
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
+  swap(ok_, other->ok_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata StreamPullReply::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -2599,6 +3124,14 @@ void CenterService::Pull(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
   done->Run();
 }
 
+void CenterService::StreamPull(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                         const ::edgefs::StreamPullRequest*,
+                         ::edgefs::StreamPullReply*,
+                         ::google::protobuf::Closure* done) {
+  controller->SetFailed("Method StreamPull() not implemented.");
+  done->Run();
+}
+
 void CenterService::Stat(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                          const ::edgefs::StatRequest*,
                          ::edgefs::StatReply*,
@@ -2631,6 +3164,14 @@ void CenterService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* 
              done);
       break;
     case 1:
+      StreamPull(controller,
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::edgefs::StreamPullRequest*>(
+                 request),
+             ::PROTOBUF_NAMESPACE_ID::internal::DownCast<::edgefs::StreamPullReply*>(
+                 response),
+             done);
+      break;
+    case 2:
       Stat(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::edgefs::StatRequest*>(
                  request),
@@ -2638,7 +3179,7 @@ void CenterService::CallMethod(const ::PROTOBUF_NAMESPACE_ID::MethodDescriptor* 
                  response),
              done);
       break;
-    case 2:
+    case 3:
       Readdir(controller,
              ::PROTOBUF_NAMESPACE_ID::internal::DownCast<const ::edgefs::ReaddirRequest*>(
                  request),
@@ -2659,8 +3200,10 @@ const ::PROTOBUF_NAMESPACE_ID::Message& CenterService::GetRequestPrototype(
     case 0:
       return ::edgefs::PullRequest::default_instance();
     case 1:
-      return ::edgefs::StatRequest::default_instance();
+      return ::edgefs::StreamPullRequest::default_instance();
     case 2:
+      return ::edgefs::StatRequest::default_instance();
+    case 3:
       return ::edgefs::ReaddirRequest::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
@@ -2676,8 +3219,10 @@ const ::PROTOBUF_NAMESPACE_ID::Message& CenterService::GetResponsePrototype(
     case 0:
       return ::edgefs::PullReply::default_instance();
     case 1:
-      return ::edgefs::StatReply::default_instance();
+      return ::edgefs::StreamPullReply::default_instance();
     case 2:
+      return ::edgefs::StatReply::default_instance();
+    case 3:
       return ::edgefs::ReaddirReply::default_instance();
     default:
       GOOGLE_LOG(FATAL) << "Bad method index; this should never happen.";
@@ -2704,18 +3249,25 @@ void CenterService_Stub::Pull(::PROTOBUF_NAMESPACE_ID::RpcController* controller
   channel_->CallMethod(descriptor()->method(0),
                        controller, request, response, done);
 }
+void CenterService_Stub::StreamPull(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
+                              const ::edgefs::StreamPullRequest* request,
+                              ::edgefs::StreamPullReply* response,
+                              ::google::protobuf::Closure* done) {
+  channel_->CallMethod(descriptor()->method(1),
+                       controller, request, response, done);
+}
 void CenterService_Stub::Stat(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::edgefs::StatRequest* request,
                               ::edgefs::StatReply* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(1),
+  channel_->CallMethod(descriptor()->method(2),
                        controller, request, response, done);
 }
 void CenterService_Stub::Readdir(::PROTOBUF_NAMESPACE_ID::RpcController* controller,
                               const ::edgefs::ReaddirRequest* request,
                               ::edgefs::ReaddirReply* response,
                               ::google::protobuf::Closure* done) {
-  channel_->CallMethod(descriptor()->method(2),
+  channel_->CallMethod(descriptor()->method(3),
                        controller, request, response, done);
 }
 
@@ -2733,6 +3285,12 @@ template<> PROTOBUF_NOINLINE ::edgefs::PullReply_Chunck* Arena::CreateMaybeMessa
 }
 template<> PROTOBUF_NOINLINE ::edgefs::PullReply* Arena::CreateMaybeMessage< ::edgefs::PullReply >(Arena* arena) {
   return Arena::CreateMessageInternal< ::edgefs::PullReply >(arena);
+}
+template<> PROTOBUF_NOINLINE ::edgefs::StreamPullRequest* Arena::CreateMaybeMessage< ::edgefs::StreamPullRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::edgefs::StreamPullRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::edgefs::StreamPullReply* Arena::CreateMaybeMessage< ::edgefs::StreamPullReply >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::edgefs::StreamPullReply >(arena);
 }
 template<> PROTOBUF_NOINLINE ::edgefs::StatRequest* Arena::CreateMaybeMessage< ::edgefs::StatRequest >(Arena* arena) {
   return Arena::CreateMessageInternal< ::edgefs::StatRequest >(arena);

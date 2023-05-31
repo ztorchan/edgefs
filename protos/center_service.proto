@@ -20,7 +20,6 @@ message PullRequest {
   uint64 start_chunck = 4;
   uint64 chuncks_num = 5;
 }
-
 message PullReply {
   message Chunck {
     uint64 chunck_no = 1;
@@ -30,10 +29,18 @@ message PullReply {
   repeated Chunck chuncks = 2;
 }
 
+message StreamPullRequest {
+  string pr_path = 1;
+  int64  pr_time = 2;
+  uint64 chunck_size = 3;
+}
+message StreamPullReply {
+  bool ok = 1;
+}
+
 message StatRequest {
   string path = 1;
 }
-
 message StatReply {
   bool    ok = 1;
   statbuf st = 2;
@@ -42,7 +49,6 @@ message StatReply {
 message ReaddirRequest {
   string path = 1;
 }
-
 message ReaddirReply {
   message statbuf_with_name {
     string name = 1;
@@ -54,6 +60,7 @@ message ReaddirReply {
 
 service CenterService {
   rpc Pull (PullRequest) returns (PullReply);
+  rpc StreamPull (StreamPullRequest) returns (StreamPullReply);
   rpc Stat (StatRequest) returns (StatReply);
   rpc Readdir (ReaddirRequest) returns (ReaddirReply);
 }
