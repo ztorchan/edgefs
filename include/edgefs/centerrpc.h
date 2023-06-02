@@ -15,8 +15,7 @@ public:
   CenterChunckStreamReceiver(std::string root_path)
   : root_path_(root_path)
   , sd_mtx_()
-  , sd_ctxs_()
-  , finish_(false) {}
+  , sd_ctxs_() {}
 
   int on_received_messages(brpc::StreamId id, 
                            butil::IOBuf *const messages[], 
@@ -26,7 +25,7 @@ public:
 
   void add_stream(brpc::StreamId* sd_ptr, std::string fpath, struct stat st, uint64_t chuncksize) {
     std::unique_lock<std::mutex> sd_lck(sd_mtx_);
-    sd_ctxs_[*sd_ptr] = new sd_context{sd_ptr, fpath, st, chuncksize};
+    sd_ctxs_[*sd_ptr] = new sd_context{sd_ptr, fpath, st, chuncksize, false};
   }
 
   void close_stream(brpc::StreamId sd) { 
@@ -44,11 +43,11 @@ private:
     std::string fpath;
     struct stat st;
     uint64_t chuncksize;
+    bool finish;
   };
   const std::string root_path_;
   std::mutex sd_mtx_;
   std::unordered_map<brpc::StreamId, sd_context*> sd_ctxs_;
-  bool finish_;
 };
 
 class CenterServiceImpl : public CenterService {

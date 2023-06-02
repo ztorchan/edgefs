@@ -14,5 +14,5 @@
   "chunck_active_access_frequency" : 30,
   "min_block_active_time" : 60,
   "block_active_access_frequency" : 30,
-  "scan_period" : 60 
+  "scan_period" : 600 
 }

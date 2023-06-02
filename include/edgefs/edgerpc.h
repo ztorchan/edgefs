@@ -15,7 +15,8 @@ public:
   EdgeChunckStreamReceiver(std::string fpath, edgefs_inode* fi)
   : fpath_(fpath)
   , fi_(fi)
-  , finish_(false) {}
+  , finish_(false)
+  , close_(false) {}
   
   int on_received_messages(brpc::StreamId id, 
                            butil::IOBuf *const messages[], 
@@ -23,10 +24,12 @@ public:
   void on_idle_timeout(brpc::StreamId id) override;
   void on_closed(brpc::StreamId id) override;
   bool is_finish() { return finish_; }
+  bool is_close() { return close_; }
 private:
   const std::string fpath_;
   edgefs_inode* fi_;
   bool finish_;
+  bool close_;
 };
 
 class EdgeServiceImpl : public EdgeService {

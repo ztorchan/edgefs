@@ -56,20 +56,22 @@ void EdgeFS::Init(std::string config_path) {
     new std::map<std::string, edgefs_dentry*>,
   };
 
-  spdlog::info("Start deamon");
-  rpc_thread_ = new std::thread(RPC);
-  gc_and_pull_thread_ = new std::thread(GC_AND_PULL);
-  scan_thread_ = new std::thread(SCAN);
-
   spdlog::info("Initial brpc channel");
+  brpc::FLAGS_max_body_size = 256 * 1024 * 1024;
   brpc::ChannelOptions rpc_options;
   rpc_options.protocol = brpc::PROTOCOL_BAIDU_STD;
   rpc_options.timeout_ms = 100000;
   rpc_options.max_retry = 3;
+  rpc_options.connection_type = "pooled";
   if(center_chan_.Init(options_.center_address.c_str(), options_.center_port, &rpc_options) != 0) {
     LOG(ERROR) << "Connect to center failed.";
     exit(-1);
   }
+
+  spdlog::info("Start deamon");
+  rpc_thread_ = new std::thread(RPC);
+  gc_and_pull_thread_ = new std::thread(GC_AND_PULL);
+  scan_thread_ = new std::thread(SCAN);
 
   spdlog::info("EdgeFS initial completed");
 }
@@ -378,7 +380,7 @@ int EdgeFS::read_from_chunck(const char *path, edgefs_subinode* subi, char *buf,
   spdlog::info("[read_from_chunck] read from block [{}:{}] to block [{}:{}]", start_block_no, start_block_offset, end_block_no, end_block_offset);
 
   FILE* f_chunck = NULL;
-  uint64_t total_read_bytes;
+  uint64_t total_read_bytes = 0;
   char* cur_buf_ptr = buf;
   uint64_t cur_offset;
   uint64_t cur_size;
@@ -896,10 +898,13 @@ void EdgeFS::GC_AND_PULL() {
         }
         // (5) close stream
         brpc::StreamClose(sd);
+        while(!receiver.is_close()) {
+          // wait for on_close have been call, avoid "pure virtual method called"
+          std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
       }
       // finish request
       spdlog::info("[gc_and_pull thread] finish pull request");
-      LOG(INFO) << "Finish pull request";
       req_list_.pop_front();
       delete cur_pr;
     } else if(cur_req->r_type == RequestType::GC) {

@@ -10,6 +10,7 @@ DEFINE_string(data_path, "/", "Basic path to find data");
 
 int main(int argc, char* argv[]) {
   google::ParseCommandLineFlags(&argc, &argv, true);
+  brpc::FLAGS_max_body_size = 256 * 1024 * 1024;
 
   brpc::Server center_server;
   edgefs::CenterServiceImpl center_service(FLAGS_data_path);

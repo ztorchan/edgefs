@@ -197,7 +197,7 @@ int CenterChunckStreamReceiver::on_received_messages(brpc::StreamId id,
 
   char* buf = new char[chuncksize];
   memset(buf, 0, chuncksize);
-  for(size_t i = 0; i < size && !finish_; i++) {
+  for(size_t i = 0; i < size && !sd_ctxs_[id]->finish; i++) {
     butil::IOBuf* cur_msg = messages[i];
     uint64_t chunck_no = UINT64_MAX;
     cur_msg->cutn(&chunck_no, sizeof(uint64_t));                      // get chunck no
@@ -206,7 +206,7 @@ int CenterChunckStreamReceiver::on_received_messages(brpc::StreamId id,
       butil::IOBuf response;
       response.append(&chunck_no, sizeof(uint64_t));
       brpc::StreamWrite(id, response);
-      finish_ = true;
+      sd_ctxs_[id]->finish = true;
       break;
     }
 

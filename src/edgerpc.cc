@@ -113,6 +113,7 @@ void EdgeChunckStreamReceiver::on_idle_timeout(brpc::StreamId id) {
 
 void EdgeChunckStreamReceiver::on_closed(brpc::StreamId id) {
   spdlog::info("[streampull] close stream");
+  close_ = true;
 }
 
 } // namespace edgefs
