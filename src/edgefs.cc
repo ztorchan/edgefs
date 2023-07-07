@@ -576,8 +576,8 @@ void EdgeFS::dfs_scan(edgefs_dentry* cur_den) {
         for(auto block_it = subi->subi_blocks.begin(); block_it != subi->subi_blocks.end(); block_it++) {
           mm_->Free(block_it->second);
           subi->subi_block_bitmap->Rel(block_it->first);
-          subi->subi_blocks.erase(block_it->first);
         }
+        subi->subi_blocks.clear();
         assert(subi->subi_block_bitmap->cur_set() == 0);
         assert(subi->subi_blocks.size() == 0);
       }
@@ -956,6 +956,7 @@ void EdgeFS::GC_AND_PULL() {
       } else if(cur_gcr->gcr_reason == GCReason::INVAILDFILE) {
         gc_whole_file(target_inode);
       }
+      req_list_.pop_front();
     } else {
       // throw and nothing to do
     }
